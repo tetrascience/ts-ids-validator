@@ -1,10 +1,28 @@
-# ids-validator
+# TetraScience IDS Validator
 
 TetraScience IDS Validator
 
 * Each validation check should lead to a pass or fail
 * Find as many failures as possible before terminating the validator, to make it easier to fix what’s wrong.
 * Take definitions into account by using the "jsonref" library
+
+## Table of Content
+
+- [TetraScience IDS Validator](#tetrascience-ids-validator)
+  - [Table of Content](#table-of-content)
+  - [Generic Validations](#generic-validations)
+    - [Summary](#summary)
+    - [Rules](#rules)
+      - [General](#general)
+        - [Error Cases](#error-cases)
+      - [Datacubes](#datacubes)
+        - [Error Cases](#error-cases-1)
+  - [TetraScience IDS Convention Validations](#tetrascience-ids-convention-validations)
+    - [Summary](#summary-1)
+    - [Rules](#rules-1)
+      - [IDS Convention v1.0.0](#ids-convention-v100)
+        - [Error Cases](#error-cases-2)
+        - [Warning Cases](#warning-cases)
 
 ## Generic Validations
 
@@ -15,6 +33,8 @@ These validation steps apply to every IDS regardless of the designer because the
 ### Rules
 
 #### General
+
+##### Error Cases
 
 1. The required field `@idsType`, `@idsVersion`, `@idsNamespace` are included
 2. `required` properties of an object are also defined in the object schema
@@ -45,6 +65,8 @@ These validation steps apply to every IDS regardless of the designer because the
 6. **athena.json** partition name should not conflict with path as defined in **athena.json** | Partition-Name
 
 #### Datacubes
+
+##### Error Cases
 
 1. Validate that, if the datacubes field is present, it follows these parts of the datacubes pattern definition. Refer to the confluence page for the full detail.
 2. The required `datacubes` fields are defined (`name`, `measures` and `dimensions`), their required fields are also defined
