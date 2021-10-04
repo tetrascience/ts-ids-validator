@@ -1,0 +1,40 @@
+{
+  "definitions": {
+    "nullable_string": {
+      "type": ["string", "null"]
+    },
+    "nullable_number": {
+      "type": ["number", "null"]
+    },
+    "nullable_integer": {
+      "type": ["integer", "null"]
+    },
+    "nullable_boolean": {
+      "type": ["boolean", "null"]
+    }
+  },
+  "properties": {
+    "users": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "#/definitions/nullable_string",
+            "description": "User ID"
+          },
+          "name": {
+            "$ref": "#/definitions/nullable_string",
+            "description": "Username"
+          },
+          "type": {
+            "$ref": "#/definitions/nullable_string",
+            "description": "User type or role"
+          }
+        }
+      }
+    }
+  }
+}

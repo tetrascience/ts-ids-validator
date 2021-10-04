@@ -1,0 +1,121 @@
+{
+  "definitions": {
+    "nullable_string": {
+      "type": ["string", "null"]
+    },
+    "nullable_number": {
+      "type": ["number", "null"]
+    },
+    "nullable_integer": {
+      "type": ["integer", "null"]
+    },
+    "nullable_boolean": {
+      "type": ["boolean", "null"]
+    },
+    "custom_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "value": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "value_data_type": {
+            "type": "string",
+            "enum": ["string", "number", "boolean"]
+          },
+          "string_value": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "numerical_value": {
+            "$ref": "#/definitions/nullable_number"
+          },
+          "boolean_value": {
+            "$ref": "#/definitions/nullable_boolean"
+          }
+        }
+      }
+    }
+  },
+  "datacubes": {
+    "type": "array",
+    "minItems": 1,
+    "items": {
+      "type": "object",
+      "required": [
+        "name",
+        "description",
+        "interval_or_cycle",
+        "measures",
+        "dimensions"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "interval_or_cycle": {
+          "type": "string"
+        },
+        "measures": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "unit", "value"],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "value": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/nullable_number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "dimensions": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "required": ["name", "unit", "scale"],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "scale": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

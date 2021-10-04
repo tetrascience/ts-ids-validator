@@ -1,0 +1,697 @@
+{
+  "$id": "http://ids.tetrascience.com/common/plate-reader-bmg-labtech-spectrostar/v5.0.0/schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "required": [
+    "@idsNamespace",
+    "@idsType",
+    "@idsConventionVersion",
+    "systems",
+    "users",
+    "samples",
+    "methods",
+    "runs",
+    "datacubes"
+  ],
+  "definitions": {
+    "nullable_string": {
+      "type": ["string", "null"]
+    },
+    "nullable_number": {
+      "type": ["number", "null"]
+    },
+    "value_unit_object": {
+      "type": "object",
+      "required": ["value", "unit"],
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/nullable_number"
+        },
+        "unit": {
+          "$ref": "#/definitions/nullable_string"
+        }
+      }
+    },
+    "raw_value_unit_object": {
+      "type": "object",
+      "required": ["string_value", "value", "unit"],
+      "additionalProperties": false,
+      "properties": {
+        "string_value": {
+          "$ref": "#/definitions/nullable_string"
+        },
+        "value": {
+          "$ref": "#/definitions/nullable_number"
+        },
+        "unit": {
+          "$ref": "#/definitions/nullable_string"
+        }
+      }
+    },
+    "kinetic_window_object": {
+      "type": "object",
+      "required": ["number_of_flashes"],
+      "properties": {
+        "number_of_intervals": {
+          "$ref": "#/definitions/nullable_number"
+        },
+        "number_of_cycles": {
+          "$ref": "#/definitions/nullable_number"
+        },
+        "measurement_start_time": {
+          "$ref": "#/definitions/value_unit_object"
+        },
+        "start_time": {
+          "$ref": "#/definitions/value_unit_object"
+        },
+        "number_of_flashes": {
+          "$ref": "#/definitions/nullable_number"
+        },
+        "interval_time": {
+          "$ref": "#/definitions/value_unit_object"
+        },
+        "cycle_time": {
+          "$ref": "#/definitions/value_unit_object"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "@idsType": {
+      "type": "string",
+      "const": "plate-reader-bmg-labtech-spectrostar"
+    },
+    "@idsVersion": {
+      "type": "string",
+      "const": "v5.0.0"
+    },
+    "@idsNamespace": {
+      "type": "string",
+      "const": "common"
+    },
+    "@idsConventionVersion": {
+      "type": "string",
+      "const": "v1.0.0"
+    },
+    "systems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "vendor",
+          "model",
+          "type",
+          "serial_number",
+          "firmware",
+          "software"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "vendor": {
+            "type": "string",
+            "const": "BMG Labtech"
+          },
+          "model": {
+            "type": "string",
+            "const": "SPECTROstar"
+          },
+          "type": {
+            "type": "string",
+            "const": "Plate Reader"
+          },
+          "serial_number": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "firmware": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["version"],
+              "additionalProperties": true,
+              "properties": {
+                "version": {
+                  "$ref": "#/definitions/nullable_string"
+                }
+              }
+            }
+          },
+          "software": {
+            "type": "object",
+            "required": ["version", "description"],
+            "additionalProperties": false,
+            "properties": {
+              "version": {
+                "$ref": "#/definitions/nullable_string"
+              },
+              "description": {
+                "$ref": "#/definitions/nullable_string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "users": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "name": {
+            "$ref": "#/definitions/nullable_string"
+          }
+        }
+      }
+    },
+    "samples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [],
+        "additionalProperties": false,
+        "properties": {
+          "barcode": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "name": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "batch": {
+            "type": "object",
+            "required": [],
+            "properties": {
+              "id": {
+                "$ref": "#/definitions/nullable_string"
+              },
+              "name": {
+                "$ref": "#/definitions/nullable_string"
+              },
+              "barcode": {
+                "$ref": "#/definitions/nullable_string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "set": {
+            "type": "object",
+            "required": [],
+            "properties": {
+              "id": {
+                "$ref": "#/definitions/nullable_string"
+              },
+              "name": {
+                "$ref": "#/definitions/nullable_string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "lot": {
+            "type": "object",
+            "required": [],
+            "properties": {
+              "id": {
+                "$ref": "#/definitions/nullable_string"
+              },
+              "name": {
+                "$ref": "#/definitions/nullable_string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "location": {
+            "type": "object",
+            "required": [],
+            "additionalProperties": false,
+            "properties": {
+              "position": {
+                "$ref": "#/definitions/nullable_string"
+              },
+              "row": {
+                "$ref": "#/definitions/nullable_number"
+              },
+              "column": {
+                "$ref": "#/definitions/nullable_number"
+              },
+              "holder": {
+                "type": "object",
+                "required": [],
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "$ref": "#/definitions/nullable_string"
+                  },
+                  "type": {
+                    "$ref": "#/definitions/nullable_string"
+                  },
+                  "barcode": {
+                    "$ref": "#/definitions/nullable_string"
+                  }
+                }
+              }
+            }
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "source",
+                "name",
+                "value_data_type",
+                "numerical_value",
+                "numerical_value_unit",
+                "boolean_value",
+                "time"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "source": {
+                  "type": "object",
+                  "required": ["name", "type"],
+                  "properties": {
+                    "name": {
+                      "$ref": "#/definitions/nullable_string"
+                    },
+                    "type": {
+                      "$ref": "#/definitions/nullable_string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "name": {
+                  "type": "string",
+                  "description": "This is the property name"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "The original string value of the parameter"
+                },
+                "value_data_type": {
+                  "type": "string",
+                  "enum": ["string", "number", "boolean"],
+                  "description": "This is the type of the original value"
+                },
+                "numerical_value_unit": {
+                  "$ref": "#/definitions/nullable_string"
+                },
+                "boolean_value": {
+                  "type": ["boolean", "null"],
+                  "description": "If boolean_value has a value, then numerical_value, numerical_value_unit, and string_value all have to be null"
+                },
+                "time": {
+                  "type": "object",
+                  "required": ["lookup"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "lookup": {
+                      "$ref": "#/definitions/nullable_string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "labels": {
+            "type": "object",
+            "items": {
+              "type": "object",
+              "required": ["source", "name", "value"],
+              "properties": {
+                "source": {
+                  "type": "object",
+                  "required": ["name", "type"],
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "$ref": "#/definitions/nullable_string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "name": {
+                  "type": "string"
+                },
+                "time": {
+                  "type": "object",
+                  "required": ["lookup"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "lookup": {
+                      "$ref": "#/definitions/nullable_string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      }
+    },
+    "methods": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["model", "config", "wavelengths"],
+        "additionalProperties": false,
+        "properties": {
+          "model": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "config": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "wavelengths": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "index": {
+                  "type": "string"
+                },
+                "range": {
+                  "type": "object",
+                  "properties": {
+                    "min": {
+                      "$ref": "#/definitions/value_unit_object"
+                    },
+                    "max": {
+                      "$ref": "#/definitions/value_unit_object"
+                    },
+                    "step": {
+                      "$ref": "#/definitions/value_unit_object"
+                    }
+                  }
+                },
+                "single": {
+                  "$ref": "#/definitions/value_unit_object"
+                },
+                "gain": {
+                  "$ref": "#/definitions/nullable_number"
+                },
+                "path_length_correction_factor": {
+                  "$ref": "#/definitions/nullable_number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "time",
+          "ids",
+          "number_of_chromatics",
+          "mode",
+          "pause_duration",
+          "microplate_type",
+          "settling_time",
+          "well_scanning",
+          "multichromatic_mode",
+          "comments",
+          "kinetic_windows",
+          "layout",
+          "shakings",
+          "equidistant_kinetic_cycles",
+          "concentration_unit",
+          "target_temperature",
+          "target_o2_concentration",
+          "target_co2_concentration",
+          "required_value_used_for_gain_adjustment",
+          "absorbance_intensity_limits"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "time": {
+            "type": "object",
+            "required": ["start"],
+            "additionalProperties": false,
+            "properties": {
+              "start": {
+                "$ref": "#/definitions/nullable_string"
+              }
+            }
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/nullable_string"
+            }
+          },
+          "number_of_chromatics": {
+            "$ref": "#/definitions/nullable_number"
+          },
+          "number_of_intervals": {
+            "$ref": "#/definitions/nullable_number"
+          },
+          "number_of_cycles": {
+            "$ref": "#/definitions/nullable_number"
+          },
+          "mode": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "pause_before_well": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "pause_before_cycle": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "pause_duration": {
+            "$ref": "#/definitions/value_unit_object"
+          },
+          "microplate_type": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "settling_time": {
+            "$ref": "#/definitions/value_unit_object"
+          },
+          "well_scanning": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "multichromatic_mode": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/nullable_string"
+            }
+          },
+          "kinetic_windows": {
+            "type": "object",
+            "required": ["number_of_kinetic_windows", "windows"],
+            "additionalProperties": false,
+            "properties": {
+              "number_of_kinetic_windows": {
+                "$ref": "#/definitions/nullable_number"
+              },
+              "kinetic_windows_mode": {
+                "$ref": "#/definitions/nullable_string"
+              },
+              "windows": {
+                "type": "object",
+                "required": ["1", "2", "3", "4"],
+                "additionalProperties": false,
+                "properties": {
+                  "1": {
+                    "$ref": "#/definitions/kinetic_window_object"
+                  },
+                  "2": {
+                    "$ref": "#/definitions/kinetic_window_object"
+                  },
+                  "3": {
+                    "$ref": "#/definitions/kinetic_window_object"
+                  },
+                  "4": {
+                    "$ref": "#/definitions/kinetic_window_object"
+                  }
+                }
+              }
+            }
+          },
+          "layout": {
+            "type": "object",
+            "required": ["plate_format", "reading_direction"],
+            "additionalProperties": false,
+            "properties": {
+              "plate_format": {
+                "$ref": "#/definitions/nullable_string"
+              },
+              "reading_direction": {
+                "$ref": "#/definitions/nullable_string"
+              }
+            }
+          },
+          "shakings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["index", "mode", "movement", "frequency", "time"],
+              "additionalProperties": false,
+              "properties": {
+                "index": {
+                  "$ref": "#/definitions/nullable_string"
+                },
+                "mode": {
+                  "$ref": "#/definitions/nullable_string"
+                },
+                "movement": {
+                  "$ref": "#/definitions/nullable_string"
+                },
+                "frequency": {
+                  "$ref": "#/definitions/value_unit_object"
+                },
+                "time": {
+                  "type": "object",
+                  "required": ["shaking"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "shaking": {
+                      "$ref": "#/definitions/raw_value_unit_object"
+                    },
+                    "movement_on": {
+                      "$ref": "#/definitions/value_unit_object"
+                    },
+                    "movement_off": {
+                      "$ref": "#/definitions/value_unit_object"
+                    }
+                  }
+                },
+                "shake_before_cycles": {
+                  "$ref": "#/definitions/nullable_string"
+                }
+              }
+            }
+          },
+          "equidistant_kinetic_cycles": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "concentration_unit": {
+            "$ref": "#/definitions/nullable_string"
+          },
+          "target_temperature": {
+            "$ref": "#/definitions/raw_value_unit_object"
+          },
+          "target_o2_concentration": {
+            "$ref": "#/definitions/value_unit_object"
+          },
+          "target_co2_concentration": {
+            "$ref": "#/definitions/value_unit_object"
+          },
+          "required_value_used_for_gain_adjustment": {
+            "$ref": "#/definitions/raw_value_unit_object"
+          },
+          "absorbance_intensity_limits": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "channel_name": {
+                  "type": "string"
+                },
+                "0_percent": {
+                  "$ref": "#/definitions/value_unit_object"
+                },
+                "100_percent": {
+                  "$ref": "#/definitions/value_unit_object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "datacubes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "description",
+          "interval_or_cycle",
+          "measures",
+          "dimensions"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+
+          "measures": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["name", "unit", "value"],
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "unit": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "array",
+
+                  "items": {
+                    "type": "dd",
+                    "items": {
+                      "$ref": "#/definitions/nullable_number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "dimensions": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "required": ["name", "unit", "scale"],
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "unit": {
+                  "type": "string"
+                },
+                "scale": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

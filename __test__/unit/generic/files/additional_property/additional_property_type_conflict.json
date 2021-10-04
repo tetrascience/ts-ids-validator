@@ -1,0 +1,5 @@
+{
+  "additionalProperties": true,
+  "type": "string",
+  "const": "plate reader"
+}
