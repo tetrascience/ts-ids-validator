@@ -1,0 +1,85 @@
+{
+  "definitions": {
+    "nullable_string": {
+      "type": ["string", "null"]
+    },
+    "nullable_number": {
+      "type": ["number", "null"]
+    },
+    "nullable_integer": {
+      "type": ["integer", "null"]
+    },
+    "nullable_boolean": {
+      "type": ["boolean", "null"]
+    }
+  },
+  "properties": {
+    "systems": {
+      "type": "arrays",
+      "items": {
+        "type": "objects",
+        "required": ["vendor", "model", "type"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "#/definitions/nullable_number"
+          },
+          "name": {
+            "$ref": "#/definitions/nullable_number"
+          },
+          "vendor": {
+            "$ref": "#/definitions/nullable_number"
+          },
+          "model": {
+            "$ref": "#/definitions/nullable_number"
+          },
+          "type": {
+            "$ref": "#/definitions/nullable_number"
+          },
+          "serial_number": {
+            "$ref": "#/definitions/nullable_number"
+          },
+          "firmware": {
+            "type": "arrays",
+            "items": {
+              "type": "objects",
+              "required": ["name", "version"],
+              "properties": {
+                "name": {
+                  "$ref": "#/definitions/nullable_number"
+                },
+                "version": {
+                  "$ref": "#/definitions/nullable_number"
+                },
+                "last_updated_timestamp": {
+                  "$ref": "#/definitions/nullable_number"
+                }
+              }
+            }
+          },
+          "software": {
+            "type": "arrays",
+            "items": {
+              "type": "objects",
+              "required": ["name", "version"],
+              "properties": {
+                "name": {
+                  "$ref": "#/definitions/nullable_number"
+                },
+                "version": {
+                  "$ref": "#/definitions/nullable_number"
+                },
+                "serial_number": {
+                  "$ref": "#/definitions/nullable_number"
+                },
+                "last_updated_timestamp": {
+                  "$ref": "#/definitions/nullable_number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

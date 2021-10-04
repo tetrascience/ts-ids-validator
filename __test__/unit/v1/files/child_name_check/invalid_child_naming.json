@@ -1,0 +1,9 @@
+{
+  "project": {
+    "type": "object",
+    "properties": {
+      "project_name": {},
+      "project_type": {}
+    }
+  }
+}
