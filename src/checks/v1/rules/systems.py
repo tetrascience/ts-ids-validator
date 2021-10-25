@@ -100,7 +100,7 @@ systems_rules = {
         "type": ["string", "null"]
     },
     SOFTWARE_VERSION: {
-        "type": ["string", "null"]
+        "type": ["null", "string"]
     },
     SOFTWARE_LAST_UPDATE: {
         "type": ["string", "null"]

@@ -55,7 +55,10 @@ class RuleBasedChecker(AbstractChecker):
             and (sorted(node.type_) != sorted(type_))
         ):
             logs += [(f"'type' must be {type_}", Log.CRITICAL.value)]
-        elif node.type_ != type_:
+        elif (
+            (type(type_) != list)
+            and (node.type_ != type_)
+        ):
             logs += [(f"'type' must be {type_}", Log.CRITICAL.value)]
 
         return logs

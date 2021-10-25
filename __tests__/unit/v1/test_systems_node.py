@@ -105,7 +105,7 @@ files_to_expected = {
             Log.CRITICAL.value
         )],
         systems.SOFTWARE_VERSION: [(
-            "'type' must be ['string', 'null']",
+            "'type' must be ['null', 'string']",
             Log.CRITICAL.value
         )],
         systems.SOFTWARE_LAST_UPDATE: [(
@@ -135,9 +135,9 @@ def test_systems_node(fname, expected):
     )
     validator.validate_ids()
     logs = validator.property_failures
-    systems.logs = {
+    systems_logs = {
         k: v for k, v in logs.items()
         if "root.properties.systems" in k and v
     }
 
-    assert systems.logs == expected
+    assert systems_logs == expected
