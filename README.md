@@ -3,37 +3,39 @@
 ## Table of Contents <!-- omit in toc -->
 
 - [Overview](#overview)
-- [Usage](#overview)
-- [Components](#input)
+- [Usage](#usage)
+- [Components](#components)
   - [Node](#node)
   - [Checker Classes](#checker-classes)
   - [Validator](#validator)
-- [List of Checker Classes](#list-of-checker-classes)
-  - [Base Classes](#base-classes)
-  - [Generic](#generic)
-  - [V1](#v1)
-- [Writing New Checks](#writing-new-checks)
-- [Extending Checkers Classes](#extending-checkers-classes)
-- [Running Checks for Specific Nodes](#running-checks-for-specific-nodes)
-- [List of Checks for Validator](#list-of-checks-for-validator)
+  - [List of Checker Classes](#list-of-checker-classes)
+    - [Base Classes](#base-classes)
+    - [Generic](#generic)
+    - [V1](#v1)
+  - [Writing New Checks](#writing-new-checks)
+  - [Extending Checkers Classes](#extending-checkers-classes)
+    - [Pattern 1](#pattern-1)
+    - [Pattern 2](#pattern-2)
+  - [Running Checks for Specific Nodes](#running-checks-for-specific-nodes)
+  - [List of Checks for Validator](#list-of-checks-for-validator)
 
 ## Overview
 
 TetraScience IDS Validator
 
-* Each validation check should lead to a pass or fail
-* Find as many failures as possible before terminating the validator, to make it easier to fix what’s wrong.
-* Take definitions into account by using the "jsonref" library
+- Each validation check should lead to a pass or fail
+- Find as many failures as possible before terminating the validator, to make it easier to fix what’s wrong.
+- Take definitions into account by using the "jsonref" library
 
 The validator will validate these files in an IDS folder:
 
-* schema.json
-* elasticsearch.json
+- schema.json
+- elasticsearch.json
 
 You can find the validation rules in:
 
-* [IDS Design Conventions - schema.json](https://developers.tetrascience.com/docs/ids-design-conventions-schemajson)
-* [IDS Design Conventions - elasticsearch.json](https://developers.tetrascience.com/docs/ids-design-conventions-elasticsearchjson)
+- [IDS Design Conventions - schema.json](https://developers.tetrascience.com/docs/ids-design-conventions-schemajson)
+- [IDS Design Conventions - elasticsearch.json](https://developers.tetrascience.com/docs/ids-design-conventions-elasticsearchjson)
 
 ## Usage
 
