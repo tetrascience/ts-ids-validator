@@ -33,11 +33,13 @@ The validator will validate these files in an IDS folder:
 
 - schema.json
 - elasticsearch.json
+- athena.json (upcoming)
 
 You can find the validation rules in:
 
 - [IDS Design Conventions - schema.json](https://developers.tetrascience.com/docs/ids-design-conventions-schemajson)
 - [IDS Design Conventions - elasticsearch.json](https://developers.tetrascience.com/docs/ids-design-conventions-elasticsearchjson)
+- [IDS Design Conventions - athena.json](https://developers.tetrascience.com/docs/ids-design-conventions-athenajson) 
 
 ## Usage
 
