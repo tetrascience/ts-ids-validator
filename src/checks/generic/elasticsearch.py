@@ -90,7 +90,7 @@ class ElasticsearchChecker(AbstractChecker):
                 raise Exception(
                     f"Could not find elasticsearch_generator: {es_generator}")
             es_gen_process = subprocess.run(
-                ["python", str(es_generator), str(tmp)],
+                ["pipenv", "run", "python", str(es_generator), str(tmp)],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE
             )
