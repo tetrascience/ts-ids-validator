@@ -1,6 +1,6 @@
 from src.checks.v1.rules.samples import samples_rules
 from src.checks.v1.rules.systems import systems_rules
-from src.checks.v1.rules.users import user_rules
+from src.checks.v1.rules.users import users_rules
 from src.checks.rules_checker import RuleBasedChecker
 
 
@@ -13,4 +13,4 @@ class V1SampleNodeChecker(RuleBasedChecker):
 
 
 class V1UserNodeChecker(RuleBasedChecker):
-    rules = user_rules
+    rules = users_rules

@@ -2,20 +2,32 @@ from src.ids_node import Node
 from src.checks import AbstractChecker
 from src.utils import Log
 
+
 class AdditionalPropertyChecker(AbstractChecker):
-    """If a node has `additionalProperties`, it must be false.
-    Log a message otherwise.
+    """If a node is object type, then it have additionalProperties
+    defined as one of the key and it must be set to False
+
+    If type is not object or is not defined, additionalProperties
+    must not exist.
     """
-    def run(self, node: Node, contex: dict = None):
+
+    def run(self, node: Node, context: dict = None):
         logs = []
-        additional_properties = node.get("additionalProperties")
-        if node._type != 'object' and additional_properties:
+
+        if (
+            node.get("type") != 'object'
+            and "additionalProperties" in node
+        ):
             logs.append(
                 ("'additionalProperties' can only be defined for 'type = object'", Log.CRITICAL.value)
             )
-        if additional_properties:
+
+        if (
+            node.get("type") == 'object'
+            and node.get("additionalProperties") is not False
+        ):
             logs.append(
-                ("'additionalProperties' must be 'false'", Log.CRITICAL.value)
+                ("'additionalProperties' must be present and set to 'false' for 'object' types", Log.CRITICAL.value)
             )
 
         return logs

@@ -72,7 +72,7 @@ class AthenaChecker(AbstractChecker):
 
     @classmethod
     def check_path_and_name_conflicts(cls, athena_dict: dict):
-        """Checks an log if there is a conflict in `partition.path`
+        """Check and log if there is a conflict in `partition.path`
         and `partition.name`.
 
         A conflict occurs when normalized value of the `partition.path` is equal to

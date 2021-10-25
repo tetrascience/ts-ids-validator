@@ -1,10 +1,10 @@
 USERS = "root.properties.users"
-USERS_ITEMS = f"{USERS}.items"
-USERS_ID =  f"{USERS}.items.properties.id"
-USERS_NAME = f"{USERS}.items.properties.name"
-USERS_TYPE = f"{USERS}.items.properties.type"
+ITEMS = f"{USERS}.items"
+ID =  f"{USERS}.items.properties.id"
+NAME = f"{USERS}.items.properties.name"
+TYPE = f"{USERS}.items.properties.type"
 
-user_rules = {
+users_rules = {
     USERS: {
         "type": "array",
         "min_properties": [
@@ -13,16 +13,16 @@ user_rules = {
             "type"
         ]
     },
-    USERS_ITEMS: {
+    ITEMS: {
         "type": "object",
     },
-    USERS_ID: {
+    ID: {
         "type": ["string", "null"]
     },
-    USERS_NAME: {
+    NAME: {
         "type": ["string", "null"]
     },
-    USERS_TYPE: {
+    TYPE: {
         "type": ["string", "null"]
     }
 }

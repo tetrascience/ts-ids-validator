@@ -1,0 +1,13 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [],
+    "additionalProperties": false,
+    "properties": {
+      "id": {},
+      "barcode": {},
+      "name": {}
+    }
+  }
+}

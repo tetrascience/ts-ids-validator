@@ -1,0 +1,90 @@
+{
+  "definitions": {
+    "nullable_string": {
+      "type": ["string", "null"]
+    },
+    "nullable_number": {
+      "type": ["number", "null"]
+    },
+    "nullable_integer": {
+      "type": ["integer", "null"]
+    },
+    "nullable_boolean": {
+      "type": ["boolean", "null"]
+    }
+  },
+
+  "datacubes": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "required": [
+        "description",
+        "channel_id",
+        "measures",
+        "dimensions",
+        "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/nullable_string"
+        },
+        "description": {
+          "$ref": "#/definitions/nullable_string"
+        },
+        "channel_id": {
+          "$ref": "#/definitions/nullable_string"
+        },
+        "measures": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "unit", "value"],
+            "additionalProperties": false,
+            "properties": {
+              "unit": {
+                "$ref": "#/definitions/nullable_string"
+              },
+              "value": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/nullable_boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "dimensions": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "required": ["name", "unit", "scale"],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "$ref": "#/definitions/nullable_string"
+              },
+              "unit": {
+                "$ref": "#/definitions/nullable_string"
+              },
+              "scale": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -7,10 +7,6 @@ verify_ssl = true
 pytest = "*"
 pytest-mock = "*"
 snapshottest = "*"
-pytest-lazy-fixture = "*"
-pylint = "*"
-ipykernel = "*"
-autopep8 = "*"
 
 [packages]
 jsonref = "*"

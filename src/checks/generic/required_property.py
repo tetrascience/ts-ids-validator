@@ -13,12 +13,11 @@ class RequiredPropertiesChecker(AbstractChecker):
 
     def run(self, node: Node, context: dict = None):
         logs = []
-        if (
-            node.has_required_list
-            and not node.required_properties_exist
-        ):
-            logs.append(
-                ("Required Properties are missing", Log.CRITICAL.value)
-            )
+        if node.has_required_list:
+            missing_properties = node.missing_properties
+            if missing_properties:
+                logs.append(
+                    (f"Required Properties are missing: {missing_properties}", Log.CRITICAL.value)
+                )
 
         return logs

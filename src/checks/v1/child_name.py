@@ -14,8 +14,8 @@ class V1ChildNameChecker(AbstractChecker):
             for prop in properties
         ]
         if any(child_start_with_parent_name):
-            logs.append(
-                (f"Child property start with name '{node.name}'",
-                 Log.WARNING.value)
-            )
+            logs += [(
+                f"Child property prefix uses the same name as the parent property '{node.name}'",
+                Log.WARNING.value
+            )]
         return logs

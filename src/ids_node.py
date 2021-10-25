@@ -4,7 +4,7 @@ from pydash import get
 
 class Node(UserDict):
 
-    def __init__(self, ids_dict, path=None, name="root"):
+    def __init__(self, ids_dict, path="", name="root"):
         self.data = ids_dict
         self.name = name
         self.path = path
@@ -12,9 +12,9 @@ class Node(UserDict):
     @property
     def properties_dict(self):
         ids = self.data
-        if ids.get('type') == 'object' and ids.get('properties'):
+        if ids.get('type') == 'object' and ids.get('properties') is not None:
             return ids.get('properties')
-        elif ids.get('type') == 'array' and get(ids, 'items.properties'):
+        elif ids.get('type') == 'array' and get(ids, 'items.properties') is not None:
             return get(ids, 'items.properties')
         else:
             return None
@@ -36,10 +36,10 @@ class Node(UserDict):
         required_exist = required and type(required) == list
         return True if required_exist else False
 
-    def required_contains_values(self, values: list):
+    def required_contains_values(self, min_required_values: list):
         if self.has_required_list:
             required = set(self.get('required'))
-            min_required = set(values)
+            min_required = set(min_required_values)
             return (
                 False if min_required - required
                 else True
@@ -59,13 +59,10 @@ class Node(UserDict):
         )
 
     @property
-    def required_properties_exist(self):
+    def missing_properties(self):
         required = set(self.get("required"))
         properties = self.get("properties", {}).keys()
-        if required.intersection(properties) != required:
-            return False
-
-        return True
+        return required - properties
 
     @property
     def has_valid_type(self):
@@ -92,7 +89,7 @@ class Node(UserDict):
             (True, None) if self.properties_list
             else (
                 False,
-                "object Type must contain properties"
+                "'object' type must  contains non-empty 'properties'"
             )
         )
 
@@ -138,19 +135,31 @@ class Node(UserDict):
 
         checks = [
             # Length of list type must 2.
-            (len(self._type) == 2),
-
-            # array and object cannot be present
-            # in list type
-            ('array' not in self._type),
-            ('object' not in self._type),
+            (0 < len(self._type) <= 2),
 
             # list must not contain same value
-            not(all(x == self._type[0] for x in self._type)),
+            len(set(self._type)) == len(self._type),
 
             # List must only contain values from
             # valid_nullable types
             ((set(self._type) - valid_nullable_types) == set()),
+
+            # If list contains two data types
+            # make sure one of them is null
+            (
+                ("null" in self._type)
+                if len(self._type) == 2
+                else True
+            ),
+
+            # If list contains one datatypes
+            # make sure its not null
+            (
+                ("null" not in self._type)
+                if len(self._type) == 1
+                else True
+            )
+
         ]
         result = (
             (True, None) if all(checks)

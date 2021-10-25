@@ -1,0 +1,9 @@
+{
+  "root": "injection",
+  "partitions": [
+    {
+      "path": "results.time",
+      "name": "time"
+    }
+  ]
+}

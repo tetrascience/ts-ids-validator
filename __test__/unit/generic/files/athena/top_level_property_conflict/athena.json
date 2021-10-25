@@ -1,7 +1,0 @@
-{
-  "root": "injection",
-  "partitions": [{
-    "path": "project.name",
-    "name": "proj_name"
-  }]
-}

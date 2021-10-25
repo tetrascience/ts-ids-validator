@@ -1,11 +1,25 @@
-from src.checks.abstract_checker import AbstractChecker
-from src.checks.generic import *
-from src.checks.v1 import *
 from src.convention_versions import Conventions
+from src.checks.abstract_checker import AbstractChecker
+from src.checks.generic import (
+    AthenaChecker,
+    AdditionalPropertyChecker,
+    DatacubesChecker,
+    RequiredPropertiesChecker,
+    RootNodeChecker,
+    TypeChecker
+)
+from src.checks.v1 import (
+    V1ChildNameChecker,
+    V1ConventionVersionChecker,
+    V1RootNodeChecker,
+    V1SnakeCaseChecker,
+    V1SampleNodeChecker,
+    V1SystemNodeChecker,
+    V1UserNodeChecker
+)
 
 generic_checks = [
     AdditionalPropertyChecker(),
-    AthenaChecker(),
     DatacubesChecker(),
     RequiredPropertiesChecker(),
     RootNodeChecker(),

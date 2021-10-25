@@ -10,6 +10,6 @@ class V1ConventionVersionChecker(AbstractChecker):
             convention_version = context.get("convention_version")
             if node.get('const') != convention_version:
                 logs.append(
-                    (f"'@idsConvention version must be {convention_version}", Log.CRITICAL.value)
+                    (f"'@idsConventionVersion must be {convention_version}", Log.CRITICAL.value)
                 )
         return logs

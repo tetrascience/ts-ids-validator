@@ -20,9 +20,11 @@ class Message(Enum):
     DIMENSIONS_MIN_MAX_MISSING = "'dimension' must have both 'minItems' and 'maxItems' defined"
     DIMENSIONS_UNDEFINED = "'dimensions' must be defined and 'dimension.type' must be array"
     DIMENSIONS_MIN_MAX_CHECK = "dimensions.minItems must be equal to dimensions.maxItems"
-    DIMENSIONS_ERROR = "'measures.value': Dimension Error"
-    MEASURES_VALUES_TYPE_ERROR = "'measures.value': Type Error"
-    DIMENSIONS_SCALE_TYPE_ERROR = "'dimensions.scale': Type Error"
+    MEASURES_VALUES_DIMENSIONALITY_ERROR = "'measures.value': Dimensionality of data stored in `measures.value` must be equal to `dimesions.minItems` or `dimensions.maxItems`"
+    MEASURES_VALUES_TYPE_ERROR = "'measures.value': Type Error. Type must be either be `number` or `string`. It can be nullable"
+    MEASURES_VALUES_NESTED_ARRAY_TYPE_ERROR = "'measures.value': Type Error. Nested objects/dicts must be `array` types"
+    DIMENSIONS_SCALE_TYPE_ERROR = "'dimensions.scale': Type Error. Type must be 'array'"
+    DIMENSIONS_SCALE_ITEMS_TYPE_ERROR = "'dimensions.scale.items': Type Error. Type must be 'number'"
 
     def __str__(self):
         return self.value
@@ -35,7 +37,7 @@ class DatacubesChecker(AbstractChecker):
         - Minimum required properties are present.
         - `minItems == maxItems` for `dimensions` and `measures`
         - Nesting levels of `measures.value` is equal to `dimensions.maxItem`
-        - Type of nested levels must be an array except for the innertmost array.
+        - Type of nested levels must be an array except for the innermost array.
     """
 
     def run(self, node: Node, context: dict = None):
@@ -102,7 +104,7 @@ class DatacubesChecker(AbstractChecker):
         - `datacubes.measures` is defined in schema
         - `datacubes.measrues: dict` must contain `minItems`
         and `maxItems`
-        - `measures.minItems` must be equal to `measures.macItems`
+        - `measures.minItems` must be equal to `measures.maxItems`
 
         Args:
             datacubes (Node): Root level datacubes property
@@ -136,7 +138,7 @@ class DatacubesChecker(AbstractChecker):
         - `datacubes.dimesions` is defined in schema
         - `datacubes.dimesions: dict` must contain `minItems`
         and `maxItems`
-        - `dimesions.minItems` must be equal to `dimesions.macItems`
+        - `dimesions.minItems` must be equal to `dimesions.maxItems`
 
         Args:
             datacubes (Node): Root level datacubes property
@@ -187,13 +189,13 @@ class DatacubesChecker(AbstractChecker):
             and (dimensions and type(dimensions) == dict)
             and num_dimensions
         ):
-            logs += [(Message.DIMENSIONS_ERROR.value, Log.CRITICAL.value)]
+            logs += [(Message.MEASURES_VALUES_DIMENSIONALITY_ERROR.value, Log.CRITICAL.value)]
             return logs
 
         value_dimensions = cls.get_value_dimensions(values)
 
         if num_dimensions != value_dimensions:
-            logs += [(Message.DIMENSIONS_ERROR.value, Log.CRITICAL.value)]
+            logs += [(Message.MEASURES_VALUES_DIMENSIONALITY_ERROR.value, Log.CRITICAL.value)]
 
         return list(set(logs))
 
@@ -210,8 +212,9 @@ class DatacubesChecker(AbstractChecker):
         """
         logs = []
         values = Node(get(datacubes, VALUE_NODE) or {})
-        if not cls._check_value_type(values):
-            logs = [(Message.MEASURES_VALUES_TYPE_ERROR.value, Log.CRITICAL.value)]
+        error, msg = cls._check_measures_value_for_type_error(values)
+        if error:
+            logs += [(msg.value, Log.CRITICAL.value)]
         return logs
 
     @classmethod
@@ -226,7 +229,7 @@ class DatacubesChecker(AbstractChecker):
             list: list of failed check
         """
         logs = []
-        scale = get(datacubes, SCALES_NODE) or {}
+        scale = get(datacubes, SCALES_NODE, {})
         if not scale:
             logs += [(Message.DIMENSIONS_SCALE_TYPE_ERROR.value, Log.CRITICAL.value)]
 
@@ -234,7 +237,7 @@ class DatacubesChecker(AbstractChecker):
             logs += [(Message.DIMENSIONS_SCALE_TYPE_ERROR.value, Log.CRITICAL.value)]
 
         if get(scale, "items.type") != "number":
-            logs += [(Message.DIMENSIONS_SCALE_TYPE_ERROR.value, Log.CRITICAL.value)]
+            logs += [(Message.DIMENSIONS_SCALE_ITEMS_TYPE_ERROR.value, Log.CRITICAL.value)]
 
         return list(set(logs))
 
@@ -257,7 +260,7 @@ class DatacubesChecker(AbstractChecker):
         return 0
 
     @classmethod
-    def _check_value_type(cls, node: dict) -> bool:
+    def _check_measures_value_for_type_error(cls, node: dict) -> bool:
         """This is a helper function for valdating type of `measures.value`.
         It must be nested inside `array` types with innermost
         being either be a `number` or `string`, nullable or not.
@@ -265,22 +268,23 @@ class DatacubesChecker(AbstractChecker):
             node (dict): `measures.value`
 
         Returns:
-            bool: return True is validation passes else false
+            bool, Message: Return (False, None) if there is no error.
+            Return (True, Message) in case validation fails
         """
         node_items = get(node, "items")
         node_type = get(node, "type")
         if node_items:
             if node_type != "array":
-                return False
-            return cls._check_value_type(node_items)
+                return True, Message.MEASURES_VALUES_NESTED_ARRAY_TYPE_ERROR
+            return cls._check_measures_value_for_type_error(node_items)
         else:
             if type(node_type) == list:
                 if not(sorted(node_type) in [
                     sorted(["null", "string"]),
                     sorted(["null", "number"])
                 ]):
-                    return False
+                    return True, Message.MEASURES_VALUES_TYPE_ERROR
             elif node_type not in ["string", "number"]:
-                return False
+                return True, Message.MEASURES_VALUES_TYPE_ERROR
 
-        return True
+        return False, None

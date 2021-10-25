@@ -30,7 +30,7 @@ class RootNodeChecker(AbstractChecker):
                 ]
                 if not prop or not all(meta_checks):
                     logs.append(
-                        (f"'{path}' must be of type 'string' with none-empty 'const'", Log.CRITICAL.value)
+                        (f"'{path}' must be present with type 'string' with non-empty 'const'", Log.CRITICAL.value)
                     )
         return logs
 

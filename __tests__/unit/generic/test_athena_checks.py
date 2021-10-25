@@ -1,0 +1,64 @@
+from pathlib import Path
+
+import pytest
+
+from src.checks import AthenaChecker
+from src.ids_node import Node
+from src.utils import read_schema, Log
+
+
+UNIT_TEST_FILES = Path("__tests__/unit/generic/files/athena")
+
+dirs_to_expected = {
+    "invalid_path": [(
+        (
+            "Athena.js: Cannot find following "
+            "properties in IDS: ['project.names']"
+        ),
+        Log.CRITICAL.value
+    )],
+
+    "partition_name_path_conflict": [(
+        (
+            "Athena.js: Following names are "
+            "conflicting with path: project_name"
+        ),
+        Log.CRITICAL.value
+    )],
+
+    "inside_array": [(
+        "Athena.js: Following paths are either array type or nested in array types: ['results.time']",
+        Log.CRITICAL.value
+    )],
+
+
+    "top_level_property_conflict": [(
+        (
+            "Athena.js: Following athena paths are "
+            "in conflict with top level properties in "
+            "IDS schema: ['project_name']"
+        ),
+        Log.CRITICAL.value
+    )]
+}
+
+
+@pytest.mark.parametrize("test_dir,expected", dirs_to_expected.items())
+def test_athena_check(test_dir, expected):
+    ids_dir = UNIT_TEST_FILES / test_dir
+    ids = ids_dir / "schema.json"
+    athena = ids_dir / "athena.json"
+
+    ids_schema = read_schema(ids)
+    athena_schema = read_schema(athena)
+
+    context = {
+        "schema.json": ids_schema,
+        "athena.json": athena_schema
+    }
+
+    athena_checker = AthenaChecker()
+    node = Node(name="root", ids_dict=ids_schema, path="root")
+    logs = athena_checker.run(node, context)
+
+    assert sorted(logs) == sorted(expected)

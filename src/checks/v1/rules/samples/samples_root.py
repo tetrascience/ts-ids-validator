@@ -1,28 +1,28 @@
 SAMPLES = "root.properties.samples"
-SAMPLES_ITEMS =  f"{SAMPLES}.items"
-SAMPLES_ID = f"{SAMPLES}.items.properties.id"
-SAMPLES_BARCODE = f"{SAMPLES}.items.properties.barcode"
-SAMPLES_NAME = f"{SAMPLES}.items.properties.name"
-SAMPLES_BATCH = f"{SAMPLES}.items.properties.batch"
-SAMPLES_BATCH_ID = f"{SAMPLES}.items.properties.batch.properties.id"
-SAMPLES_BATCH_NAME = f"{SAMPLES}.items.properties.batch.properties.name"
-SAMPLES_BATCH_BARCODE = f"{SAMPLES}.items.properties.batch.properties.barcode"
-SAMPLES_SET = f"{SAMPLES}.items.properties.set"
-SAMPLES_SET_ID = f"{SAMPLES}.items.properties.set.properties.id"
-SAMPLES_SET_NAME = f"{SAMPLES}.items.properties.set.properties.name"
-SAMPLES_LOT = f"{SAMPLES}.items.properties.lot"
-SAMPLES_LOT_ID = f"{SAMPLES}.items.properties.lot.properties.id"
-SAMPLES_LOT_NAME = f"{SAMPLES}.items.properties.lot.properties.name"
-SAMPLES_LOCATION = f"{SAMPLES}.items.properties.location"
-SAMPLES_PROPERTIES = f"{SAMPLES}.items.properties.properties"
-SAMPLES_LABELS = f"{SAMPLES}.items.properties.labels"
+ITEMS =  f"{SAMPLES}.items"
+ID = f"{SAMPLES}.items.properties.id"
+BARCODE = f"{SAMPLES}.items.properties.barcode"
+NAME = f"{SAMPLES}.items.properties.name"
+BATCH = f"{SAMPLES}.items.properties.batch"
+BATCH_ID = f"{SAMPLES}.items.properties.batch.properties.id"
+BATCH_NAME = f"{SAMPLES}.items.properties.batch.properties.name"
+BATCH_BARCODE = f"{SAMPLES}.items.properties.batch.properties.barcode"
+SET = f"{SAMPLES}.items.properties.set"
+SET_ID = f"{SAMPLES}.items.properties.set.properties.id"
+SET_NAME = f"{SAMPLES}.items.properties.set.properties.name"
+LOT = f"{SAMPLES}.items.properties.lot"
+LOT_ID = f"{SAMPLES}.items.properties.lot.properties.id"
+LOT_NAME = f"{SAMPLES}.items.properties.lot.properties.name"
+LOCATION = f"{SAMPLES}.items.properties.location"
+PROPERTIES = f"{SAMPLES}.items.properties.properties"
+LABELS = f"{SAMPLES}.items.properties.labels"
 
 
 path_to_checks = {
     SAMPLES:{
         "type": "array",
     },
-    SAMPLES_ITEMS:{
+    ITEMS:{
         "type": "object",
         "properties":[
             "id",
@@ -36,16 +36,16 @@ path_to_checks = {
             "labels"
         ]
     },
-    SAMPLES_ID: {
+    ID: {
         "type": ["string", "null"]
     },
-    SAMPLES_BARCODE: {
+    BARCODE: {
         "type": ["string", "null"]
     },
-    SAMPLES_NAME: {
+    NAME: {
         "type": ["string", "null"]
     },
-    SAMPLES_BATCH: {
+    BATCH: {
         "type": "object",
         "min_properties":[
             "id",
@@ -53,45 +53,45 @@ path_to_checks = {
             "barcode"
         ]
     },
-    SAMPLES_BATCH_ID:{
+    BATCH_ID:{
         "type": ["string", "null"]
     },
-    SAMPLES_BATCH_NAME: {
+    BATCH_NAME: {
         "type": ["string", "null"]
     },
-    SAMPLES_BATCH_BARCODE: {
+    BATCH_BARCODE: {
         "type": ["string", "null"]
     },
-    SAMPLES_SET: {
+    SET: {
         "type": "object",
         "min_properties": [
             "id",
             "name"
         ]
     },
-    SAMPLES_SET_ID:{
+    SET_ID:{
         "type": ["string", "null"]
     },
-    SAMPLES_SET_NAME: {
+    SET_NAME: {
         "type": ["string", "null"]
     },
-    SAMPLES_LOT: {
+    LOT: {
         "type": "object",
         "min_properties": [
             "id",
             "name"
         ]
     },
-    SAMPLES_LOT_ID: {
+    LOT_ID: {
         "type": ["string", "null"]
     },
-    SAMPLES_LOT_NAME: {
+    LOT_NAME: {
         "type": ["string", "null"]
     },
-    SAMPLES_LOCATION: {
+    LOCATION: {
         "type" : "object"
     },
-    SAMPLES_PROPERTIES: {
+    PROPERTIES: {
         "type" : "array",
         "min_properties":[
             "source",
@@ -105,7 +105,7 @@ path_to_checks = {
             "time"
         ],
     },
-    SAMPLES_LABELS: {
+    LABELS: {
         "type" : "array",
         "min_properties": [
             "source",
