@@ -16,6 +16,7 @@ class Validator:
         }
         self.console = Console()
         self.property_failures = {}
+        self.has_critical_failures = False
 
     def _traverse(self, schema, name="root", path="root"):
         node = Node(ids_dict=schema, name=name, path=path)
