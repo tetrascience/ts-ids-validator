@@ -84,7 +84,8 @@ if __name__ == "__main__":
             ids=ids,
             athena=athena,
             checks_list=checks_list,
-            convention_version=convention.value
+            convention_version=convention.value,
+            ids_folder_path=ids_dir
         )
         validator.validate_ids()
         if validator.has_critical_failures:

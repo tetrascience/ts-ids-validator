@@ -7,6 +7,7 @@ from src.checks.generic import (
     RequiredPropertiesChecker,
     RootNodeChecker,
     TypeChecker,
+    ElasticsearchChecker,
 )
 from src.checks.v1 import (
     V1ChildNameChecker,
@@ -24,7 +25,8 @@ generic_checks = [
     DatacubesChecker(),
     RequiredPropertiesChecker(),
     RootNodeChecker(),
-    TypeChecker()
+    TypeChecker(),
+    ElasticsearchChecker()
 ]
 
 v1_checks = generic_checks + [

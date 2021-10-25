@@ -33,7 +33,8 @@ def test_generic_validators(test_dir, snapshot):
         ids=ids_schema,
         athena=athena_schema,
         convention_version=Conventions.GENERIC.value,
-        checks_list=checks_dict[Conventions.GENERIC]
+        checks_list=checks_dict[Conventions.GENERIC],
+        ids_folder_path=ids_dir
     )
     generic_validator.validate_ids()
     logs = {

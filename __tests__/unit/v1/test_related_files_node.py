@@ -27,6 +27,7 @@ def test_related_files_node(fname, expected):
         athena=None,
         convention_version=None,
         checks_list=[V1RelatedFilesChecker()],
+        ids_folder_path=None
     )
     validator.validate_ids()
     logs = validator.property_failures

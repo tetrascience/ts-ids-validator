@@ -1,3 +1,4 @@
+from pathlib import Path
 from rich.console import Console
 
 from src.ids_node import Node
@@ -5,14 +6,22 @@ from src.utils import Log
 
 
 class Validator:
-    def __init__(self, ids: dict, athena: dict, checks_list: list, convention_version: str):
+    def __init__(
+        self,
+        ids: dict,
+        athena: dict,
+        checks_list: list,
+        convention_version: str,
+        ids_folder_path: Path
+    ):
         self.ids = ids
         self.athena = athena
         self.checks_list = checks_list
         self.context = {
             "athena.json": self.athena,
             "schema.json": self.ids,
-            "convention_version": convention_version
+            "convention_version": convention_version,
+            "ids_folder_path": ids_folder_path
         }
         self.console = Console()
         self.property_failures = {}
