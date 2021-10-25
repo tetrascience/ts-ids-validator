@@ -47,15 +47,15 @@ class RuleBasedChecker(AbstractChecker):
     def enforce_type(cls, node: Node, type_: Union[List, str]):
         logs = []
 
-        if type(node._type) != type(type_):
+        if type(node.type_) != type(type_):
             logs += [(f"'type' must be {type_}", Log.CRITICAL.value)]
             return logs
         elif (
             (type(type_) == list)
-            and (sorted(node._type) != sorted(type_))
+            and (sorted(node.type_) != sorted(type_))
         ):
             logs += [(f"'type' must be {type_}", Log.CRITICAL.value)]
-        elif node._type != type_:
+        elif node.type_ != type_:
             logs += [(f"'type' must be {type_}", Log.CRITICAL.value)]
 
         return logs
