@@ -1,0 +1,1832 @@
+{
+  "$id": "https://ids.tetrascience.com/common/lc-chromeleon/v1.0.0/schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "required": [
+    "@idsType",
+    "@idsVersion",
+    "@idsNamespace",
+    "system",
+    "users",
+    "run",
+    "sample",
+    "method",
+    "results",
+    "datacubes"
+  ],
+  "properties": {
+    "@idsType": {
+      "type": "string",
+      "const": "lc-chromeleon"
+    },
+    "@idsVersion": {
+      "type": "string",
+      "const": "v1.0.0"
+    },
+    "@idsNamespace": {
+      "type": "string",
+      "const": "common"
+    },
+    "system": {
+      "type": "object",
+      "properties": {
+        "instrument": {
+          "type": ["string", "null"],
+          "description": "The instrument the injection belongs to"
+        },
+        "software": {
+          "type": "object",
+          "properties": {
+            "data_vault": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The datasource where the item is stored"
+                },
+                "type": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "hardware": {
+          "type": "object",
+          "properties": {
+            "client_computer": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "users": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "Injection.Creation.User"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "run": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "guid": {
+          "type": ["string", "null"]
+        },
+        "url": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "category": {
+          "type": ["string", "null"],
+          "description": "The sample category based on the eWorkflow definition (e.g. header, footer, bracket etc)"
+        },
+        "comment": {
+            "type": ["string", "null"]
+        },
+        "injection": {
+          "type": "object",
+          "properties": {
+            "version": {
+              "type": "number"
+            },
+            "number_in_sequence": {
+              "type": "number"
+            }
+          }
+        },
+        "sequence": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "server": {
+              "type": "string"
+            },
+            "default_channel": {
+              "type": "string"
+            },
+            "instrument": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "uri": {
+                  "type": "string"
+                }
+              }
+            },
+            "creation": {
+              "type": "object",
+              "properties": {
+                "computer": {
+                  "type": "string"
+                },
+                "comment": {
+                  "type": ["string", "null"]
+                },
+                "data_vault_name": {
+                  "type": "string"
+                },
+                "time": {
+                  "type": "string"
+                },
+                "user": {
+                  "type": "string"
+                }
+              }
+            },
+            "last_update": {
+              "type": "object",
+              "properties": {
+                "computer": {
+                  "type": "string"
+                },
+                "comment": {
+                  "type": ["string", "null"]
+                },
+                "data_vault_name": {
+                  "type": "string"
+                },
+                "time": {
+                  "type": "string"
+                },
+                "user": {
+                  "type": "string"
+                }
+              }
+            },
+            "data_vault": {
+              "type": "string"
+            }
+          }
+        },
+        "type": {
+          "type": ["string", "null"],
+          "description": "The type of the sample"
+        },
+        "last_update": {
+          "type": "object",
+          "properties": {
+            "computer": {
+              "type": "string"
+            },
+            "comment": {
+              "type": ["string", "null"]
+            },
+            "data_vault_name": {
+              "type": "string"
+            },
+            "time": {
+              "type": "string"
+            },
+            "user": {
+              "type": "string"
+            }
+          }
+        },
+        "time": {
+          "type": "object",
+          "properties": {
+            "start": {
+              "type": "string"
+            },
+            "acquisition": {
+              "type": ["string", "null"]
+            },
+            "last_update": {
+              "type": "string"
+            }
+          }
+        },
+        "custom_fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field_definition_context": {
+                "type": ["string", "null"]
+              },
+              "name": {
+                "type": ["string", "null"]
+              },
+              "description": {
+                "type": ["string", "null"]
+              },
+              "key": {
+                "type": ["string", "null"]
+              },
+              "value": {
+                "type": ["string", "null"]
+              },
+              "value_data_type": {
+                "type": "string"
+              },
+              "string_value": {
+                "type": ["string", "null"]
+              },
+              "numeric_value": {
+                "type": ["number", "null"]
+              },
+              "numeric_value_unit": {
+                "type": ["string", "null"]
+              },
+              "boolean_value": {
+                "type": ["boolean", "null"]
+              }
+            }
+          }
+        },
+        "replicte_id": {
+          "type": ["string", "null"]
+        },
+        "audit_trail": {
+          "type": "object",
+          "properties": {
+            "injection": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": ["string", "null"]
+                },
+                "time": {
+                  "type": ["string", "null"]
+                },
+                "instrument": {
+                  "type": ["string", "null"]
+                },
+                "url": {
+                  "type": ["string", "null"]
+                },
+                "creation": {
+                  "type": "object",
+                  "properties": {
+                    "computer": {
+                      "type": ["string", "null"]
+                    },
+                    "comment": {
+                      "type": ["string", "null"]
+                    },
+                    "data_vault_name": {
+                      "type": ["string", "null"]
+                    },
+                    "time": {
+                      "type": ["string", "null"]
+                    },
+                    "user": {
+                      "type": ["string", "null"]
+                    }
+                  }
+                },
+                "last_update": {
+                  "type": "object",
+                  "properties": {
+                    "computer": {
+                      "type": ["string", "null"]
+                    },
+                    "comment": {
+                      "type": ["string", "null"]
+                    },
+                    "data_vault_name": {
+                      "type": ["string", "null"]
+                    },
+                    "time": {
+                      "type": ["string", "null"]
+                    },
+                    "user": {
+                      "type": ["string", "null"]
+                    }
+                  }
+                },
+                "messages": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "cateogry": {
+                        "type": ["string", "null"]
+                      },
+                      "device": {
+                        "type": ["string", "null"]
+                      },
+                      "gradient": {
+                        "type": "object",
+                        "properties": {
+                          "duration": {
+                            "type": ["number", "null"]
+                          },
+                          "end_value": {
+                            "type": ["string", "null"]
+                          }
+                        }
+                      },
+                      "id": {
+                        "type": ["string", "null"]
+                      },
+                      "is_overlapped": {
+                        "type": ["boolean", "null"]
+                      },
+                      "content": {
+                        "type": ["string", "null"]
+                      },
+                      "level": {
+                        "type": ["string", "null"]
+                      },
+                      "property": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": ["string", "null"]
+                          },
+                          "unit": {
+                            "type": ["string", "null"]
+                          },
+                          "value": {
+                            "type": ["string", "null"]
+                          },
+                          "value_data_type": {
+                            "type": ["string", "null"]
+                          },
+                          "numeric_value": {
+                            "type": ["number", "null"]
+                          },
+                          "string_value": {
+                            "type": ["string", "null"]
+                          },
+                          "boolean_value": {
+                            "type": ["boolean", "null"]
+                          }
+                        }
+                      },
+                      "retention_time": {
+                        "type": ["number", "null"]
+                      },
+                      "time": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "data_item": {
+              "type": "object",
+              "properties": {
+                "events": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "description": {
+                        "type": ["string", "null"]
+                      },
+                      "item_type": {
+                        "type": "string"
+                      },
+                      "operation": {
+                        "type": "string"
+                      },
+                      "transaction_log_entry": {
+                        "type": "object",
+                        "properties": {
+                          "computer": {
+                            "type": "string"
+                          },
+                          "comment": {
+                            "type": ["string", "null"]
+                          },
+                          "data_vault_name": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "user": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "chromatograms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "channel": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "version": {
+                "type": "number"
+              },
+              "manipulated": {
+                "type": ["boolean", "null"]
+              },
+              "import_type": {
+                "type": ["string", "null"]
+              },
+              "detector": {
+                "type": "string"
+              },
+              "driver_id": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "sample": {
+      "type": "object",
+      "properties": {
+        "weight": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": ["number", "null"]
+            },
+            "unit": {
+              "type": "string"
+            }
+          }
+        },
+        "internal_standard_amount": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": ["number", "null"]
+            },
+            "unit": {
+              "type": "string"
+            }
+          }
+        },
+        "position": {
+          "type": "string"
+        },
+        "spike_group": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "method": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "dilution_factor": {
+          "type": ["number", "null"]
+        },
+        "autodilution_ratio": {
+          "type": ["number", "null"]
+        },
+        "injection_volume": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": ["number", "null"]
+            },
+            "unit": {
+              "type": "string"
+            }
+          }
+        },
+        "processing": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "number": {
+                    "type": ["number", "null"]
+                  },
+                  "type": {
+                    "type": ["string", "null"]
+                  },
+                  "comment": {
+                    "type": ["string", "null"]
+                  },
+                  "concentration_levels": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "context": {
+                          "type": ["string", "null"]
+                        },
+                        "description": {
+                          "type": ["string", "null"]
+                        },
+                        "name": {
+                          "type": ["string", "null"]
+                        },
+                        "value": {
+                          "type": ["number", "null"]
+                        }
+                      }
+                    }
+                  },
+                  "custom_fields": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "field_definition_context": {
+                          "type": ["string", "null"]
+                        },
+                        "name": {
+                          "type": ["string", "null"]
+                        },
+                        "description": {
+                          "type": ["string", "null"]
+                        },
+                        "key": {
+                          "type": ["string", "null"]
+                        },
+                        "value": {
+                          "type": ["string", "null"]
+                        },
+                        "value_data_type": {
+                          "type": "string"
+                        },
+                        "string_value": {
+                          "type": ["string", "null"]
+                        },
+                        "numeric_value": {
+                          "type": ["number", "null"]
+                        },
+                        "numeric_value_unit": {
+                          "type": ["string", "null"]
+                        },
+                        "boolean_value": {
+                          "type": ["boolean", "null"]
+                        }
+                      }
+                    }
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "retention_time_setting": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": ["string", "null"]
+                      },
+                      "value": {
+                        "type": ["number", "null"]
+                      },
+                      "unit": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "amount": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": ["number", "null"]
+                      },
+                      "unit": {
+                        "type": ["string", "null"]
+                      }
+                    }
+                  },
+                  "calibration_type": {
+                    "type": ["string", "null"]
+                  },
+                  "cas_registry_number": {
+                    "type": ["string", "null"],
+                    "description": "Chemical Abstracts Service registry number of the component entered in the component table."
+                  },
+                  "checmical_formula": {
+                    "type": ["string", "null"],
+                    "description": "Chemical formula of the component entered in the component table."
+                  },
+                  "evaluation_type": {
+                    "type": ["string", "null"]
+                  },
+                  "response_factor": {
+                    "type": ["number", "null"]
+                  },
+                  "group": {
+                    "type": ["string", "null"]
+                  },
+                  "left_limit": {
+                    "type": ["number", "null"]
+                  },
+                  "right_limit": {
+                    "type": ["number", "null"]
+                  },
+                  "concentration_level_tolerance": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": ["number", "null"]
+                      },
+                      "unit": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "high_amount_level_tolerance": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": ["number", "null"]
+                      },
+                      "unit": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "low_amount_level_tolerance": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": ["number", "null"]
+                      },
+                      "unit": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "calibration_curve": {
+                    "type": "object",
+                    "properties": {
+                      "c0": {
+                        "type": ["number", "null"],
+                        "description": "Y Offset of the calibration curve defined in the Peak Group Table (as Calibration Type)."
+                      },
+                      "c1": {
+                        "type": ["number", "null"],
+                        "description": "Linear Coefficient of the calibration curve defined in the Peak Group Table"    
+                      },
+                      "c2": {
+                        "type": ["number", "null"],
+                        "description": "Quadratic Coefficient of the calibration curve defined in the Peak Group Table"
+                      },
+                      "c3": {
+                        "type": ["number", "null"],
+                        "description": "Cubic Coefficient c3 of the calibration curve defined in the Peak Group Table."
+                      }
+                    }
+                  },
+                  "upper_confidence_probability": {
+                    "type": ["number", "null"]
+                  },
+                  "lower_confidence_probability": {
+                    "type": ["number", "null"]
+                  },
+                  "use_previous_retention_time": {
+                    "type": ["boolean", "null"]
+                  },
+                  "linear_retention_index": {
+                    "type": ["number", "null"],
+                    "description": "Linear Retention Index defined in the component table."
+                  },
+                  "standard_method": {
+                    "type": ["string", "null"]
+                  },
+                  "window": {
+                    "type": ["string", "null"]
+                  }
+                }
+              }
+            },
+            "url": {
+              "type": "string"
+            },
+            "creation": {
+              "type": "object",
+              "properties": {
+                "computer": {
+                  "type": "string"
+                },
+                "comment": {
+                  "type": ["string", "null"]
+                },
+                "data_vault_name": {
+                  "type": "string"
+                },
+                "time": {
+                  "type": "string"
+                },
+                "user": {
+                  "type": "string"
+                }
+              }
+            },
+            "last_update": {
+              "type": "object",
+              "properties": {
+                "computer": {
+                  "type": "string"
+                },
+                "comment": {
+                  "type": ["string", "null"]
+                },
+                "data_vault_name": {
+                  "type": "string"
+                },
+                "time": {
+                  "type": "string"
+                },
+                "user": {
+                  "type": "string"
+                }
+              }
+            },
+            "audit_trail": {
+              "type": "object",
+              "properties": {
+                "events": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "description": {
+                        "type": ["string", "null"]
+                      },
+                      "item_type": {
+                        "type": "string"
+                      },
+                      "operation": {
+                        "type": "string"
+                      },
+                      "transaction_log_entry": {
+                        "type": "object",
+                        "properties": {
+                          "computer": {
+                            "type": "string"
+                          },
+                          "comment": {
+                            "type": ["string", "null"]
+                          },
+                          "data_vault_name": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "user": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "detection_algorithm": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": ["string", "null"]
+                },
+                "version_available": {
+                  "type": ["string", "null"]
+                },
+                "version_used": {
+                  "type": ["string", "null"]
+                },
+                "used_latest": {
+                  "type": ["boolean", "null"]
+                }
+              }
+            },
+            "delay_time": {
+              "type": ["number", "null"]
+            },
+            "delay_time_detector": {
+              "type": ["string", "null"]
+            },
+            "blank_run_injection": {
+              "type": ["string", "null"],
+              "description": "Selected information about the blank run injection"
+            },
+            "calibration_lavel_name": {
+              "type": ["string", "null"]
+            },
+            "calibration_mode": {
+              "type": ["string", "null"]
+            },
+            "comment": {
+              "type": ["string", "null"]
+            },
+            "comparison_scoring": {
+              "type": ["string", "null"],
+              "description": "Results of a comparison of peak amounts obtained from two discrete detector channels"
+            },
+            "curve_fitting": {
+              "type": ["string", "null"]
+            },
+            "dead_time": {
+              "type": ["string", "null"]
+            },
+            "fixed_calibration_update_operator": {
+              "type": ["string", "null"],
+              "description": "Operator of the last update of the fixed calibration standards"
+            },
+            "fixed_calibration_update_time": {
+              "type": ["string", "null"],
+              "description": "Time of the last update of the fixed calibration standards."
+            },
+            "fixed_calibration_standards_origin": {
+              "type": ["string", "null"],
+              "description": "Original location of calibration standards in Fixed mode."
+            },
+            "matrix_correction": {
+              "type": ["string", "null"],
+              "description": "Setting for matrix correction."
+            },
+            "peak_width_detection_mode": {
+              "type": ["string", "null"]
+            },
+            "reference_injection_volume": {
+              "type": ["string", "null"]
+            },
+            "retention_time_type": {
+              "type": ["string", "null"]
+            },
+            "separate_calibration": {
+              "type": ["string", "null"]
+            },
+            "blank_run_subtraction": {
+              "type": ["string", "null"],
+              "description": "Chromatogram subtraction settings specified in the method."
+            },
+            "amount_ratio_flag_state": {
+              "type": ["string", "null"],
+              "description": "State of the amount ratio flag in the processing method (\"On\"/\"Off\")."
+            },
+            "version": {
+              "type": "number"
+            },
+            "uv_setting": {
+              "type": "object",
+              "properties": {
+                "baseline_correction": {
+                  "type": ["string", "null"]
+                },
+                "left_region_bunch": {
+                  "type": ["number", "null"]
+                },
+                "right_region_bunch": {
+                  "type": ["number", "null"]
+                },
+                "match_criterion": {
+                  "type": ["string", "null"]
+                },
+                "fixed_blank_correction_range": {
+                  "type": "object",
+                  "properties": {
+                    "minimum": {
+                      "type": ["number", "null"]
+                    },
+                    "maximum": {
+                      "type": ["number", "null"]
+                    }
+                  }
+                },
+                "peak_purity_threshold": {
+                  "type": ["number", "null"]
+                }
+              }
+            },
+            "peak_group_parameters": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": ["number", "null"]
+                  },
+                  "calibration_type": {
+                    "type": ["string", "null"]
+                  },
+                  "channel": {
+                    "type": "string"
+                  },
+                  "comment": {
+                    "type": ["string", "null"]
+                  },
+                  "end_time": {
+                    "type": ["number", "null"]
+                  },
+                  "evaluation_type": {
+                    "type": ["string", "null"]
+                  },
+                  "response_ factor": {
+                    "type": ["number", "null"]
+                  },
+                  "group_evaluation": {
+                    "type": ["string", "null"],
+                    "description": "Defines how a peak group is evaluated"
+                  },
+                  "group_type": {
+                    "type": ["string", "null"]
+                  },
+                  "include_identified_peaks": {
+                    "type": ["string", "null"]
+                  },
+                  "c0": {
+                    "type": ["number", "null"],
+                    "description": "Y Offset of the calibration curve defined in the Peak Group Table (as Calibration Type)."
+                  },
+                  "c1": {
+                    "type": ["number", "null"],
+                    "description": "Linear Coefficient of the calibration curve defined in the Peak Group Table"
+                  },
+                  "c2": {
+                    "type": ["number", "null"],
+                    "description": "Quadratic Coefficient of the calibration curve defined in the Peak Group Table"
+                  },
+                  "c3": {
+                    "type": ["number", "null"],
+                    "description": "Cubic Coefficient c3 of the calibration curve defined in the Peak Group Table."
+                  },
+                  "name": {
+                    "type": ["string", "null"]
+                  },
+                  "number": {
+                    "type": "number"
+                  },
+                  "group": {
+                    "type": ["string", "null"]
+                  },
+                  "start_time": {
+                    "type": ["number", "null"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "creation": {
+          "type": "object",
+          "properties": {
+            "computer": {
+              "type": "string"
+            },
+            "comment": {
+              "type": ["string", "null"]
+            },
+            "data_vault_name": {
+              "type": "string"
+            },
+            "time": {
+              "type": "string"
+            },
+            "user": {
+              "type": "string"
+            }
+          }
+        },
+        "last_update": {
+          "type": "object",
+          "properties": {
+            "computer": {
+              "type": "string"
+            },
+            "comment": {
+              "type": ["string", "null"]
+            },
+            "data_vault_name": {
+              "type": "string"
+            },
+            "time": {
+              "type": "string"
+            },
+            "user": {
+              "type": "string"
+            }
+          }
+        },
+        "script": {
+          "type": "object",
+          "properties": {
+            "display_name": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "stages": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "display_name": {
+                    "type": "string"
+                  },
+                  "duration": {
+                    "type": "object",
+                    "properties": {
+                      "is_initial": {
+                        "type": ["boolean", "null"]
+                      },
+                      "is_valid": {
+                        "type": ["boolean", "null"]
+                      },
+                      "time": {
+                        "type": "object",
+                        "properties": {
+                          "value": {
+                            "type": ["number", "null"]
+                          },
+                          "unit": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "method_time": {
+                    "type": "object",
+                    "properties": {
+                      "is_initial": {
+                        "type": ["boolean", "null"]
+                      },
+                      "is_valid": {
+                        "type": ["boolean", "null"]
+                      },
+                      "time": {
+                        "type": "object",
+                        "properties": {
+                          "value": {
+                            "type": ["number", "null"]
+                          },
+                          "unit": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "time_steps": {
+                    "type": "object",
+                    "properties": {
+                      "display_name": {
+                        "type": "string"
+                      },
+                      "events": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "display_name": {
+                              "type": "string"
+                            },
+                            "disabled": {
+                              "type": ["boolean", "null"]
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "path": {
+                              "type": "string"
+                            },
+                            "value_data_type": {
+                              "type": "string"
+                            },
+                            "string_value": {
+                              "type": ["string", "null"]
+                            },
+                            "numeric_value": {
+                              "type": ["number", "null"]
+                            },
+                            "numeric_value_unit": {
+                              "type": ["string", "null"]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit_trail": {
+          "type": "object",
+          "properties": {
+            "events": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": ["string", "null"]
+                  },
+                  "item_type": {
+                    "type": "string"
+                  },
+                  "operation": {
+                    "type": "string"
+                  },
+                  "transaction_log_entry": {
+                    "type": "object",
+                    "properties": {
+                      "computer": {
+                        "type": "string"
+                      },
+                      "comment": {
+                        "type": ["string", "null"]
+                      },
+                      "data_vault_name": {
+                        "type": "string"
+                      },
+                      "time": {
+                        "type": "string"
+                      },
+                      "user": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "chromatograms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "channel_name": {
+                "type": "string"
+              },
+              "detector_device": {
+                "type": "string"
+              },
+              "auto_noise": {
+                "type": ["string", "null"],
+                "description": "Noise-level used by the automatic detection of the baseline in the Cobra peak detection."
+              },
+              "baseline_threshold": {
+                "type": ["number", "null"]
+              },
+              "delay_time_value": {
+                "type": ["number", "null"]
+              },
+              "detection_algorithm": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": ["string", "null"]
+                  },
+                  "effective_minimum_area": {
+                    "type": ["number", "null"]
+                  },
+                  "effective_minimum_height": {
+                    "type": ["number", "null"]
+                  },
+                  "noise_determination_start": {
+                    "type": ["number", "null"]
+                  },
+                  "noise_determination_end": {
+                    "type": ["number", "null"]
+                  },
+                  "peak_thershold": {
+                    "type": ["number", "null"]
+                  }
+                }
+              },
+              "start_time": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": ["number", "null"]
+                  },
+                  "unit": {
+                    "type": "string"
+                  }
+                }
+              },
+              "end_time": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": ["number", "null"]
+                  },
+                  "unit": {
+                    "type": "string"
+                  }
+                }
+              },
+              "manipulated": {
+                "type": ["boolean", "null"]
+              },
+              "sample_rate": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": ["number", "null"]
+                  },
+                  "unit": {
+                    "type": "string"
+                  }
+                }
+              },
+              "sample_step": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": ["number", "null"]
+                  },
+                  "unit": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "channel_name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "creation": {
+            "type": "object",
+            "properties": {
+              "computer": {
+                "type": "string"
+              },
+              "comment": {
+                "type": ["string", "null"]
+              },
+              "data_vault_name": {
+                "type": "string"
+              },
+              "time": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              }
+            }
+          },
+          "chromatogram": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "drift": {
+                "type": ["number", "null"]
+              },
+              "signal_noise": {
+                "type": ["number", "null"]
+              },
+              "signal_statistic": {
+                "type": ["number", "null"]
+              }
+            }
+          },
+          "peaks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "number": {
+                  "type": "number"
+                },
+                "amount": {
+                  "type": ["number", "null"]
+                },
+                "amount_deviation": {
+                  "type": ["number", "null"]
+                },
+                "area": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "height": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "width": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "left_width": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "right_width": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "retention_window_width": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "asymmetry": {
+                  "type": ["number", "null"]
+                },
+                "baseline_at_start": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "baseline_at_end": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "baseline_at_peak": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "concentration": {
+                  "type": ["number", "null"],
+                  "description": "Concentration (if Amount is really an amount): amount / injection volume"
+                },
+                "capillary_electrophoresis_area": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "detection_code": {
+                  "type": "object",
+                  "properties": {
+                    "start": {
+                      "type": ["string", "null"]
+                    },
+                    "stop": {
+                      "type": ["string", "null"]
+                    }
+                  }
+                },
+                "group": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": ["string", "null"]
+                    },
+                    "amount": {
+                      "type": ["number", "null"]
+                    },
+                    "area": {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": ["number", "null"]
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "height": {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": ["number", "null"]
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "retention_factor": {
+                  "type": ["number", "null"],
+                  "description": "Ratio of the net retention time to the dead time (Capacity Factor)."
+                },
+                "level_check": {
+                  "type": ["string", "null"]
+                },
+                "level_tolerance": {
+                  "type": "object",
+                  "properties": {
+                    "amount": {
+                      "type": "object",
+                      "properties": {
+                        "high": {
+                          "type": ["number", "null"]
+                        },
+                        "low": {
+                          "type": ["number", "null"]
+                        }
+                      }
+                    },
+                    "response": {
+                      "type": "object",
+                      "properties": {
+                        "high": {
+                          "type": ["number", "null"]
+                        },
+                        "low": {
+                          "type": ["number", "null"]
+                        }
+                      }
+                    }
+                  }
+                },
+                "manipulated": {
+                  "type": ["boolean", "null"]
+                },
+                "assigned": {
+                  "type": ["boolean", "null"]
+                },
+                "name": {
+                  "type": ["string", "null"]
+                },
+                "peak_to_valley_ratio": {
+                  "type": ["number", "null"],
+                  "description": "Ratio for a peak in an unresolved peak group."
+                },
+                "start_time": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "end_time": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "retention_time": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "amount_percent": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "area_percent": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "capillary_electrophoresis_area_percent": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "height_percent": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "relative_retention_time": {
+                  "type": ["number", "null"]
+                },
+                "resolution": {
+                  "type": ["number", "null"]
+                },
+                "retention_deviation": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "retention_index": {
+                  "type": ["number", "null"]
+                },
+                "signal_to_noise": {
+                  "type": ["number", "null"]
+                },
+                "start_actual_signal": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "end_actual_signal": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "peak_retention_actual_signal": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": ["number", "null"]
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "skewness": {
+                  "type": ["number", "null"]
+                },
+                "statistical_moments": {
+                  "type": ["number", "null"],
+                  "description": "Zeroth, First, or Second Moment of the separation."
+                },
+                "theoretical_plates": {
+                  "type": ["number", "null"]
+                },
+                "type": {
+                  "type": "string"
+                },
+                "calibration":{
+                  "type":"object",
+                  "properties":{
+                    "mode":{
+                      "type": "string"
+                    },
+                    "point_x_unit":{
+                      "type": ["string", "null"]
+                    },
+                    "point_y_unit":{
+                      "type": ["string", "null"]
+                    },
+                    "type":{
+                      "type": ["string", "null"]
+                    },
+                    "coefficient_of_determination":{
+                      "type": ["number", "null"]
+                    },
+                    "correlation_coefficient":{
+                      "type": ["number", "null"]
+                    },
+                    "coefficient_of_determination_adjustment":{
+                      "type": ["number", "null"]
+                    },
+                    "analytical_limit_of_detection":{
+                      "type": ["number", "null"]
+                    },
+                    "number_of_disabled_calibration_points":{
+                      "type": ["number", "null"]
+                    },
+                    "reference_injeciton_volume":{
+                      "type": ["number", "null"]
+                    },
+                    "relative_standard_deviation":{
+                      "type": ["number", "null"]
+                    },
+                    "rf_value":{
+                      "type": ["number", "null"]
+                    },
+                    "standard_deviation":{
+                      "type": ["number", "null"]
+                    },
+                    "variance":{
+                      "type": ["number", "null"]
+                    },
+                    "variance_coefficient":{
+                      "type": ["number", "null"]
+                    },
+                    "weight":{
+                      "type": ["string", "null"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "datacubes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "channel": {
+            "type": "string"
+          },
+          "label": {
+            "type": ["string", "null"]
+          },
+          "raw": {
+            "type": "boolean"
+          },
+          "measures": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": ["string", "null"]
+                },
+                "unit": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "array",
+                  "items": {
+                    "type": ["number", "null"]
+                  }
+                }
+              }
+            }
+          },
+          "dimensions": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "unit": {
+                  "type": "string"
+                },
+                "scale": {
+                  "type": "array",
+                  "items": {
+                    "type": ["number", "null"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

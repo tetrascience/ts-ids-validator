@@ -1,6 +1,8 @@
 from pathlib import Path
+from urllib.parse import scheme_chars
 
 import pytest
+from pydash import get
 
 from src.checks import ElasticsearchChecker
 from src.ids_node import Node
@@ -9,23 +11,28 @@ from src.utils import read_schema, Log
 
 UNIT_TEST_FILES = Path("__tests__/unit/generic/files/elasticsearch")
 
+es_diff_str = (
+    '             "audit_trail": {\n'
+    '               "properties": {\n'
+    '                 "injection": {\n'
+    '    -              "properties": {}\n'
+    '    +              "properties": {\n'
+    '    +                "messages": {\n'
+    '    +                  "type": "nested"\n'
+    '    +                }\n'
+    '    +              }\n'
+    '                 },\n'
+    '                 "data_item": {\n'
+    '                   "properties": {\n'
+)
 dirs_to_expected = {
     "same_mapping": [],
-    "different_mapping":[(
-        (
-            '             "audit_trail": {\n'
-            '               "properties": {\n'
-            '                 "injection": {\n'
-            '    -              "properties": {}\n'
-            '    +              "properties": {\n'
-            '    +                "messages": {\n'
-            '    +                  "type": "nested"\n'
-            '    +                }\n'
-            '    +              }\n'
-            '                 },\n'
-            '                 "data_item": {\n'
-            '                   "properties": {\n'
-        ),
+    "different_mapping": [(
+        es_diff_str,
+        Log.CRITICAL.value
+    )],
+    "different_mapping_generic": [(
+        es_diff_str,
         Log.WARNING.value
     )]
 }
@@ -34,13 +41,20 @@ dirs_to_expected = {
 @pytest.mark.parametrize("test_dir,expected", dirs_to_expected.items())
 def test_es_checker(test_dir, expected):
     ids_dir = UNIT_TEST_FILES / test_dir
+    ids_schema = ids_dir / "schema.json"
+    schema = read_schema(ids_schema)
+    convention_version = get(
+        schema,
+        "properties.@idsConventionVersion.const",
+        "generic"
+    )
     ids_dict = {
-        "type":"object",
-        "properties":{}
+        "type": "object",
+        "properties": {}
     }
     context = {
         "ids_folder_path": ids_dir,
-        "convention_version": "generic"
+        "convention_version": convention_version
     }
 
     elasticsearch_checker = ElasticsearchChecker()
