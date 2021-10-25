@@ -1,3 +1,4 @@
+import warnings
 from pathlib import Path
 from urllib.parse import scheme_chars
 
@@ -40,6 +41,13 @@ dirs_to_expected = {
 
 @pytest.mark.parametrize("test_dir,expected", dirs_to_expected.items())
 def test_es_checker(test_dir, expected):
+    cwd = Path().resolve()
+    es_generator = cwd / ".." / "ts-lib-protocol-script" / \
+        "tools" / "elasticsearch_generator/main.py"
+    if not es_generator.exists():
+        warnings.warn("elasticsearch_generator does not exist. Skipping tests.")
+        return
+
     ids_dir = UNIT_TEST_FILES / test_dir
     ids_schema = ids_dir / "schema.json"
     schema = read_schema(ids_schema)
