@@ -4,6 +4,8 @@ import pathlib
 import shutil
 import difflib
 import json
+import tempfile
+from pathlib import Path
 from distutils.dir_util import copy_tree
 from src.ids_node import Node
 from src.checks import AbstractChecker
@@ -12,7 +14,7 @@ from src.utils import Log, read_schema
 
 class ElasticsearchChecker(AbstractChecker):
     """
-    - copy ids_dir content to temp folder
+    - copy schema.json to temp folder
     - create elasticsearch.json in tmp folder
     - compare tmp/elasticsearch.json and ids/elasticsearch.json
     """
@@ -22,7 +24,7 @@ class ElasticsearchChecker(AbstractChecker):
             return []
 
         logs = []
-        ids_dir = context.get("ids_folder_path", None)
+        ids_dir: Path = context["ids_folder_path"]
         elasticsearch_json = ids_dir / "elasticsearch.json"
         convention_version = context.get("convention_version", "generic")
 
@@ -33,38 +35,36 @@ class ElasticsearchChecker(AbstractChecker):
         )
 
         # Make sure elasticsearch.json exist
-        if not os.path.exists(elasticsearch_json):
+        if not elasticsearch_json.exists():
             logs += [(
                 f"Make sure elasticsearch.json exist at {elasticsearch_json}",
                 criticality
             )]
             return logs
 
-        # Create a temp folder, copy IDS artifacts in it.
-        # delete existing elasticsearch.json if any
-        # Create new elasticsearch.json in
+        # Create a temp folder, copy ids/schema.json in it.
+        # Generate a new elasticsearch.json in it
         try:
-            tmp = self._create_temp_dir()
-            self._copy_ids_dir_to_temp(str(ids_dir), str(tmp))
-            os.remove(tmp / "elasticsearch.json")
-            self._create_new_elasticsearch_json(tmp)
+            with tempfile.TemporaryDirectory() as temp_ids_dir:
+                shutil.copy(
+                    str(ids_dir / "schema.json"),
+                    temp_ids_dir
+                )
+                self._create_new_elasticsearch_json(Path(temp_ids_dir))
+                tmp_es_json = Path(temp_ids_dir) / "elasticsearch.json"
+                original_es_schema = read_schema(elasticsearch_json)
+                generated_es_schema = read_schema(tmp_es_json)
         except Exception as e:
             logs += [(f"{str(e)}", criticality)]
             return logs
 
-        tmp_es_json = tmp / "elasticsearch.json"
-
-        # Read ES Schema
-        original_es_schema = read_schema(elasticsearch_json)
-        generated_es_schema = read_schema(tmp_es_json)
-
         # Get ES mappings
         original_mapping = json.dumps(
-            original_es_schema.get("mapping",{}),
+            original_es_schema.get("mapping", {}),
             indent=2
         ).split("\n")
         generated_mapping = json.dumps(
-            generated_es_schema.get("mapping",{}),
+            generated_es_schema.get("mapping", {}),
             indent=2
         ).split("\n")
 
@@ -81,34 +81,19 @@ class ElasticsearchChecker(AbstractChecker):
             logs += [(diff_lines, criticality)]
         return logs
 
-    def _create_temp_dir(self):
-        try:
-            cwd = pathlib.Path().resolve()
-            tmp = cwd / "tmp"
-            if os.path.exists(tmp):
-                shutil.rmtree(str(tmp))
-            os.mkdir(tmp)
-            return tmp
-        except Exception as e:
-            raise Exception(
-                f"ElasticsearchChecker: Internal Error: cannot create tmp folder. {str(e)}")
-
-    def _copy_ids_dir_to_temp(self, source, dest):
-        try:
-            copy_tree(source, dest)
-        except Exception as e:
-            raise Exception(
-                f"ElasticsearchChecker: Internal Error: cannot copy ids folder to tmp. {str(e)}")
-
     def _create_new_elasticsearch_json(self, tmp):
         try:
             cwd = pathlib.Path().resolve()
-            es_generator = cwd / ".." / "ts-lib-protocol-script" / "tools" / "elasticsearch_generator/main.py"
-            if not os.path.exists(es_generator):
+            es_generator = cwd / ".." / "ts-lib-protocol-script" / \
+                "tools" / "elasticsearch_generator/main.py"
+            if not es_generator.exists():
                 raise Exception(
                     f"Could not find elasticsearch_generator: {es_generator}")
-            command = f"python {str(es_generator)} {str(tmp)}"
-            es_gen_process = subprocess.run(["python", str(es_generator), str(tmp)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            es_gen_process = subprocess.run(
+                ["python", str(es_generator), str(tmp)],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
             assert es_gen_process.returncode == 0, es_gen_process.stderr
             assert os.path.exists(
                 tmp/"elasticsearch.json"), "Could not create tmp/elasticsearch.json"
