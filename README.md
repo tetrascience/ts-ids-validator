@@ -1,5 +1,7 @@
 # TetraScience IDS Validator <!-- omit in toc -->
 
+[![Build Status](https://travis-ci.com/tetrascience/ids-validator.svg?branch=master)](https://travis-ci.com/tetrascience/ids-validator)
+
 ## Table of Contents <!-- omit in toc -->
 
 - [Overview](#overview)
