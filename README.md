@@ -1,4 +1,23 @@
-# TetraScience IDS Validator
+# TetraScience IDS Validator <!-- omit in toc -->
+
+## Table of Contents <!-- omit in toc -->
+
+- [Overview](#overview)
+- [Usage](#overview)
+- [Components](#input)
+  - [Node](#node)
+  - [Checker Classes](#checker-classes)
+  - [Validator](#validator)
+- [List of Checker Classes](#list-of-checker-classes)
+  - [Base Classes](#base-classes)
+  - [Generic](#generic)
+  - [V1](#v1)
+- [Writing New Checks](#writing-new-checks)
+- [Extending Checkers Classes](#extending-checkers-classes)
+- [Running Checks for Specific Nodes](#running-checks-for-specific-nodes)
+- [List of Checks for Validator](#list-of-checks-for-validator)
+
+## Overview
 
 TetraScience IDS Validator
 
@@ -6,96 +25,159 @@ TetraScience IDS Validator
 * Find as many failures as possible before terminating the validator, to make it easier to fix what’s wrong.
 * Take definitions into account by using the "jsonref" library
 
-## Table of Content
+The validator will validate these files in an IDS folder:
 
-- [TetraScience IDS Validator](#tetrascience-ids-validator)
-  - [Table of Content](#table-of-content)
-  - [Generic Validations](#generic-validations)
-    - [Summary](#summary)
-    - [Rules](#rules)
-      - [General](#general)
-        - [Error Cases](#error-cases)
-      - [Datacubes](#datacubes)
-        - [Error Cases](#error-cases-1)
-  - [TetraScience IDS Convention Validations](#tetrascience-ids-convention-validations)
-    - [Summary](#summary-1)
-    - [Rules](#rules-1)
-      - [IDS Convention v1.0.0](#ids-convention-v100)
-        - [Error Cases](#error-cases-2)
-        - [Warning Cases](#warning-cases)
+* schema.json
+* elasticsearch.json
 
-## Generic Validations
+You can find the validation rules in:
 
-### Summary
+* [IDS Design Conventions - schema.json](https://developers.tetrascience.com/docs/ids-design-conventions-schemajson)
+* [IDS Design Conventions - elasticsearch.json](https://developers.tetrascience.com/docs/ids-design-conventions-elasticsearchjson)
 
-These validation steps apply to every IDS regardless of the designer because they are required by the platform.
+## Usage
 
-### Rules
+```bash
+pipenv run python main.py path/to/ids/folder
+```
 
-#### General
+This will run the required checks for the `@idsConventionVersion` mentioned in `schema.json`.
 
-##### Error Cases
+If `@idsConventionVersion` is missing in `schema.json` or if it is not supported by `schema_validator`, only `generic` checks will be run.
 
-1. The required field `@idsType`, `@idsVersion`, `@idsNamespace` are included
-2. `required` properties of an object are also defined in the object schema
-3. `additionalProperties` is `false` for all objects
-4. Fields with type `object` or `array` cannot also have a second type. Fields with any other type may have a second type of `null` only.
-   * Allowed examples
+## Components
 
-    ```
-    "type": "string"
-    "type": ["string", "null"]
-    "type": "number"
-    "type": ["number", "null"]
-    "type": "object"
-    "type": "array"
-    ```
+### Node
 
-   * Disallowed examples:
+- `Node: UserDict` class is an abstraction for `dict` in `schema.json`
+- When crawling `schema.json`, each `key-value` pair where `value` is a `dict`, is casted into `Node` type.
+- For each K_V pair, `Node` has following attributes
+  - `name (default=root)`: The `key`
+  - `data`: The `value:dict`
+  - `path (default=root)`: The fully-qualified path for the `key` in `schema.json`
+- File: [ids_node.py](src/ids_node.py)
 
-    ```
-    "type": ["string", "number"]
-    "type": ["number", "boolean"]
-    "type": ["array", "null"]
-    "type": ["array", "number"]
-    "type": ["object", "null"]
-    ```
+### Checker Classes
 
-5. **athena.json** partition path should be a valid path in schema.json (property is defined and cannot be in an array of object)
-6. **athena.json** partition name should not conflict with path as defined in **athena.json** | Partition-Name
+- A checker class must implement `AbstractChecker`
+- When crawling `schema.json`, its `run()` method will be called for each node.
+- `run()` implements the rules/condition to be checked for validating the node.
+- `run()` accepts two arguments:
+  - `node: Node`: `Node` for which we are running the checks
+  - `context: dict`
+    - It contains python dicts for `schema.json`, `athena.json` and `convention_version`.
+    - It is used to supplementary data required for running complex checks.
 
-#### Datacubes
+### Validator
 
-##### Error Cases
+- `Validator` class is the one that implements the crawler.
+- It has following attributes:
+  - `ids: dict`: `schema.json` converted to python `dict`
+  - `athena: dict`: `athena.json` converted to python `dict`
+  - `checks_list`: A list of instantiated checker classes.
+    These list of checks will be run for each node
+- `Validator.traverse_ids()` crawls from `Node` to `Node` in `ids:dict`, Calling `run()` for each checker in the checks_list on the node
 
-1. Validate that, if the datacubes field is present, it follows these parts of the datacubes pattern definition. Refer to the confluence page for the full detail.
-2. The required `datacubes` fields are defined (`name`, `measures` and `dimensions`), their required fields are also defined
-3. Check that `maxItems` = `minItems`, in both `datacubes[*].measures` and `datacubes[*].dimensions`
-4. The shape of `measures[*].value` matches the number of dimensions (e.g. 2 dimensions → 2 layers of array in value)
-5. Datacube values can only be numeric type not string type. This includes `measures[*].value` and `dimemsions[*].scale`
+### List of Checker Classes
 
-## TetraScience IDS Convention Validations
+#### Base Classes
 
-### Summary
+- `AbstractChecker`
 
-These schema.json validation steps relate to TetraScience IDS convention. These will be checked in combination with the generic IDS validator.
+  - Every checker class must implement it.
+  - File: [abstract_checker.py](src/checks/abstract_checker.py)
 
-If an IDS has `idsConventionVersion` field defined and is set to a version, then it must pass this TS IDS Convention Validation.
+- `RuleBasedChecker`
+  - It is base class that allows validating `Node` against a set of `rules`
+  - It comes in handy for implementing checks for property Nodes that has predefined template
+  - The child class inheriting `RulesBasedChecker` must define `rules`
+  - `rules` is a `dict` that maps `Node.path` to `set of rules:dict`
+  - The `set of rules` for a `Node.path` may contain following keys:
+    - `type: str`: defines what should be the `type` value for the `Node`
+    - `min_properties: list`: defines minimum set of property names, that must exist for the Node. More properties can exist in addition to `min_properties`
+    - `properties: list`: defines a set of property names that must must exactly match the property list of the `Node`
+    - `min_required: list`: The required list of the `Node` must at least contain the values mentioned in `min_required`
+    - `required: list`: The required list of the `Node` must only contain values listed in `required`
+- Rules based checkers defined for v1 conventions can be found [here](src/checks/v1/nodes_checker.py)
 
-### Rules
+#### Generic
 
-#### IDS Convention v1.0.0
+- `AdditionalPropertyChecker`: [additional_property.py](src/checks/generic/additional_property.py)
+- `RequiredPropertiesChecker`: [required_property.py](src/checks/generic/required_property.py)
+- `DatacubesChecker`: [datacubes.py](src/checks/generic/datacubes.py)
+- `RootNodeChecker`: [root_node.py](src/checks/generic/root_node.py)
+- `TypeChecker`: [type_check.py](src/checks/generic/type_check.py)
+- `AthenaChecker`: [athena.py](src/checks/generic/athena.py) **WorkInProgress**
 
-##### Error Cases
+#### V1
 
-1. `@idsConventionVersion` is defined
-2. The schema follows the IDS Fields definitions in ​. This will be the bulk of the work of this ticket. Try to make it extendable for when the IDS convention version changes.
-3. The convention’s Required fields are present and follow the convention or template where specified.
-4. All types follow the convention or templates, and are Not Null where specified.
-5. All Non-Extendable objects don’t contain any fields other than the ones defined in the convention.
-6. Field names match snake_case. No upper case characters, no whitespace, only alphanumeric and `_`
-   * Note: Don’t do any spell checking or finding word boundaries - that will still be done manually by a reviewer
+- `V1ChildNameChecker`: [child_name.py](src/checks/v1/child_name.py)
+- `V1ConventionVersionChecker`: [convention_version_check.py](src/checks/v1/convention_version_check.py)
+- `V1SystemNodeChecker`: [nodes_checker.py](src/checks/v1/nodes_checker.py)
+- `V1SampleNodeChecker`: [nodes_checker.py](src/checks/v1/nodes_checker.py)
+- `V1UserNodeChecker`: [nodes_checker.py](src/checks/v1/nodes_checker.py)
+- `V1RootNodeChecker`: [root_node.py](src/checks/v1/root_node.py)
+- `V1SnakeCaseChecker`: [snake_case.py](src/checks/v1/snake_case.py)
 
-##### Warning Cases
+### Writing New Checks
 
-1. Check that object names aren’t repeated in their child fields, e.g. `event.event_type` shouldn’t include `event_` in the child. Don’t fail the validation over this, only throw a warning so the reviewer can decide what to do
+- Checkers must implement `AbstractCheckers`
+- `run()` method implement one or more checks for the node
+- In case of no failure an empty list must be returned
+- In case of failures, it must return a list of one or more tuple
+- The tuple will contain two values
+  - `log message:str`: The message to be logged when check fails
+  - `criticality`: either `Log.CRITICAL` or `Log.WARNING`
+
+### Extending Checkers Classes
+
+#### Pattern 1
+
+```python
+class ChildChecker(ParentChecker):
+    def run(node: Node, context: dict):
+        logs = []
+        # Implement new checks and append failure to logs
+
+        # Run Parent checkers and append logs
+        logs += super().run(node, context)
+        return logs
+```
+
+If `check_list` passed to `Validator` contains the `ChildChecker`, then it must not contain `ParentChecker` in the same list.
+Doing so will cause ParentCheck to run twice and populate failures logs if any, twice.
+
+TODO: Instead of `return logs`, we can `return set(logs)` to remove duplicates, but we cannot avoid executing same code twice
+
+#### Pattern 2
+
+```python
+class ChildChecker(ParentChecker):
+    def run(node: Node, context: dict):
+        logs = []
+        # Implement new checks and append failure to logs
+        # use or override helper function of the parent class
+        return logs
+```
+
+### Running Checks for Specific Nodes
+
+```python
+class AdhocChecker(AbstractChecker):
+    def run(node: Node, context: dict):
+        logs = []
+        paths = []
+        # paths is a list of fully qualified path to a key in schema.json
+        # each path must start form root
+        # eg: root.samples
+        # eg: root.samples.items.properties.property_name
+        if node.path in  paths:
+            # Implement new checks and append failure to logs
+            logs += perform_new_checks(node, context)
+        return logs
+```
+
+### List of Checks for Validator
+
+- `checks_dict`, defined [here](src/checks/__init__.py), maps the `type of validation` that we want to perform to the `list the of checks` needed to be run for the validation
+- The list off checks is actually a list of instantiated checker objects
