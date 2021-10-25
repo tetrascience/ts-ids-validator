@@ -24,14 +24,9 @@ systems_rules = {
     SYSTEMS: {
         "type": "array",
         "min_properties": [
-            "id",
-            "name",
             "vendor",
             "model",
             "type",
-            "serial_number",
-            "firmware",
-            "software"
         ]
     },
     ITEMS: {

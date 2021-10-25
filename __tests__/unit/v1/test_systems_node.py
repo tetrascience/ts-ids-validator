@@ -115,8 +115,7 @@ files_to_expected = {
     },
     "incomplete_system_node.json": {
         systems.SYSTEMS: [(
-            "'properties' must contain ['firmware', 'id', 'model', 'name', 'serial_number', 'software', 'type', 'vendor']",
-            Log.CRITICAL.value
+            "'properties' must contain ['model', 'type', 'vendor']", Log.CRITICAL.value
         )]
     }
 
