@@ -13,7 +13,7 @@ class V1RelatedFilesChecker(AbstractChecker):
     def run(self, node: Node, context: dict):
         logs = []
         if node.path == RELATED_FILES:
-            if not os.path.exists(RELATED_FILES_TEMPLATE):
+            if RELATED_FILES_TEMPLATE.exists():
                 logs += [(
                     f"Could not find template: {RELATED_FILES_TEMPLATE}",
                     Log.CRITICAL.value
