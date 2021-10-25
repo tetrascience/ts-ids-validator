@@ -1,0 +1,77 @@
+{
+  "definitions": {
+    "nullable_string": {
+      "type": ["string", "null"]
+    },
+    "nullable_number": {
+      "type": ["number", "null"]
+    },
+    "value_unit_object": {
+      "type": "object",
+      "required": ["value", "unit"],
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/nullable_number"
+        },
+        "unit": {
+          "$ref": "#/definitions/nullable_string"
+        }
+      }
+    }
+  },
+  "related_files": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "required": ["pointer"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/nullable_string"
+        },
+        "path": {
+          "$ref": "#/definitions/nullable_string"
+        },
+        "size": {
+          "$ref": "#/definitions/value_unit_object"
+        },
+        "checksum": {
+          "type": "object",
+          "required": ["value", "algorithm"],
+          "additionalProperties": false,
+          "properties": {
+            "value": {
+              "type": "string"
+            },
+            "algorithm": {
+              "$ref": "#/definitions/nullable_string"
+            }
+          }
+        },
+        "pointer": {
+          "type": "object",
+          "required": ["fileKey", "version", "bucket", "type", "fileId"],
+          "additionalProperties": false,
+          "properties": {
+            "fileKey": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "bucket": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "fileId": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
