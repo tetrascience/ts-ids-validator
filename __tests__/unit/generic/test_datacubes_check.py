@@ -58,6 +58,7 @@ files_to_failures = {
         Message.DIMENSIONS_SCALE_ITEMS_TYPE_ERROR.value,
         Log.CRITICAL.value
     )],
+    "dimensions_scale_items_valid_type_nullable_number.json":[]
 }
 
 

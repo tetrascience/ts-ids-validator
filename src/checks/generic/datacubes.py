@@ -236,7 +236,12 @@ class DatacubesChecker(AbstractChecker):
         if get(scale, "type") != "array":
             logs += [(Message.DIMENSIONS_SCALE_TYPE_ERROR.value, Log.CRITICAL.value)]
 
-        if get(scale, "items.type") != "number":
+        valid_items_type =[
+            "number",
+            ["null", "number"],
+            ["number", "null"]
+        ]
+        if get(scale, "items.type") not in valid_items_type:
             logs += [(Message.DIMENSIONS_SCALE_ITEMS_TYPE_ERROR.value, Log.CRITICAL.value)]
 
         return list(set(logs))
