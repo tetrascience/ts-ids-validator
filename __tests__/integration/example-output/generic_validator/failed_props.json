@@ -11,10 +11,6 @@
     [
       "'properties.@idsNamespace' must be present with type 'string' with non-empty 'const'",
       1
-    ],
-    [
-      "ElasticsearchChecker: Internal Error: Could not find elasticsearch_generator: /Users/tarik.setia/tetrascience/ids-validator/../ts-lib-protocol-script/tools/elasticsearch_generator/main.py",
-      0
     ]
   ],
   "root.properties.results.items": [

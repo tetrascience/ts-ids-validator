@@ -55,7 +55,8 @@ class ElasticsearchChecker(AbstractChecker):
                 original_es_schema = read_schema(elasticsearch_json)
                 generated_es_schema = read_schema(tmp_es_json)
         except Exception as e:
-            logs += [(f"{str(e)}", criticality)]
+            msg = f"ElasticsearchChecker: Internal Error: {str(e)}"
+            logs += [(msg, criticality)]
             return logs
 
         # Get ES mappings
@@ -81,25 +82,26 @@ class ElasticsearchChecker(AbstractChecker):
             logs += [(diff_lines, criticality)]
         return logs
 
-    def _create_new_elasticsearch_json(self, tmp):
-        try:
-            cwd = pathlib.Path().resolve()
-            es_generator = cwd / ".." / "ts-lib-protocol-script" / \
-                "tools" / "elasticsearch_generator/main.py"
-            if not es_generator.exists():
-                raise Exception(
-                    f"Could not find elasticsearch_generator: {es_generator}")
-            es_gen_process = subprocess.run(
-                ["pipenv", "run", "python", str(es_generator), str(tmp)],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
+    def _create_new_elasticsearch_json(self, tmp: Path):
+        cwd = pathlib.Path().resolve()
+        es_generator = cwd / ".." / "ts-lib-protocol-script" / \
+            "tools" / "elasticsearch_generator/main.py"
+
+        if not es_generator.exists():
+            raise FileNotFoundError(
+                f"Could not find elasticsearch_generator"
             )
-            assert es_gen_process.returncode == 0, es_gen_process.stderr
-            assert os.path.exists(
-                tmp/"elasticsearch.json"), "Could not create tmp/elasticsearch.json"
-        except Exception as e:
-            msg = f"ElasticsearchChecker: Internal Error: {str(e)}"
-            raise Exception(msg)
+
+        es_gen_process = subprocess.run(
+            ["pipenv", "run", "python", str(es_generator), str(tmp)],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=True
+        )
+
+        tmp_es_json = tmp / "elasticsearch.json"
+        if not tmp_es_json.exists():
+            raise FileNotFoundError(f"Could not find generated elasticsearch.json")
 
     def _format_diffs(self, diffs):
         lines = [
