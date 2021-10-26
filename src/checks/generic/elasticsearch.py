@@ -47,7 +47,7 @@ class ElasticsearchChecker(AbstractChecker):
         try:
             with tempfile.TemporaryDirectory() as temp_ids_dir:
                 shutil.copy(
-                    str(ids_dir / "schema.json"),
+                    ids_dir / "schema.json",
                     temp_ids_dir
                 )
                 self._create_new_elasticsearch_json(Path(temp_ids_dir))
