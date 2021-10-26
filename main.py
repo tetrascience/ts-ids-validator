@@ -84,12 +84,19 @@ if __name__ == "__main__":
             ids=ids,
             athena=athena,
             checks_list=checks_list,
-            convention_version=convention.value
+            convention_version=convention.value,
+            ids_folder_path=ids_dir
         )
         validator.validate_ids()
         if validator.has_critical_failures:
-            print("Validation Failed with critical failures.")
+            validator.console.print(
+                f"[b i red]\nValidation Failed with critical error.[/b i red]"
+            )
             sys.exit(1)
+        else:
+            validator.console.print(
+                f"[b i green]Validation Complete. No error found.[/b i green]"
+            )
     except Exception as e:
         print(str(e))
         sys.exit(1)

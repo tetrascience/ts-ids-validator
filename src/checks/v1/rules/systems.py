@@ -24,14 +24,9 @@ systems_rules = {
     SYSTEMS: {
         "type": "array",
         "min_properties": [
-            "id",
-            "name",
             "vendor",
             "model",
             "type",
-            "serial_number",
-            "firmware",
-            "software"
         ]
     },
     ITEMS: {
@@ -105,7 +100,7 @@ systems_rules = {
         "type": ["string", "null"]
     },
     SOFTWARE_VERSION: {
-        "type": ["string", "null"]
+        "type": ["null", "string"]
     },
     SOFTWARE_LAST_UPDATE: {
         "type": ["string", "null"]

@@ -287,7 +287,8 @@ def test_samples_node(fname, expected):
         ids=schema,
         athena=None,
         convention_version=None,
-        checks_list=[V1SampleNodeChecker()]
+        checks_list=[V1SampleNodeChecker()],
+        ids_folder_path=None
     )
     validator.validate_ids()
     logs = validator.property_failures

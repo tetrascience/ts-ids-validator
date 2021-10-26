@@ -5,9 +5,13 @@ from enum import IntEnum
 
 
 def read_schema(fname):
-    with open(fname, 'r') as f:
-        schema = deepcopy(jsonref.load(f))
-        return schema
+    try:
+        with open(fname, 'r') as f:
+            schema = deepcopy(jsonref.load(f))
+            return schema
+    except Exception as e:
+        msg = f"Error Reading: {fname} | {str(e)}"
+        raise Exception(msg)
 
 
 def save_json(data: dict, fname):

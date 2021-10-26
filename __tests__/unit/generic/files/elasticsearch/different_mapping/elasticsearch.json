@@ -1,0 +1,101 @@
+{
+  "mapping": {
+    "properties": {
+      "users": {
+        "type": "nested"
+      },
+      "run": {
+        "properties": {
+          "custom_fields": {
+            "type": "nested"
+          },
+          "audit_trail": {
+            "properties": {
+              "injection": {
+                "properties": {
+                }
+              },
+              "data_item": {
+                "properties": {
+                  "events": {
+                    "type": "nested"
+                  }
+                }
+              }
+            }
+          },
+          "chromatograms": {
+            "type": "nested"
+          }
+        }
+      },
+      "method": {
+        "properties": {
+          "processing": {
+            "properties": {
+              "components": {
+                "type": "nested",
+                "properties": {
+                  "concentration_levels": {
+                    "type": "nested"
+                  },
+                  "custom_fields": {
+                    "type": "nested"
+                  }
+                }
+              },
+              "audit_trail": {
+                "properties": {
+                  "events": {
+                    "type": "nested"
+                  }
+                }
+              },
+              "peak_group_parameters": {
+                "type": "nested"
+              }
+            }
+          },
+          "script": {
+            "properties": {
+              "stages": {
+                "type": "nested",
+                "properties": {
+                  "time_steps": {
+                    "properties": {
+                      "events": {
+                        "type": "nested"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "audit_trail": {
+            "properties": {
+              "events": {
+                "type": "nested"
+              }
+            }
+          },
+          "chromatograms": {
+            "type": "nested"
+          }
+        }
+      },
+      "results": {
+        "type": "nested",
+        "properties": {
+          "peaks": {
+            "type": "nested"
+          }
+        }
+      }
+    },
+    "dynamic_templates": []
+  },
+  "nonSearchableFields": [
+    "datacubes"
+  ]
+}

@@ -12,6 +12,6 @@ class TypeChecker(AbstractChecker):
         logs = []
         type_is_valid, msg = node.has_valid_type
         if not type_is_valid:
-            msg = msg if msg else f"Invalid 'type': {node._type}"
+            msg = msg if msg else f"Invalid 'type': {node.type_}"
             logs.append((msg, Log.CRITICAL.value))
         return logs

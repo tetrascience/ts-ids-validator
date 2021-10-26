@@ -26,7 +26,7 @@ class Node(UserDict):
             return prop_dict.keys()
 
     @property
-    def _type(self):
+    def type_(self):
         type = self.data.get('type')
         return type
 
@@ -66,13 +66,13 @@ class Node(UserDict):
 
     @property
     def has_valid_type(self):
-        if self._type == 'object':
+        if self.type_ == 'object':
             return self._check_object_type()
-        elif self._type == "array":
+        elif self.type_ == "array":
             return self._check_array_type()
-        elif type(self._type) == list:
+        elif type(self.type_) == list:
             return self._check_list_type()
-        elif type(self._type) == str:
+        elif type(self.type_) == str:
             return self._check_unit_type()
         else:
             return True, None
@@ -135,28 +135,28 @@ class Node(UserDict):
 
         checks = [
             # Length of list type must 2.
-            (0 < len(self._type) <= 2),
+            (0 < len(self.type_) <= 2),
 
             # list must not contain same value
-            len(set(self._type)) == len(self._type),
+            len(set(self.type_)) == len(self.type_),
 
             # List must only contain values from
             # valid_nullable types
-            ((set(self._type) - valid_nullable_types) == set()),
+            ((set(self.type_) - valid_nullable_types) == set()),
 
             # If list contains two data types
             # make sure one of them is null
             (
-                ("null" in self._type)
-                if len(self._type) == 2
+                ("null" in self.type_)
+                if len(self.type_) == 2
                 else True
             ),
 
             # If list contains one datatypes
             # make sure its not null
             (
-                ("null" not in self._type)
-                if len(self._type) == 1
+                ("null" not in self.type_)
+                if len(self.type_) == 1
                 else True
             )
 
@@ -177,13 +177,13 @@ class Node(UserDict):
             'integer'
         }
         return (
-            (True, None) if self._type in valid_types
+            (True, None) if self.type_ in valid_types
             else (False, None)
         )
 
     def _is_numeric_type(self):
-        if type(self._type) == list:
-            type_ = sorted(self._type)
+        if type(self.type_) == list:
+            type_ = sorted(self.type_)
             if not (
                 type_ in [
                     sorted(["null", "integer"]),
@@ -192,7 +192,7 @@ class Node(UserDict):
             ):
                 return False
 
-        elif not(self._type in ["number", "integer"]):
+        elif not(self.type_ in ["number", "integer"]):
             return False
 
         return True

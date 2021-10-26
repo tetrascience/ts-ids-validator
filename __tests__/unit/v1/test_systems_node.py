@@ -105,7 +105,7 @@ files_to_expected = {
             Log.CRITICAL.value
         )],
         systems.SOFTWARE_VERSION: [(
-            "'type' must be ['string', 'null']",
+            "'type' must be ['null', 'string']",
             Log.CRITICAL.value
         )],
         systems.SOFTWARE_LAST_UPDATE: [(
@@ -115,8 +115,7 @@ files_to_expected = {
     },
     "incomplete_system_node.json": {
         systems.SYSTEMS: [(
-            "'properties' must contain ['firmware', 'id', 'model', 'name', 'serial_number', 'software', 'type', 'vendor']",
-            Log.CRITICAL.value
+            "'properties' must contain ['model', 'type', 'vendor']", Log.CRITICAL.value
         )]
     }
 
@@ -131,13 +130,14 @@ def test_systems_node(fname, expected):
         ids=schema,
         athena=None,
         convention_version=None,
-        checks_list=[V1SystemNodeChecker()]
+        checks_list=[V1SystemNodeChecker()],
+        ids_folder_path=None
     )
     validator.validate_ids()
     logs = validator.property_failures
-    systems.logs = {
+    systems_logs = {
         k: v for k, v in logs.items()
         if "root.properties.systems" in k and v
     }
 
-    assert systems.logs == expected
+    assert systems_logs == expected
