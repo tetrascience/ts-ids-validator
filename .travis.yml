@@ -5,5 +5,5 @@ install:
   - pip install pipenv
   - pipenv install --dev
 script:
-  - pipenv run python -m pip freeze
+  - pipenv run python -m ids_es_json_generator __tests__/integration/example-input/generic_validator
   - pipenv run python -m pytest --cov=src --cov-branch
