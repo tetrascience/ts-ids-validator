@@ -83,22 +83,12 @@ class ElasticsearchChecker(AbstractChecker):
         return logs
 
     def _create_new_elasticsearch_json(self, tmp: Path):
-        cwd = pathlib.Path().resolve()
-        es_generator = cwd / ".." / "ts-lib-protocol-script" / \
-            "tools" / "elasticsearch_generator/main.py"
-
-        if not es_generator.exists():
-            raise FileNotFoundError(
-                f"Could not find elasticsearch_generator"
-            )
-
         es_gen_process = subprocess.run(
-            ["pipenv", "run", "python", str(es_generator), str(tmp)],
+            ["pipenv", "run", "python", "-m", "ids_es_json_generator", str(tmp)],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             check=True
         )
-
         tmp_es_json = tmp / "elasticsearch.json"
         if not tmp_es_json.exists():
             raise FileNotFoundError(f"Could not find generated elasticsearch.json")
