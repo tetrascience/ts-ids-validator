@@ -49,6 +49,7 @@ class ElasticsearchChecker(AbstractChecker):
                 ids_dir / "schema.json",
                 temp_ids_dir
             )
+            print('Copying file to:', temp_ids_dir)
 
             try:
                 self._create_new_elasticsearch_json(Path(temp_ids_dir))
@@ -58,7 +59,7 @@ class ElasticsearchChecker(AbstractChecker):
                 print('stderr:')
                 print(e.stderr)
                 print('last command:', e.cmd[-1])
-                # print(Path(e.cmd[-1]).read_text('UTF-8'))
+                print((Path(e.cmd[-1]) / 'schema.json').read_text('UTF-8'))
                 msg = f"ElasticsearchChecker: Internal Error: {repr(e)}"
                 logs += [(msg, criticality)]
                 return logs
