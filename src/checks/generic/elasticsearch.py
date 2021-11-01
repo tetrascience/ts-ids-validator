@@ -53,9 +53,12 @@ class ElasticsearchChecker(AbstractChecker):
             try:
                 self._create_new_elasticsearch_json(Path(temp_ids_dir))
             except subprocess.CalledProcessError as e:
+                print('stdout:')
                 print(e.stdout)
+                print('stderr:')
                 print(e.stderr)
-                print(Path(e.cmd[-1]).read_text('UTF-8'))
+                print('last command:', e.cmd[-1])
+                # print(Path(e.cmd[-1]).read_text('UTF-8'))
                 msg = f"ElasticsearchChecker: Internal Error: {repr(e)}"
                 logs += [(msg, criticality)]
                 return logs
