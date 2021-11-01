@@ -88,8 +88,11 @@ class ElasticsearchChecker(AbstractChecker):
                 ["pipenv", "run", "python", "-m", "ids_es_json_generator", str(tmp)],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                check=True
             )
+            if es_gen_process.returncode != 0:
+                stdout = es_gen_process.stdout.read()
+                stderr = es_gen_process.stderr.read()
+                raise(f"{stderr}\n\n{stdout}")
         except Exception as e:
             dir_ = os.listdir(str(tmp))
             msg = f"{e}: {dir_}"
