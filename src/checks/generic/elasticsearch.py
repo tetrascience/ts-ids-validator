@@ -83,21 +83,12 @@ class ElasticsearchChecker(AbstractChecker):
         return logs
 
     def _create_new_elasticsearch_json(self, tmp: Path):
-        try:
-            es_gen_process = subprocess.run(
-                ["pipenv", "run", "python", "-m", "ids_es_json_generator", str(tmp)],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-            )
-            if es_gen_process.returncode != 0:
-                stdout = es_gen_process.stdout.read()
-                stderr = es_gen_process.stderr.read()
-                raise(f"{stderr}\n\n{stdout}")
-        except Exception as e:
-            dir_ = os.listdir(str(tmp))
-            msg = f"{e}: {dir_}"
-            raise Exception(msg)
-
+        es_gen_process = subprocess.run(
+            ["pipenv", "run", "python", "-m", "ids_es_json_generator", str(tmp)],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=True
+        )
         tmp_es_json = tmp / "elasticsearch.json"
         if not tmp_es_json.exists():
             raise FileNotFoundError(f"Could not find generated elasticsearch.json")
