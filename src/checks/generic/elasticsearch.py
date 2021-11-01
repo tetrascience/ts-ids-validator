@@ -58,8 +58,6 @@ class ElasticsearchChecker(AbstractChecker):
                 print(e.stdout)
                 print('stderr:')
                 print(e.stderr)
-                print('last command:', e.cmd[-1])
-                print((Path(e.cmd[-1]) / 'schema.json').read_text('UTF-8'))
                 msg = f"ElasticsearchChecker: Internal Error: {repr(e)}"
                 logs += [(msg, criticality)]
                 return logs
@@ -97,7 +95,7 @@ class ElasticsearchChecker(AbstractChecker):
 
     def _create_new_elasticsearch_json(self, tmp: Path):
         subprocess.run(
-            ["pipenv", "run", "python", "-m", "ids_es_json_generator", str(tmp)],
+            ["python", "-m", "ids_es_json_generator", str(tmp)],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             check=True,
