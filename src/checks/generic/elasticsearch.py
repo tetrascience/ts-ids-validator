@@ -44,20 +44,22 @@ class ElasticsearchChecker(AbstractChecker):
 
         # Create a temp folder, copy ids/schema.json in it.
         # Generate a new elasticsearch.json in it
-        try:
-            with tempfile.TemporaryDirectory() as temp_ids_dir:
-                shutil.copy(
-                    ids_dir / "schema.json",
-                    temp_ids_dir
-                )
+        with tempfile.TemporaryDirectory() as temp_ids_dir:
+            shutil.copy(
+                ids_dir / "schema.json",
+                temp_ids_dir
+            )
+
+            try:
                 self._create_new_elasticsearch_json(Path(temp_ids_dir))
-                tmp_es_json = Path(temp_ids_dir) / "elasticsearch.json"
-                original_es_schema = read_schema(elasticsearch_json)
-                generated_es_schema = read_schema(tmp_es_json)
-        except Exception as e:
-            msg = f"ElasticsearchChecker: Internal Error: {repr(e)}"
-            logs += [(msg, criticality)]
-            return logs
+            except Exception as e:
+                msg = f"ElasticsearchChecker: Internal Error: {repr(e)}"
+                logs += [(msg, criticality)]
+                return logs
+
+            tmp_es_json = Path(temp_ids_dir) / "elasticsearch.json"
+            original_es_schema = read_schema(elasticsearch_json)
+            generated_es_schema = read_schema(tmp_es_json)
 
         # Get ES mappings
         original_mapping = json.dumps(
@@ -83,20 +85,12 @@ class ElasticsearchChecker(AbstractChecker):
         return logs
 
     def _create_new_elasticsearch_json(self, tmp: Path):
-        try:
-            es_gen_process = subprocess.run(
-                ["pipenv", "run", "python", "-m", "ids_es_json_generator", str(tmp)],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-            )
-            if es_gen_process.returncode != 0:
-                stdout = es_gen_process.stdout.read()
-                stderr = es_gen_process.stderr.read()
-                raise(f"{stderr}\n\n{stdout}")
-        except Exception as e:
-            dir_ = os.listdir(str(tmp))
-            msg = f"{e}: {dir_}"
-            raise Exception(msg)
+        subprocess.run(
+            ["pipenv", "run", "python", "-m", "ids_es_json_generator", str(tmp)],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=True,
+        )
 
         tmp_es_json = tmp / "elasticsearch.json"
         if not tmp_es_json.exists():
