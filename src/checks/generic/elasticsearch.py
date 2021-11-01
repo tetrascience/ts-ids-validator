@@ -55,7 +55,7 @@ class ElasticsearchChecker(AbstractChecker):
                 original_es_schema = read_schema(elasticsearch_json)
                 generated_es_schema = read_schema(tmp_es_json)
         except Exception as e:
-            msg = f"ElasticsearchChecker: Internal Error: {str(e)}"
+            msg = f"ElasticsearchChecker: Internal Error: {repr(e)}"
             logs += [(msg, criticality)]
             return logs
 
