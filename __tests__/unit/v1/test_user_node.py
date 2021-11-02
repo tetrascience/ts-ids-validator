@@ -1,10 +1,10 @@
 import pytest
 from pathlib import Path
 
-from src.checks.v1 import V1UserNodeChecker
-from src.validator import Validator
-from src.utils import read_schema, Log
-from src.checks.v1.rules import users
+from ids_validator.checks.v1 import V1UserNodeChecker
+from ids_validator.validator import Validator
+from ids_validator.utils import read_schema, Log
+from ids_validator.checks.v1.rules import users
 
 UNIT_TEST_FILES = Path("__tests__/unit/v1/files/user_node")
 

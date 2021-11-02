@@ -1,6 +1,6 @@
-from src.convention_versions import Conventions
-from src.checks.abstract_checker import AbstractChecker
-from src.checks.generic import (
+from ids_validator.convention_versions import Conventions
+from ids_validator.checks.abstract_checker import AbstractChecker
+from ids_validator.checks.generic import (
     AthenaChecker,
     AdditionalPropertyChecker,
     DatacubesChecker,
@@ -9,7 +9,7 @@ from src.checks.generic import (
     TypeChecker,
     ElasticsearchChecker,
 )
-from src.checks.v1 import (
+from ids_validator.checks.v1 import (
     V1ChildNameChecker,
     V1ConventionVersionChecker,
     V1RootNodeChecker,

@@ -4,10 +4,10 @@ from pathlib import Path
 
 from pydash import get
 
-from src.utils import read_schema
-from src.validator import Validator
-from src.checks import checks_dict
-from src.convention_versions import Conventions
+from ids_validator.utils import read_schema
+from ids_validator.validator import Validator
+from ids_validator.checks import checks_dict
+from ids_validator.convention_versions import Conventions
 
 
 def get_validator_type(version: str, ids: dict) -> Conventions:

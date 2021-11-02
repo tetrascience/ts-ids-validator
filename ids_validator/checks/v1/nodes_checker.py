@@ -1,7 +1,7 @@
-from src.checks.v1.rules.samples import samples_rules
-from src.checks.v1.rules.systems import systems_rules
-from src.checks.v1.rules.users import users_rules
-from src.checks.rules_checker import RuleBasedChecker
+from ids_validator.checks.v1.rules.samples import samples_rules
+from ids_validator.checks.v1.rules.systems import systems_rules
+from ids_validator.checks.v1.rules.users import users_rules
+from ids_validator.checks.rules_checker import RuleBasedChecker
 
 
 class V1SystemNodeChecker(RuleBasedChecker):

@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 
-from src.ids_node import Node
+from ids_validator.ids_node import Node
 
 
 class AbstractChecker(metaclass=ABCMeta):

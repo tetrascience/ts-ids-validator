@@ -1,9 +1,9 @@
 from enum import Enum
 from pydash import get
 
-from src.checks import AbstractChecker
-from src.ids_node import Node
-from src.utils import Log
+from ids_validator.checks import AbstractChecker
+from ids_validator.ids_node import Node
+from ids_validator.utils import Log
 
 VALUE_NODE = "items.properties.measures.items.properties.value"
 DIMENSION_NODE = "items.properties.dimensions"

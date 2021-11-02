@@ -1,14 +1,14 @@
 import pytest
 from pathlib import Path
-from src.ids_node import Node
-from src.utils import read_schema, Log
-from src.checks.v1 import V1SampleNodeChecker
-from src.validator import Validator
+from ids_validator.ids_node import Node
+from ids_validator.utils import read_schema, Log
+from ids_validator.checks.v1 import V1SampleNodeChecker
+from ids_validator.validator import Validator
 
-from src.checks.v1.rules.samples import samples_root as samples
-from src.checks.v1.rules.samples import sample_properties as properties
-from src.checks.v1.rules.samples import samples_labels as labels
-from src.checks.v1.rules.samples import samples_location as location
+from ids_validator.checks.v1.rules.samples import samples_root as samples
+from ids_validator.checks.v1.rules.samples import sample_properties as properties
+from ids_validator.checks.v1.rules.samples import samples_labels as labels
+from ids_validator.checks.v1.rules.samples import samples_location as location
 
 UNIT_TEST_FILES = Path("__tests__/unit/v1/files/samples_node")
 

@@ -1,9 +1,9 @@
 from typing import List, Union
 from pydash import get
 
-from src.ids_node import Node
-from src.checks import AbstractChecker
-from src.utils import Log
+from ids_validator.ids_node import Node
+from ids_validator.checks import AbstractChecker
+from ids_validator.utils import Log
 
 
 class RuleBasedChecker(AbstractChecker):

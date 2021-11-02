@@ -1,8 +1,8 @@
 from pathlib import Path
 from rich.console import Console
 
-from src.ids_node import Node
-from src.utils import Log
+from ids_validator.ids_node import Node
+from ids_validator.utils import Log
 
 
 class Validator:
