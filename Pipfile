@@ -14,6 +14,7 @@ autopep8 = "*"
 jsonref = "*"
 pydash = "*"
 rich = "*"
+ts-ids-es-json-generator = "*"
 
 [requires]
 python_version = "3.7"

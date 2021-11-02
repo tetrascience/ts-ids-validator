@@ -26,10 +26,6 @@ snapshots['test_generic_validators[generic_validator] 1'] = {
         (
             "'dimension' must have both 'minItems' and 'maxItems' defined",
             1
-        ),
-        (
-            "'dimensions.scale.items': Type Error. Type must be 'number'",
-            1
         )
     ],
     'root.properties.results.items': [

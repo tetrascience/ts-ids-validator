@@ -37,10 +37,6 @@
     [
       "'dimension' must have both 'minItems' and 'maxItems' defined",
       1
-    ],
-    [
-      "'dimensions.scale.items': Type Error. Type must be 'number'",
-      1
     ]
   ]
 }
