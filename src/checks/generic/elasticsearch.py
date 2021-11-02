@@ -84,7 +84,7 @@ class ElasticsearchChecker(AbstractChecker):
 
     def _create_new_elasticsearch_json(self, tmp: Path):
         es_gen_process = subprocess.run(
-            ["pipenv", "run", "python", "-m", "ids_es_json_generator", str(tmp)],
+            ["python", "-m", "ids_es_json_generator", str(tmp)],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             check=True
