@@ -1,8 +1,0 @@
-{
-  "type": "array",
-  "items": {
-    "type": "object",
-    "required": [],
-    "additionalProperties": false
-  }
-}

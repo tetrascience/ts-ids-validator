@@ -12,11 +12,15 @@ UNIT_TEST_FILES = Path("__tests__/unit/generic/files/type_check")
 
 fname_to_expected = {
     "invalid_array_type_no_items.json": [(
-        "'array' type must contain items.properties",
+        "'array' type must contain 'items: dict'",
         Log.CRITICAL.value
     )],
-    "invalid_array_type_no_properties.json": [(
-        "'array' type must contain items.properties",
+    "invalid_array_type_no_items_type.json": [(
+        "'array' type must contain items.type",
+        Log.CRITICAL.value
+    )],
+    "invalid_array_type_no_items_not_dict.json": [(
+        "'array' type must contain 'items: dict'",
         Log.CRITICAL.value
     )],
     "invalid_list_type.json": [(
