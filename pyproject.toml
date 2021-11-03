@@ -17,7 +17,7 @@ packages = [
 readme = 'README.md'
 
 [tool.poetry.scripts]
-ids_validator = 'ids_validator.main:run'
+ids-validator = 'ids_validator.main:run'
 
 [tool.poetry.dependencies]
 python = "^3.7"
