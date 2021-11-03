@@ -36,10 +36,6 @@ files_to_expected = {
         systems.FIRMWARE: [(
             "'properties' must contain ['name']",
             Log.CRITICAL.value
-        )],
-        systems.SOFTWARE: [(
-            "'properties' must contain ['serial_number']",
-            Log.CRITICAL.value
         )]
     },
     "wrong_types_exhaustive.json": {
