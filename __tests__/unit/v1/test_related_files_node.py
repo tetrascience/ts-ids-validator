@@ -1,8 +1,8 @@
 import pytest
 from pathlib import Path
-from src.utils import read_schema, Log
-from src.checks.v1 import V1RelatedFilesChecker
-from src.validator import Validator
+from ids_validator.utils import read_schema, Log
+from ids_validator.checks.v1 import V1RelatedFilesChecker
+from ids_validator.validator import Validator
 
 
 UNIT_TEST_FILES = Path("__tests__/unit/v1/files/related_files")

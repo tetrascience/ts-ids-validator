@@ -2,10 +2,10 @@ from pathlib import Path
 
 import pytest
 
-from src.checks.generic import RootNodeChecker
+from ids_validator.checks.generic import RootNodeChecker
 
-from src.ids_node import Node
-from src.utils import read_schema, Log
+from ids_validator.ids_node import Node
+from ids_validator.utils import read_schema, Log
 
 
 UNIT_TEST_FILES = Path("__tests__/unit/generic/files/root_node")

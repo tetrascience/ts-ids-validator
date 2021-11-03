@@ -4,10 +4,10 @@ from pathlib import Path
 
 from pydash import get
 
-from src.utils import read_schema
-from src.validator import Validator
-from src.checks import checks_dict
-from src.convention_versions import Conventions
+from ids_validator.utils import read_schema
+from ids_validator.validator import Validator
+from ids_validator.checks import checks_dict
+from ids_validator.convention_versions import Conventions
 
 
 def get_validator_type(version: str, ids: dict) -> Conventions:
@@ -59,15 +59,7 @@ def get_validator_type(version: str, ids: dict) -> Conventions:
                 return convention_enum_value
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Validate IDS Artifacts"
-    )
-
-    parser.add_argument("ids_dir", type=str, help="Path to the IDS folder")
-    parser.add_argument("--version", type=str, required=False, default=None,
-                        help=f"Supported Versions: {Conventions.values()}")
-    args = parser.parse_args()
+def validate_ids(args):
     ids_dir = Path(args.ids_dir)
     version = args.version
 

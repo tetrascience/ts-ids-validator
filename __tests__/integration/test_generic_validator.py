@@ -2,11 +2,11 @@ from pathlib import Path
 
 import pytest
 
-from src.checks import checks_dict
-from src.validator import Validator
-from src.convention_versions import Conventions
-from src.ids_node import Node
-from src.utils import (
+from ids_validator.checks import checks_dict
+from ids_validator.validator import Validator
+from ids_validator.convention_versions import Conventions
+from ids_validator.ids_node import Node
+from ids_validator.utils import (
     read_schema,
     save_json
 )

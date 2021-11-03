@@ -2,9 +2,9 @@ from pathlib import Path
 
 import pytest
 
-from src.checks import AdditionalPropertyChecker
-from src.ids_node import Node
-from src.utils import read_schema, Log
+from ids_validator.checks import AdditionalPropertyChecker
+from ids_validator.ids_node import Node
+from ids_validator.utils import read_schema, Log
 
 
 UNIT_TEST_FILES = Path("__tests__/unit/generic/files") / "additional_property"
