@@ -1,9 +1,12 @@
 import argparse
+import sys
+from typing import List
+
 from ids_validator.convention_versions import Conventions
 from ids_validator.ids_validator import validate_ids
 
 
-if __name__ == "__main__":
+def run(args: List[str]) -> None:
     parser = argparse.ArgumentParser(
         description="Validate IDS Artifacts"
     )
@@ -11,5 +14,9 @@ if __name__ == "__main__":
     parser.add_argument("ids_dir", type=str, help="Path to the IDS folder")
     parser.add_argument("--version", type=str, required=False, default=None,
                         help=f"Supported Versions: {Conventions.values()}")
-    args = parser.parse_args()
-    validate_ids(args)
+    parsed_args = parser.parse_args(args)
+    validate_ids(parsed_args)
+
+
+if __name__ == '__main__':
+    run(sys.argv[1:])

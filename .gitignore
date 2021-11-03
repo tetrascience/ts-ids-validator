@@ -1,2 +1,11 @@
 .coverage
 dev
+
+# pyenv configuration
+.python-version
+
+# packaging
+dist/
+
+# IDE configuration
+.idea
