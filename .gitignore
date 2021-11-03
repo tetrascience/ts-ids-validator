@@ -9,3 +9,7 @@ dist/
 
 # IDE configuration
 .idea
+
+.venv
+.pytest_cache/
+__pychache__/
