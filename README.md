@@ -46,7 +46,7 @@ You can find the validation rules in:
 ## Usage
 
 ```bash
-pipenv run python -m ids_validator path/to/ids/folder
+poetry run python -m ids_validator.main path/to/ids/folder
 ```
 
 This will run the required checks for the `@idsConventionVersion` mentioned in `schema.json`.

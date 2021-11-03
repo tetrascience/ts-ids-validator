@@ -11,5 +11,5 @@ dist/
 .idea
 
 .venv
-.pytest_cache/
-__pychache__/
+**/.pytest_cache/**
+**/__pycache__/**
