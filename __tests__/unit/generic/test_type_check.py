@@ -58,7 +58,8 @@ fname_to_expected = {
     "valid_list_type.json": [],
     "valid_array_type.json": [],
     "valid_object_type.json": [],
-    "valid_single_data_type_in_list.json": []
+    "valid_single_data_type_in_list.json": [],
+    "valid_array_type_with_nullable_items_type.json": []
 }
 
 
