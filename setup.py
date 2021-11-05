@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 NAME = "ts-ids-validator"
-VERSION = "1.0.0"
+VERSION = "0.9.0"
 
 with open("README.md", "r") as readme_file:
     readme = readme_file.read()
