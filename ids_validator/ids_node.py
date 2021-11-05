@@ -115,14 +115,23 @@ class Node(UserDict):
         ):
             return (True, None)
 
-        # Otherwise, arrays must have child properties
-        return (
-            (True, None) if self.properties_list
-            else (
-                False,
-                "'array' type must contain items.properties"
-            )
-        )
+        # Array must contain items: dict
+        if "items" not in self:
+            return (False, "'array' type must contain 'items: dict'")
+
+        items = get(self, "items")
+
+        if not isinstance(items, dict):
+            return (False, "'array' type must contain 'items: dict'")
+
+        # Array must contain items.type
+        # if type is invalid, it will picked up by validator
+        # when checking items node
+        if "type" not in items:
+            return (False, "'array' type must contain items.type")
+
+        # All Good, it a valid array time
+        return True, None
 
     def _check_list_type(self):
         valid_nullable_types = {

@@ -60,7 +60,6 @@ systems_rules = {
         "min_properties": [
             "name",
             "version",
-            "last_updated_timestamp"
         ]
     },
     FIRMWARE_ITEMS: {
@@ -85,8 +84,6 @@ systems_rules = {
         "min_properties": [
             "name",
             "version",
-            "serial_number",
-            "last_updated_timestamp"
         ]
     },
     SOFTWARE_ITEMS: {
