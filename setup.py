@@ -21,7 +21,7 @@ with open("./requirements.txt", "r") as req_file:
 setup(
     name=NAME,
     version=VERSION,
-    description="Python utility for validated IDS",
+    description="Python utility for validating IDS",
     author="tetrascience",
     author_email="developers@tetrascience.com",
     url="https://github.com/tetrascience/ts-ids-validator",
