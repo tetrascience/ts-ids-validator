@@ -1,3 +1,3 @@
 include requirements.txt
-include templates/*.*
+include ids_validator/templates/*.*
 recursive-include ids_validator/checks/v1/rules *
