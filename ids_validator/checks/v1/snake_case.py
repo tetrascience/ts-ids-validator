@@ -3,9 +3,18 @@ from ids_validator.ids_node import Node
 from ids_validator.checks import AbstractChecker
 from ids_validator.utils import Log
 
+
+ignored_paths = [
+    "root.properties.related_files.items.properties.pointer.properties.fileId",
+    "root.properties.related_files.items.properties.pointer.properties.fileKey"
+]
 class V1SnakeCaseChecker(AbstractChecker):
     def run(self, node: Node, context: dict = None):
         logs = []
+
+        if node.path in ignored_paths:
+            return logs
+
         name: str = node.name
         checks = [
             name.islower() or name.isdigit(),
