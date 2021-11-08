@@ -6,7 +6,8 @@ from ids_validator.checks import AbstractChecker
 from ids_validator.utils import Log, read_schema
 
 
-RELATED_FILES_TEMPLATE = Path("templates/related_files.json")
+TEMPLATES_DIR = (Path(__file__) / "../../../templates").resolve()
+RELATED_FILES_TEMPLATE = TEMPLATES_DIR / "related_files.json"
 RELATED_FILES = "root.properties.related_files"
 
 class V1RelatedFilesChecker(AbstractChecker):
