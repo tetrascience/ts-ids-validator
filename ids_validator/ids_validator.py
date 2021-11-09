@@ -60,7 +60,7 @@ def get_validator_type(version: str, ids: dict) -> Conventions:
 
 
 def validate_ids(ids_dir: Path, version: Optional[str] = None) -> int:
-    """Run IDS validator and print warning / failures to console
+    """Run IDS validator and print warnings / failures to console
 
     Args:
         ids_dir (Path): Path to IDS folder
