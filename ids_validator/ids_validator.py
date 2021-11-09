@@ -64,7 +64,8 @@ def validate_ids(ids_dir: Path, version: Optional[str] = None) -> int:
 
     Args:
         ids_dir (Path): Path to IDS folder
-        version (Optional[str], optional): "generic" or "". Defaults to None.
+        version (Optional[str], optional): either `generic` or a valid `@idsConventionVersion`.
+        Defaults to None.
 
     Returns:
         int: 0 if no critical validation error is found else 1
