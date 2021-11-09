@@ -1,0 +1,43 @@
+{
+  "mapping": {
+    "properties": {
+      "users": {
+        "type": "nested"
+      },
+      "samples": {
+        "type": "nested",
+        "properties": {
+          "properties": {
+            "type": "nested"
+          },
+          "labels": {
+            "type": "nested"
+          }
+        }
+      },
+      "methods": {
+        "type": "nested",
+        "properties": {
+          "lasers": {
+            "type": "nested"
+          },
+          "filters": {
+            "type": "nested"
+          }
+        }
+      },
+      "runs": {
+        "type": "nested",
+        "properties": {
+          "shakings": {
+            "type": "nested"
+          }
+        }
+      }
+    },
+    "dynamic_templates": []
+  },
+  "nonSearchableFields": [
+    "datacubes"
+  ]
+}

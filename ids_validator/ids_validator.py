@@ -1,6 +1,6 @@
-import argparse
 import sys
 from pathlib import Path
+from typing import Optional
 
 from pydash import get
 
@@ -59,36 +59,41 @@ def get_validator_type(version: str, ids: dict) -> Conventions:
                 return convention_enum_value
 
 
-def validate_ids(args):
-    ids_dir = Path(args.ids_dir)
-    version = args.version
+def validate_ids(ids_dir: Path, version: Optional[str] = None) -> int:
+    """Run IDS validator and print warning / failures to console
 
-    try:
-        schema_file = ids_dir / "schema.json"
-        athena_file = ids_dir / "athena.json"
-        ids = read_schema(schema_file)
-        athena = read_schema(athena_file)
+    Args:
+        ids_dir (Path): Path to IDS folder
+        version (Optional[str], optional): "generic" or "". Defaults to None.
 
-        convention = get_validator_type(version, ids)
-        checks_list = checks_dict.get(convention)
+    Returns:
+        int: 0 if no critical validation error is found else 1
+    """
 
-        validator = Validator(
-            ids=ids,
-            athena=athena,
-            checks_list=checks_list,
-            convention_version=convention.value,
-            ids_folder_path=ids_dir
+    schema_file = ids_dir / "schema.json"
+    athena_file = ids_dir / "athena.json"
+    ids = read_schema(schema_file)
+    athena = read_schema(athena_file)
+
+    convention = get_validator_type(version, ids)
+    checks_list = checks_dict.get(convention)
+
+    validator = Validator(
+        ids=ids,
+        athena=athena,
+        checks_list=checks_list,
+        convention_version=convention.value,
+        ids_folder_path=ids_dir,
+    )
+    validator.validate_ids()
+
+    if validator.has_critical_failures:
+        validator.console.print(
+            f"[b i red]\nValidation Failed with critical error.[/b i red]"
         )
-        validator.validate_ids()
-        if validator.has_critical_failures:
-            validator.console.print(
-                f"[b i red]\nValidation Failed with critical error.[/b i red]"
-            )
-            sys.exit(1)
-        else:
-            validator.console.print(
-                f"[b i green]Validation Complete. No error found.[/b i green]"
-            )
-    except Exception as e:
-        print(str(e))
-        sys.exit(1)
+        return 1
+
+    validator.console.print(
+        f"[b i green]Validation Complete. No error found.[/b i green]"
+    )
+    return 0
