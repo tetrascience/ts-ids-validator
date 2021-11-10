@@ -59,16 +59,19 @@ def get_validator_type(version: str, ids: dict) -> Conventions:
                 return convention_enum_value
 
 
-def validate_ids(ids_dir: Path, version: Optional[str] = None) -> int:
+def validate_ids(ids_dir: Path, version: Optional[str] = None) -> bool:
     """Run IDS validator and print warnings / failures to console
 
     Args:
         ids_dir (Path): Path to IDS folder
-        version (Optional[str], optional): either `generic` or a valid `@idsConventionVersion`.
-        Defaults to None.
+        version (Optional[str], optional): It accepts following values:
+        - `generic`
+        - a supported `idsConventionVersion` eg v1.0.0
+        - `None`: In this case `@idsConventionVersion` will be read from `schema.json`.
+        If it is not defined, `generic` will be used as `version`
 
     Returns:
-        int: 0 if no critical validation error is found else 1
+        bool: True if IDS is valid else False
     """
 
     schema_file = ids_dir / "schema.json"
@@ -92,9 +95,9 @@ def validate_ids(ids_dir: Path, version: Optional[str] = None) -> int:
         validator.console.print(
             f"[b i red]\nValidation Failed with critical error.[/b i red]"
         )
-        return 1
+        return False
 
     validator.console.print(
         f"[b i green]Validation Complete. No error found.[/b i green]"
     )
-    return 0
+    return True

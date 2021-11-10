@@ -13,7 +13,6 @@ class Validator:
         checks_list: list,
         convention_version: str,
         ids_folder_path: Path,
-        print_to_console: str = False
     ):
         self.ids = ids
         self.athena = athena

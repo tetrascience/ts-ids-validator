@@ -16,10 +16,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     ids_dir = Path(args.ids_dir)
 
-    try:
-        result = validate_ids(ids_dir, args.version)
-    except Exception as e:
-        print(str(e))
-        sys.exit(1)
-
-    sys.exit(result)
+    result = validate_ids(ids_dir, args.version)
+    return_code = 0 if result is True else 1
+    sys.exit(return_code)

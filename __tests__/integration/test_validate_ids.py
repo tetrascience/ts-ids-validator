@@ -9,8 +9,8 @@ example_input = Path("__tests__/integration/example-input")
 
 @pytest.mark.parametrize(
     "test_dir, expected",[
-        ("generic_validator", 1),
-        ("valid_ids", 0),
+        ("generic_validator", False),
+        ("valid_ids", True),
     ]
 )
 def test_generic_validators(test_dir, expected):
