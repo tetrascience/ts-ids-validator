@@ -4,12 +4,12 @@ import pytest
 
 from ids_validator.ids_validator import validate_ids
 
-example_input = Path("__tests__/integration/example-input")
+example_input = Path("__tests__/unit/validate_ids/files")
 
 
 @pytest.mark.parametrize(
     "test_dir, expected",[
-        ("generic_validator", False),
+        ("invalid_ids", False),
         ("valid_ids", True),
     ]
 )
