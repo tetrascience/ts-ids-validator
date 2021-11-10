@@ -1,0 +1,72 @@
+{
+  "mapping": {
+    "properties": {
+      "injection": {
+        "properties": {
+          "custom_fields": {
+            "type": "nested"
+          }
+        }
+      },
+      "sample": {
+        "properties": {
+          "set": {
+            "properties": {
+              "method": {
+                "properties": {
+                  "custom_fields": {
+                    "type": "nested"
+                  }
+                }
+              },
+              "custom_fields": {
+                "type": "nested"
+              }
+            }
+          }
+        }
+      },
+      "method": {
+        "properties": {
+          "instrument": {
+            "properties": {
+              "columns": {
+                "type": "nested"
+              },
+              "setups": {
+                "type": "nested"
+              }
+            }
+          },
+          "processing": {
+            "type": "nested",
+            "properties": {
+              "parameter": {
+                "properties": {
+                  "system_suitability": {
+                    "properties": {
+                      "custom_fields": {
+                        "type": "nested"
+                      }
+                    }
+                  },
+                  "integration": {
+                    "properties": {
+                      "custom_fields": {
+                        "type": "nested"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "dynamic_templates": []
+  },
+  "nonSearchableFields": [
+    "datacubes"
+  ]
+}

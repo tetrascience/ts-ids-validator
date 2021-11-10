@@ -12,7 +12,7 @@ class Validator:
         athena: dict,
         checks_list: list,
         convention_version: str,
-        ids_folder_path: Path
+        ids_folder_path: Path,
     ):
         self.ids = ids
         self.athena = athena
