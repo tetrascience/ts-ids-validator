@@ -26,7 +26,8 @@ generic_checks = [
     RequiredPropertiesChecker(),
     RootNodeChecker(),
     TypeChecker(),
-    ElasticsearchChecker()
+    ElasticsearchChecker(),
+    AthenaChecker()
 ]
 
 v1_checks = generic_checks + [
