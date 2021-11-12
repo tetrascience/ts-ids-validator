@@ -200,14 +200,9 @@ class AthenaChecker(AbstractChecker):
         @fileId -> fileid
         project.name -> project_name
         """
-        normalized_path = re.sub('[^A-Za-z0-9]+', '_', path_name)
-        normalized_path = re.sub('[_]+', '_', normalized_path)
-        if normalized_path.startswith("_"):
-            normalized_path = normalized_path[1:]
-
-        if normalized_path.endswith("_"):
-            normalized_path = normalized_path[:-1]
-
+        normalized_path = re.sub("[^A-Za-z0-9]+", "_", path_name)
+        normalized_path = re.sub("[_]+", "_", normalized_path)
+        normalized_path = normalized_path.strip("_")
         normalized_path = normalized_path.lower()
         return normalized_path
 
