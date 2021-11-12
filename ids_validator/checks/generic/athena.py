@@ -21,15 +21,13 @@ class AthenaChecker(AbstractChecker):
             athena = context.get("athena.json")
             ids = context.get("schema.json")
             ids_node = Node(ids)
+
             partition_paths = self.get_athena_partitions_path(athena)
-
             logs += self.check_all_paths_exist(partition_paths, ids_node)
-            logs += self.check_paths_nested_inside_array(
-                partition_paths, ids_node)
-
+            logs += self.check_paths_nested_inside_array(partition_paths, ids_node)
             logs += self.check_path_and_name_conflicts(athena)
-            logs += self.check_athena_path_and_root_properties_conflict(
-                ids, athena)
+            logs += self.check_athena_path_and_root_properties_conflict(ids, athena)
+
         return logs
 
     @classmethod
@@ -103,7 +101,7 @@ class AthenaChecker(AbstractChecker):
 
         ids_top_level_props = set(ids_dict.get("properties", {}).keys())
         athena_normalized_paths = set([
-            path.replace(".", "_")
+            cls.normalize_path_name(path)
             for path in cls.get_athena_partitions_path(athena_dict)
         ])
 
@@ -178,7 +176,7 @@ class AthenaChecker(AbstractChecker):
     @classmethod
     def normalize_path_name(cls, path_name):
         normalized_path = re.sub('[^A-Za-z0-9]+', '_', path_name)
-        normalized_path = re.sub('[_]+', '_', path_name)
+        normalized_path = re.sub('[_]+', '_', normalized_path)
         if normalized_path.startswith("_"):
             normalized_path = normalized_path[1:]
 
