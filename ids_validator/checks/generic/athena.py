@@ -97,6 +97,8 @@ class AthenaChecker(AbstractChecker):
 
     @classmethod
     def check_athena_path_and_root_properties_conflict(cls, ids_dict, athena_dict):
+        """Normalized partition path must not be a root level
+        ids property."""
         logs = []
 
         ids_top_level_props = set(ids_dict.get("properties", {}).keys())
@@ -118,6 +120,10 @@ class AthenaChecker(AbstractChecker):
 
     @classmethod
     def path_nested_in_array(cls, path: str, ids: Node):
+        """Traverse on node's path and return True if any
+        ancestor is an array. Except if the ancestor is Top-Level
+        IDS property.
+        """
         nodes = path.split(".")
         parent = ids
         for idx, node in enumerate(nodes):
@@ -175,6 +181,11 @@ class AthenaChecker(AbstractChecker):
 
     @classmethod
     def normalize_path_name(cls, path_name):
+        """
+        Weird-partition!@name -> weird_partition_name
+        @fileId -> fileid
+        project.name -> project_name
+        """
         normalized_path = re.sub('[^A-Za-z0-9]+', '_', path_name)
         normalized_path = re.sub('[_]+', '_', normalized_path)
         if normalized_path.startswith("_"):
