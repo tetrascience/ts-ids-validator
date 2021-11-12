@@ -20,6 +20,10 @@ snapshots['test_generic_validators[generic_validator] 1'] = {
         (
             "'properties.@idsNamespace' must be present with type 'string' with non-empty 'const'",
             1
+        ),
+        (
+            'Athena.js: Following names are conflicting with path: project_name',
+            1
         )
     ],
     'root.properties.datacubes': [
