@@ -115,7 +115,7 @@ If `@idsConventionVersion` is missing in `schema.json` or if it is not supported
 - `DatacubesChecker`: [datacubes.py](src/checks/generic/datacubes.py)
 - `RootNodeChecker`: [root_node.py](src/checks/generic/root_node.py)
 - `TypeChecker`: [type_check.py](src/checks/generic/type_check.py)
-- `AthenaChecker`: [athena.py](src/checks/generic/athena.py) **WorkInProgress**
+- `AthenaChecker`: [athena.py](src/checks/generic/athena.py)
 
 #### V1
 
