@@ -1,0 +1,9 @@
+{
+
+  "partitions": [
+    {
+      "path": "results.time",
+      "name": "time"
+    }
+  ]
+}

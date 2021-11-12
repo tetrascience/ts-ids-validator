@@ -1,7 +1,15 @@
 import re
+from pathlib import Path
+
+from jsonschema import validate
+
 from ids_validator.ids_node import Node
 from ids_validator.checks import AbstractChecker
-from ids_validator.utils import Log
+from ids_validator.utils import Log, read_schema
+
+
+TEMPLATES_DIR = (Path(__file__) / "../../../templates").resolve()
+ATHENA_TEMPLATE = TEMPLATES_DIR / "athena.json"
 
 
 class AthenaChecker(AbstractChecker):
@@ -22,11 +30,17 @@ class AthenaChecker(AbstractChecker):
             ids = context.get("schema.json")
             ids_node = Node(ids)
 
+            logs += self._validate_schema(athena)
+            if logs:
+                return logs
+
             partition_paths = self.get_athena_partitions_path(athena)
             logs += self.check_all_paths_exist(partition_paths, ids_node)
-            logs += self.check_paths_nested_inside_array(partition_paths, ids_node)
+            logs += self.check_paths_nested_inside_array(
+                partition_paths, ids_node)
             logs += self.check_path_and_name_conflicts(athena)
-            logs += self.check_athena_path_and_root_properties_conflict(ids, athena)
+            logs += self.check_athena_path_and_root_properties_conflict(
+                ids, athena)
 
         return logs
 
@@ -196,3 +210,21 @@ class AthenaChecker(AbstractChecker):
 
         normalized_path = normalized_path.lower()
         return normalized_path
+
+    def _validate_schema(self, athena_schema):
+        logs = []
+        if not ATHENA_TEMPLATE.exists():
+            logs += [(
+                f"Could not find athena template : {ATHENA_TEMPLATE}", Log.CRITICAL
+            )]
+            return logs
+
+        template_schema = read_schema(ATHENA_TEMPLATE)
+        try:
+            validate(athena_schema,template_schema)
+        except Exception as e:
+            msg = str(e).split("\n")[0]
+            logs += [(
+                f"JSON schema validation failed : {msg}", Log.CRITICAL
+            )]
+        return logs

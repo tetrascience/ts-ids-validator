@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "required": ["root", "partitions"],
+  "properties": {
+    "root": {
+      "type": "string"
+    },
+    "partition": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "path"],
+        "properties": {
+          "name": { "type": "string" },
+          "path": { "type": "string" }
+        }
+      }
+    }
+  }
+}

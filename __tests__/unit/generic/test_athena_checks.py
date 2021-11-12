@@ -39,7 +39,12 @@ dirs_to_expected = {
             "IDS schema: ['project_name']"
         ),
         Log.CRITICAL.value
+    )],
+    "invalid_schema": [(
+        "JSON schema validation failed : 'root' is a required property",
+        Log.CRITICAL.value
     )]
+
 }
 
 
