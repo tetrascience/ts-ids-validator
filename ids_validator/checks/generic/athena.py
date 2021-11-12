@@ -119,29 +119,6 @@ class AthenaChecker(AbstractChecker):
         return logs
 
     @classmethod
-    def flatten_keys(cls, node: Node):
-        result = []
-        properties = node.properties_dict
-
-        if not properties:
-            return result
-
-        for k, v in properties.items():
-            sub_node = Node(v, path=None)
-            sub_result = cls.flatten_keys(sub_node)
-
-            if sub_result:
-                sub_result = [k] + [
-                    f"{k}.{prop}"
-                    for prop in sub_result
-                ]
-                result += sub_result
-            else:
-                result += [k]
-
-        return result
-
-    @classmethod
     def path_nested_in_array(cls, path: str, ids: Node):
         nodes = path.split(".")
         parent = ids
