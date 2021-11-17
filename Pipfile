@@ -9,6 +9,7 @@ pytest-cov = "*"
 pytest-mock = "*"
 snapshottest = "*"
 autopep8 = "*"
+build = "*"
 
 [packages]
 jsonref = "*"
