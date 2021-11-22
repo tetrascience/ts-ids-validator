@@ -7,6 +7,7 @@ test_cases = {
     'Abc123': "abc123",
     'Abc_aBc': "abc_abc",
     'abC_123': "abc_123",
+    '_abC_123_': "abc_123_",
     "_abc": "abc",
     "_+aBc": "abc",
     "___aBc": "abc",

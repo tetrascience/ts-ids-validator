@@ -202,7 +202,7 @@ class AthenaChecker(AbstractChecker):
         """
         normalized_path = re.sub("[^A-Za-z0-9]+", "_", path_name)
         normalized_path = re.sub("[_]+", "_", normalized_path)
-        normalized_path = normalized_path.strip("_")
+        normalized_path = normalized_path.lstrip("_")
         normalized_path = normalized_path.lower()
         return normalized_path
 
