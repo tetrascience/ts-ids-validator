@@ -15,6 +15,7 @@ build = "*"
 jsonref = "*"
 pydash = "*"
 rich = "*"
+jsonschema = "*"
 ts-ids-es-json-generator = "*"
 
 [requires]

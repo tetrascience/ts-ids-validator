@@ -1,6 +1,15 @@
+import re
+from pathlib import Path
+
+from jsonschema import validate
+
 from ids_validator.ids_node import Node
 from ids_validator.checks import AbstractChecker
-from ids_validator.utils import Log
+from ids_validator.utils import Log, read_schema
+
+
+TEMPLATES_DIR = (Path(__file__) / "../../../templates").resolve()
+ATHENA_TEMPLATE = TEMPLATES_DIR / "athena.json"
 
 
 class AthenaChecker(AbstractChecker):
@@ -20,15 +29,19 @@ class AthenaChecker(AbstractChecker):
             athena = context.get("athena.json")
             ids = context.get("schema.json")
             ids_node = Node(ids)
-            partition_paths = self.get_athena_partitions_path(athena)
 
+            logs += self._validate_schema(athena)
+            if logs:
+                return logs
+
+            partition_paths = self.get_athena_partitions_path(athena)
             logs += self.check_all_paths_exist(partition_paths, ids_node)
             logs += self.check_paths_nested_inside_array(
                 partition_paths, ids_node)
-
             logs += self.check_path_and_name_conflicts(athena)
             logs += self.check_athena_path_and_root_properties_conflict(
                 ids, athena)
+
         return logs
 
     @classmethod
@@ -86,7 +99,7 @@ class AthenaChecker(AbstractChecker):
         logs = []
         partitions_name = set(cls.get_athena_partitions_name(athena_dict))
         normalized_paths = set([
-            path.replace(".", "_")
+            cls.normalize_path_name(path)
             for path in cls.get_athena_partitions_path(athena_dict)
         ])
         intersection = partitions_name.intersection(normalized_paths)
@@ -98,16 +111,19 @@ class AthenaChecker(AbstractChecker):
 
     @classmethod
     def check_athena_path_and_root_properties_conflict(cls, ids_dict, athena_dict):
+        """Normalized partition path must not be a root level
+        ids property."""
         logs = []
 
         ids_top_level_props = set(ids_dict.get("properties", {}).keys())
         athena_normalized_paths = set([
-            path.replace(".", "_")
+            cls.normalize_path_name(path)
             for path in cls.get_athena_partitions_path(athena_dict)
         ])
 
         intersection = ids_top_level_props.intersection(
-            athena_normalized_paths)
+            athena_normalized_paths
+        )
         intersection = sorted(list(intersection))
         if intersection:
             logs.append(
@@ -117,30 +133,11 @@ class AthenaChecker(AbstractChecker):
         return logs
 
     @classmethod
-    def flatten_keys(cls, node: Node):
-        result = []
-        properties = node.properties_dict
-
-        if not properties:
-            return result
-
-        for k, v in properties.items():
-            sub_node = Node(v, path=None)
-            sub_result = cls.flatten_keys(sub_node)
-
-            if sub_result:
-                sub_result = [k] + [
-                    f"{k}.{prop}"
-                    for prop in sub_result
-                ]
-                result += sub_result
-            else:
-                result += [k]
-
-        return result
-
-    @classmethod
     def path_nested_in_array(cls, path: str, ids: Node):
+        """Traverse on node's path and return True if any
+        ancestor is an array. Except if the ancestor is Top-Level
+        IDS property.
+        """
         nodes = path.split(".")
         parent = ids
         for idx, node in enumerate(nodes):
@@ -195,3 +192,34 @@ class AthenaChecker(AbstractChecker):
             for partition in partitions
         ]
         return names
+
+    @classmethod
+    def normalize_path_name(cls, path_name):
+        """
+        Weird-partition!@name -> weird_partition_name
+        @fileId -> fileid
+        project.name -> project_name
+        """
+        normalized_path = re.sub("[^A-Za-z0-9]+", "_", path_name)
+        normalized_path = re.sub("[_]+", "_", normalized_path)
+        normalized_path = normalized_path.lstrip("_")
+        normalized_path = normalized_path.lower()
+        return normalized_path
+
+    def _validate_schema(self, athena_schema):
+        logs = []
+        if not ATHENA_TEMPLATE.exists():
+            logs += [(
+                f"Could not find athena template : {ATHENA_TEMPLATE}", Log.CRITICAL
+            )]
+            return logs
+
+        template_schema = read_schema(ATHENA_TEMPLATE)
+        try:
+            validate(athena_schema,template_schema)
+        except Exception as e:
+            msg = str(e).split("\n")[0]
+            logs += [(
+                f"JSON schema validation failed : {msg}", Log.CRITICAL
+            )]
+        return logs
