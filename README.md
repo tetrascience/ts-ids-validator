@@ -46,7 +46,7 @@ You can find the validation rules in:
 ## Usage
 
 ```bash
-pipenv run python -m ids_validator path/to/ids/folder
+pipenv run python -m ids_validator --ids_dir=path/to/ids/folder
 ```
 
 This will run the required checks for the `@idsConventionVersion` mentioned in `schema.json`.
@@ -192,7 +192,7 @@ class AdhocChecker(AbstractChecker):
 
 ## Changelog
 
-## v1.0.0
+## v0.9.6
 
 - Add checker classes for generic validation
 - Add checker classes for v1.0.0 convention validation
