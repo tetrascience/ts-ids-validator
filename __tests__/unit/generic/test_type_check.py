@@ -55,6 +55,11 @@ fname_to_expected = {
         "Invalid 'type': ['null']",
         Log.CRITICAL.value
     )],
+    "invalid_type_with_const.json": [(
+        "'type' must be one of ['number', 'string', 'boolean', 'integer'] when 'const' is defined",
+        Log.CRITICAL.value
+    )],
+    "valid_type_with_const.json": [],
     "valid_list_type.json": [],
     "valid_array_type.json": [],
     "valid_object_type.json": [],

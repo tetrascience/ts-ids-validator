@@ -66,6 +66,8 @@ class Node(UserDict):
 
     @property
     def has_valid_type(self):
+        if "const" in self.data:
+            return self._check_const_type()
         if self.type_ == 'object':
             return self._check_object_type()
         elif self.type_ == "array":
@@ -76,6 +78,23 @@ class Node(UserDict):
             return self._check_unit_type()
         else:
             return True, None
+
+    def _check_const_type(self):
+        """If const is defined, then type must
+        not be a list
+        """
+        valid_const_type = [
+            'number',
+            'string',
+            'boolean',
+            'integer',
+        ]
+        if self.type_ not in  valid_const_type:
+            return (
+                False,
+                f"'type' must be one of {valid_const_type} when 'const' is defined"
+            )
+        return True, None
 
     def _check_object_type(self):
         """Checks if `object` type contains properties
