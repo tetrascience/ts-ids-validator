@@ -56,8 +56,7 @@ class RuleBasedChecker(AbstractChecker):
             if not is_valid:
                 logs += [(msg, Log.CRITICAL.value)]
                 return logs
-            else:
-                return logs
+            return logs
 
         if type(node.type_) != type(type_):
             logs += [(f"'type' must be {type_}", Log.CRITICAL.value)]

@@ -1,4 +1,4 @@
 {
-    "type": "boolean",
-    "const": false
+    "type": "string",
+    "const": "Perkin-Elmer"
 }
