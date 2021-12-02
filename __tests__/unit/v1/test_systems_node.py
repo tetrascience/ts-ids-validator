@@ -13,7 +13,14 @@ UNIT_TEST_FILES = Path("__tests__/unit/v1/files/systems_node")
 
 files_to_expected = {
     "valid_systems_node.json": {},
+    "valid_systems_node_const_types.json": {},
     "extended_systems_node_root_and_nested.json": {},
+    "invalid_systems_node_const_types.json": {
+        systems.VENDOR: [(
+            "'type' must be one of ['number', 'string', 'boolean', 'integer'] when 'const' is defined",
+            Log.CRITICAL.value
+        )]
+    },
     "missing_required_values.json": {
         systems.ITEMS: [(
             "'required' must contain {'model'}",

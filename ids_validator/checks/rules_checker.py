@@ -47,6 +47,17 @@ class RuleBasedChecker(AbstractChecker):
     def enforce_type(cls, node: Node, type_: Union[List, str]):
         logs = []
 
+        # DE-2922
+        # don't allow "null" if "const" is defined
+        # schema will be enforced only when const is not
+        # defined
+        if "const" in node.data:
+            is_valid, msg =  node._check_const_type()
+            if not is_valid:
+                logs += [(msg, Log.CRITICAL.value)]
+                return logs
+            return logs
+
         if type(node.type_) != type(type_):
             logs += [(f"'type' must be {type_}", Log.CRITICAL.value)]
             return logs
