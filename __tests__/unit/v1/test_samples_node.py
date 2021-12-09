@@ -16,21 +16,13 @@ files_to_expected = {
     "valid_samples_node.json": {},
     "extended_samples_root.json": {
         samples.ITEMS: [(
-            (
-                "'properties' must only contain ['id', "
-                "'barcode', 'name', 'batch', 'set', 'lot', "
-                "'location', 'properties', 'labels']"
-            ),
+            "Extra properties found: {'extra_node'}",
             Log.CRITICAL.value
         )]
     },
     "missing_samples_node_root_property.json": {
         samples.ITEMS: [(
-            (
-                "'properties' must only contain ['id', "
-                "'barcode', 'name', 'batch', 'set', 'lot', "
-                "'location', 'properties', 'labels']"
-            ),
+            "Missing properties: {'set'}",
             Log.CRITICAL.value
         )]
     },
@@ -278,6 +270,7 @@ files_to_expected = {
         )]
     }
 }
+
 
 @pytest.mark.parametrize("fname,expected", files_to_expected.items())
 def test_samples_node(fname, expected):

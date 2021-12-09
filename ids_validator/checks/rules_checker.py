@@ -52,7 +52,7 @@ class RuleBasedChecker(AbstractChecker):
         # schema will be enforced only when const is not
         # defined
         if "const" in node.data:
-            is_valid, msg =  node._check_const_type()
+            is_valid, msg = node._check_const_type()
             if not is_valid:
                 logs += [(msg, Log.CRITICAL.value)]
                 return logs
@@ -114,12 +114,24 @@ class RuleBasedChecker(AbstractChecker):
             or get(node, "items.properties")
             or {}
         )
-        node_properties = list(node_properties.keys())
-        if sorted(node_properties) != sorted(properties):
+        node_properties = node_properties.keys()
+        properties = set(properties)
+
+        extra_properties = node_properties - properties
+        if extra_properties:
             logs += [(
-                f"'properties' must only contain {properties}",
+                f"Extra properties found: {extra_properties}",
                 Log.CRITICAL.value
             )]
+            return logs
+
+        missing_properties = properties - node_properties
+        if missing_properties:
+            logs += [(
+                f"Missing properties: {missing_properties}",
+                Log.CRITICAL.value
+            )]
+            return logs
 
         return logs
 
