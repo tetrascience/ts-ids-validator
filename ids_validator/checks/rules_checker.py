@@ -118,20 +118,22 @@ class RuleBasedChecker(AbstractChecker):
         properties = set(properties)
 
         extra_properties = node_properties - properties
+        missing_properties = properties - node_properties
         if extra_properties:
             logs += [(
-                f"Extra properties found: {extra_properties}",
+                (
+                    f"'properties' must only contain {sorted(properties)}. Extra properties found: {extra_properties}"
+                ),
                 Log.CRITICAL.value
             )]
-            return logs
 
-        missing_properties = properties - node_properties
         if missing_properties:
             logs += [(
-                f"Missing properties: {missing_properties}",
+                (
+                    f"'properties' must only contain {sorted(properties)}. Missing properties: {missing_properties}"
+                ),
                 Log.CRITICAL.value
             )]
-            return logs
 
         return logs
 

@@ -16,16 +16,42 @@ files_to_expected = {
     "valid_samples_node.json": {},
     "extended_samples_root.json": {
         samples.ITEMS: [(
-            "Extra properties found: {'extra_node'}",
+            (
+                "'properties' must only contain ['barcode', 'batch', 'id', 'labels', 'location', 'lot', 'name', 'properties', 'set']. "
+                "Extra properties found: {'extra_node'}"
+            ),
             Log.CRITICAL.value
         )]
     },
     "missing_samples_node_root_property.json": {
         samples.ITEMS: [(
-            "Missing properties: {'set'}",
+            (
+                "'properties' must only contain ['barcode', 'batch', 'id', 'labels', 'location', 'lot', 'name', 'properties', 'set']. "
+                "Missing properties: {'set'}"
+            ),
             Log.CRITICAL.value
         )]
     },
+    "both_missing_and_extra_property.json": {
+        samples.ITEMS: [
+            (
+                "'properties' must only contain "
+                "['barcode', 'batch', 'id', 'labels', "
+                "'location', 'lot', 'name', 'properties', "
+                "'set']. Extra properties found: "
+                "{'extra_property'}",
+                Log.CRITICAL.value
+            ),
+            (
+                "'properties' must only contain "
+                "['barcode', 'batch', 'id', 'labels', "
+                "'location', 'lot', 'name', 'properties', "
+                "'set']. Missing properties: {'barcode'}",
+                Log.CRITICAL.value
+            )
+        ]
+    },
+
     "extended_nested_properties.json": {},  # Nested properties are extensible
     "missing_nested_essential_properties.json": {
         samples.BATCH: [(
