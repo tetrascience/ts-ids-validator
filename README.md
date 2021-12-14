@@ -21,7 +21,8 @@
   - [Running Checks for Specific Nodes](#running-checks-for-specific-nodes)
   - [List of Checks for Validator](#list-of-checks-for-validator)
 - [Changelog](#changelog)
-  - [v1.0.0](#v100)
+  - [v0.9.7](#v097)
+  - [v0.9.6](#v096)
 
 ## Overview
 
@@ -191,6 +192,10 @@ class AdhocChecker(AbstractChecker):
 - The list off checks is actually a list of instantiated checker objects
 
 ## Changelog
+
+## v0.9.7
+
+- Modify `RulesChecker` to log missing and extra properties
 
 ## v0.9.6
 
