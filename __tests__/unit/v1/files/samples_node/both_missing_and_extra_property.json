@@ -1,0 +1,222 @@
+{
+    "definitions": {
+      "nullable_string": {
+        "type": ["string", "null"]
+      },
+      "nullable_number": {
+        "type": ["number", "null"]
+      },
+      "nullable_integer": {
+        "type": ["integer", "null"]
+      },
+      "nullable_boolean": {
+        "type": ["boolean", "null"]
+      }
+    },
+    "properties": {
+      "samples": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [],
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "$ref": "#/definitions/nullable_string"
+            },
+            "extra_property": {
+              "$ref": "#/definitions/nullable_string"
+            },
+            "name": {
+              "$ref": "#/definitions/nullable_string"
+            },
+            "batch": {
+              "type": "object",
+              "required": [],
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "$ref": "#/definitions/nullable_string"
+                },
+                "name": {
+                  "$ref": "#/definitions/nullable_string"
+                },
+                "barcode": {
+                  "$ref": "#/definitions/nullable_string"
+                }
+              }
+            },
+            "set": {
+              "type": "object",
+              "required": [],
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "$ref": "#/definitions/nullable_string"
+                },
+                "name": {
+                  "$ref": "#/definitions/nullable_string"
+                }
+              }
+            },
+            "lot": {
+              "type": "object",
+              "required": [],
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "$ref": "#/definitions/nullable_string"
+                },
+                "name": {
+                  "$ref": "#/definitions/nullable_string"
+                }
+              }
+            },
+            "location": {
+              "type": "object",
+              "required": [],
+              "additionalProperties": false,
+              "properties": {
+                "position": {
+                  "$ref": "#/definitions/nullable_string"
+                },
+                "row": {
+                  "$ref": "#/definitions/nullable_number"
+                },
+                "column": {
+                  "$ref": "#/definitions/nullable_number"
+                },
+                "holder": {
+                  "type": "object",
+                  "required": [],
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "$ref": "#/definitions/nullable_string"
+                    },
+                    "type": {
+                      "$ref": "#/definitions/nullable_string"
+                    },
+                    "barcode": {
+                      "$ref": "#/definitions/nullable_string"
+                    }
+                  }
+                }
+              }
+            },
+            "properties": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "source",
+                  "name",
+                  "value",
+                  "value_data_type",
+                  "string_value",
+                  "numerical_value",
+                  "numerical_value_unit",
+                  "boolean_value",
+                  "time"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "source": {
+                    "type": "object",
+                    "required": ["name", "type"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "name": {
+                        "$ref": "#/definitions/nullable_string"
+                      },
+                      "type": {
+                        "$ref": "#/definitions/nullable_string"
+                      }
+                    }
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "This is the property name"
+                  },
+                  "value": {
+                    "type": "string",
+                    "description": "The original string value of the parameter"
+                  },
+                  "value_data_type": {
+                    "type": "string",
+                    "enum": ["string", "number", "boolean"],
+                    "description": "This is the type of the original value"
+                  },
+                  "string_value": {
+                    "$ref": "#/definitions/nullable_string",
+                    "description": "If string_value has a value, then numerical_value, numerical_value_unit, and boolean_value all have to be null"
+                  },
+                  "numerical_value": {
+                    "$ref": "#/definitions/nullable_number",
+                    "description": "If numerical_value has a value, then string_value and boolean_value both have to be null"
+                  },
+                  "numerical_value_unit": {
+                    "$ref": "#/definitions/nullable_string"
+                  },
+                  "boolean_value": {
+                    "$ref": "#/definitions/nullable_boolean",
+                    "description": "If boolean_value has a value, then numerical_value, numerical_value_unit, and string_value all have to be null"
+                  },
+                  "time": {
+                    "type": "object",
+                    "required": ["lookup"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "lookup": {
+                        "$ref": "#/definitions/nullable_string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "labels": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["source", "name", "value", "time"],
+                "additionalProperties": false,
+                "properties": {
+                  "source": {
+                    "type": "object",
+                    "required": ["name", "type"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "$ref": "#/definitions/nullable_string"
+                      }
+                    }
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  },
+                  "time": {
+                    "type": "object",
+                    "required": ["lookup"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "lookup": {
+                        "$ref": "#/definitions/nullable_string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  

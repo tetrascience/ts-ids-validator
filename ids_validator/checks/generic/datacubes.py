@@ -20,7 +20,7 @@ class Message(Enum):
     DIMENSIONS_MIN_MAX_MISSING = "'dimension' must have both 'minItems' and 'maxItems' defined"
     DIMENSIONS_UNDEFINED = "'dimensions' must be defined and 'dimension.type' must be array"
     DIMENSIONS_MIN_MAX_CHECK = "dimensions.minItems must be equal to dimensions.maxItems"
-    MEASURES_VALUES_DIMENSIONALITY_ERROR = "'measures.value': Dimensionality of data stored in `measures.value` must be equal to `dimesions.minItems` or `dimensions.maxItems`"
+    MEASURES_VALUES_DIMENSIONALITY_ERROR = "'measures.value': Dimensionality of data stored in `measures.value` must be equal to `dimensions.minItems` or `dimensions.maxItems`"
     MEASURES_VALUES_TYPE_ERROR = "'measures.value': Type Error. Type must be either be `number` or `string`. It can be nullable"
     MEASURES_VALUES_NESTED_ARRAY_TYPE_ERROR = "'measures.value': Type Error. Nested objects/dicts must be `array` types"
     DIMENSIONS_SCALE_TYPE_ERROR = "'dimensions.scale': Type Error. Type must be 'array'"

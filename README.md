@@ -21,6 +21,7 @@
   - [Running Checks for Specific Nodes](#running-checks-for-specific-nodes)
   - [List of Checks for Validator](#list-of-checks-for-validator)
 - [Changelog](#changelog)
+  - [v0.9.8](#v098)
   - [v0.9.7](#v097)
   - [v0.9.6](#v096)
 
@@ -193,9 +194,13 @@ class AdhocChecker(AbstractChecker):
 
 ## Changelog
 
-## v0.9.7
+## v0.9.8
 
 - Modify `RulesChecker` to log missing and extra properties
+
+## v0.9.7
+
+- Allow properties with `const` values to have non-nullable `type`
 
 ## v0.9.6
 

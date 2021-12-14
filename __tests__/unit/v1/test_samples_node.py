@@ -17,9 +17,8 @@ files_to_expected = {
     "extended_samples_root.json": {
         samples.ITEMS: [(
             (
-                "'properties' must only contain ['id', "
-                "'barcode', 'name', 'batch', 'set', 'lot', "
-                "'location', 'properties', 'labels']"
+                "'properties' must only contain ['barcode', 'batch', 'id', 'labels', 'location', 'lot', 'name', 'properties', 'set']. "
+                "Extra properties found: {'extra_node'}"
             ),
             Log.CRITICAL.value
         )]
@@ -27,13 +26,32 @@ files_to_expected = {
     "missing_samples_node_root_property.json": {
         samples.ITEMS: [(
             (
-                "'properties' must only contain ['id', "
-                "'barcode', 'name', 'batch', 'set', 'lot', "
-                "'location', 'properties', 'labels']"
+                "'properties' must only contain ['barcode', 'batch', 'id', 'labels', 'location', 'lot', 'name', 'properties', 'set']. "
+                "Missing properties: {'set'}"
             ),
             Log.CRITICAL.value
         )]
     },
+    "both_missing_and_extra_property.json": {
+        samples.ITEMS: [
+            (
+                "'properties' must only contain "
+                "['barcode', 'batch', 'id', 'labels', "
+                "'location', 'lot', 'name', 'properties', "
+                "'set']. Extra properties found: "
+                "{'extra_property'}",
+                Log.CRITICAL.value
+            ),
+            (
+                "'properties' must only contain "
+                "['barcode', 'batch', 'id', 'labels', "
+                "'location', 'lot', 'name', 'properties', "
+                "'set']. Missing properties: {'barcode'}",
+                Log.CRITICAL.value
+            )
+        ]
+    },
+
     "extended_nested_properties.json": {},  # Nested properties are extensible
     "missing_nested_essential_properties.json": {
         samples.BATCH: [(
@@ -278,6 +296,7 @@ files_to_expected = {
         )]
     }
 }
+
 
 @pytest.mark.parametrize("fname,expected", files_to_expected.items())
 def test_samples_node(fname, expected):
