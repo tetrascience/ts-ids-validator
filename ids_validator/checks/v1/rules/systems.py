@@ -27,79 +27,44 @@ systems_rules = {
             "vendor",
             "model",
             "type",
-        ]
+        ],
     },
     ITEMS: {
         "type": "object",
-        "min_required": [
-            "vendor",
-            "model",
-            "type"
-        ],
-
+        "min_required": ["vendor", "model", "type"],
     },
-    ID: {
-        "type": ["string", "null"]
-    },
-    NAME: {
-        "type": ["string", "null"]
-    },
-    VENDOR: {
-        "type": ["string", "null"]
-    },
-    MODEL: {
-        "type": ["string", "null"]
-    },
-    TYPE: {
-        "type": ["string", "null"]
-    },
+    ID: {"type": ["string", "null"]},
+    NAME: {"type": ["string", "null"]},
+    VENDOR: {"type": ["string", "null"]},
+    MODEL: {"type": ["string", "null"]},
+    TYPE: {"type": ["string", "null"]},
     SERIAL_NUMBER: {"type": ["string", "null"]},
-
     FIRMWARE: {
         "type": "array",
         "min_properties": [
             "name",
             "version",
-        ]
+        ],
     },
     FIRMWARE_ITEMS: {
         "type": "object",
-        "min_required": [
-            "name",
-            "version"
-        ],
+        "min_required": ["name", "version"],
     },
-    FIRMWARE_NAME: {
-        "type": ["string", "null"]
-    },
-    FIRMWARE_VERSION: {
-        "type": ["string", "null"]
-    },
-    FIRMWARE_LAST_UPDATE: {
-        "type": ["string", "null"]
-    },
-
+    FIRMWARE_NAME: {"type": ["string", "null"]},
+    FIRMWARE_VERSION: {"type": ["string", "null"]},
+    FIRMWARE_LAST_UPDATE: {"type": ["string", "null"]},
     SOFTWARE: {
         "type": "array",
         "min_properties": [
             "name",
             "version",
-        ]
+        ],
     },
     SOFTWARE_ITEMS: {
         "type": "object",
-        "min_required": [
-            "name",
-            "version"
-        ],
+        "min_required": ["name", "version"],
     },
-    SOFTWARE_NAME: {
-        "type": ["string", "null"]
-    },
-    SOFTWARE_VERSION: {
-        "type": ["null", "string"]
-    },
-    SOFTWARE_LAST_UPDATE: {
-        "type": ["string", "null"]
-    },
+    SOFTWARE_NAME: {"type": ["string", "null"]},
+    SOFTWARE_VERSION: {"type": ["null", "string"]},
+    SOFTWARE_LAST_UPDATE: {"type": ["string", "null"]},
 }

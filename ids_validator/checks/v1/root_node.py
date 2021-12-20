@@ -18,12 +18,15 @@ class V1RootNodeChecker(AbstractChecker):
         if node.path == "roots":
             convention_version = get(node, CONVENTION_VERSION_PATH)
             checks = [
-                get(convention_version, "type") == 'string',
-                get(convention_version, "const")
+                get(convention_version, "type") == "string",
+                get(convention_version, "const"),
             ]
             if not convention_version or not all(checks):
                 logs.append(
-                    (f"'{CONVENTION_VERSION_PATH}' must be of type 'string' with none-empty 'const'", Log.CRITICAL.value)
+                    (
+                        f"'{CONVENTION_VERSION_PATH}' must be of type 'string' with none-empty 'const'",
+                        Log.CRITICAL.value,
+                    )
                 )
 
         return logs

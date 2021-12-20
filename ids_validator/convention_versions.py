@@ -13,7 +13,4 @@ class Conventions(Enum):
 
     @staticmethod
     def values():
-        return sorted([
-            convention.value
-            for convention in Conventions
-        ])
+        return sorted([convention.value for convention in Conventions])

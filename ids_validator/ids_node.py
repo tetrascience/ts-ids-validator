@@ -3,7 +3,6 @@ from pydash import get
 
 
 class Node(UserDict):
-
     def __init__(self, ids_dict, path="", name="root"):
         self.data = ids_dict
         self.name = name
@@ -12,10 +11,10 @@ class Node(UserDict):
     @property
     def properties_dict(self):
         ids = self.data
-        if ids.get('type') == 'object' and ids.get('properties') is not None:
-            return ids.get('properties')
-        elif ids.get('type') == 'array' and get(ids, 'items.properties') is not None:
-            return get(ids, 'items.properties')
+        if ids.get("type") == "object" and ids.get("properties") is not None:
+            return ids.get("properties")
+        elif ids.get("type") == "array" and get(ids, "items.properties") is not None:
+            return get(ids, "items.properties")
         else:
             return None
 
@@ -27,23 +26,20 @@ class Node(UserDict):
 
     @property
     def type_(self):
-        type = self.data.get('type')
+        type = self.data.get("type")
         return type
 
     @property
     def has_required_list(self):
-        required = self.get('required')
+        required = self.get("required")
         required_exist = required and type(required) == list
         return True if required_exist else False
 
     def required_contains_values(self, min_required_values: list):
         if self.has_required_list:
-            required = set(self.get('required'))
+            required = set(self.get("required"))
             min_required = set(min_required_values)
-            return (
-                False if min_required - required
-                else True
-            )
+            return False if min_required - required else True
         return False
 
     def has_properties(self, prop_list: list):
@@ -52,11 +48,7 @@ class Node(UserDict):
 
         req_prop = set(prop_list)
 
-        return (
-            False
-            if req_prop - properties
-            else True
-        )
+        return False if req_prop - properties else True
 
     @property
     def missing_properties(self):
@@ -68,7 +60,7 @@ class Node(UserDict):
     def has_valid_type(self):
         if "const" in self.data:
             return self._check_const_type()
-        if self.type_ == 'object':
+        if self.type_ == "object":
             return self._check_object_type()
         elif self.type_ == "array":
             return self._check_array_type()
@@ -84,15 +76,15 @@ class Node(UserDict):
         not be a list
         """
         valid_const_type = [
-            'number',
-            'string',
-            'boolean',
-            'integer',
+            "number",
+            "string",
+            "boolean",
+            "integer",
         ]
-        if self.type_ not in  valid_const_type:
+        if self.type_ not in valid_const_type:
             return (
                 False,
-                f"'type' must be one of {valid_const_type} when 'const' is defined"
+                f"'type' must be one of {valid_const_type} when 'const' is defined",
             )
         return True, None
 
@@ -105,11 +97,9 @@ class Node(UserDict):
             if its invalid `object` type
         """
         return (
-            (True, None) if self.properties_list
-            else (
-                False,
-                "'object' type must  contains non-empty 'properties'"
-            )
+            (True, None)
+            if self.properties_list
+            else (False, "'object' type must  contains non-empty 'properties'")
         )
 
     def _check_array_type(self):
@@ -124,14 +114,11 @@ class Node(UserDict):
         # Arrays inside datacubes measures and dimensions
         # doesn't need to have children. So, ignore them.
         ignored_paths = [
-            'datacubes.items.properties.measures',
-            'datacubes.items.properties.dimensions',
+            "datacubes.items.properties.measures",
+            "datacubes.items.properties.dimensions",
         ]
 
-        if (
-            ignored_paths[0] in self.path
-            or ignored_paths[1] in self.path
-        ):
+        if ignored_paths[0] in self.path or ignored_paths[1] in self.path:
             return (True, None)
 
         # Array must contain items: dict
@@ -153,74 +140,37 @@ class Node(UserDict):
         return True, None
 
     def _check_list_type(self):
-        valid_nullable_types = {
-            'number',
-            'string',
-            'boolean',
-            'integer',
-            'null'
-        }
+        valid_nullable_types = {"number", "string", "boolean", "integer", "null"}
 
         checks = [
             # Length of list type must 2.
             (0 < len(self.type_) <= 2),
-
             # list must not contain same value
             len(set(self.type_)) == len(self.type_),
-
             # List must only contain values from
             # valid_nullable types
             ((set(self.type_) - valid_nullable_types) == set()),
-
             # If list contains two data types
             # make sure one of them is null
-            (
-                ("null" in self.type_)
-                if len(self.type_) == 2
-                else True
-            ),
-
+            (("null" in self.type_) if len(self.type_) == 2 else True),
             # If list contains one datatypes
             # make sure its not null
-            (
-                ("null" not in self.type_)
-                if len(self.type_) == 1
-                else True
-            )
-
+            (("null" not in self.type_) if len(self.type_) == 1 else True),
         ]
-        result = (
-            (True, None) if all(checks)
-            else (False, None)
-        )
+        result = (True, None) if all(checks) else (False, None)
         return result
 
     def _check_unit_type(self):
-        valid_types = {
-            'number',
-            'string',
-            'boolean',
-            'array',
-            'object',
-            'integer'
-        }
-        return (
-            (True, None) if self.type_ in valid_types
-            else (False, None)
-        )
+        valid_types = {"number", "string", "boolean", "array", "object", "integer"}
+        return (True, None) if self.type_ in valid_types else (False, None)
 
     def _is_numeric_type(self):
         if type(self.type_) == list:
             type_ = sorted(self.type_)
-            if not (
-                type_ in [
-                    sorted(["null", "integer"]),
-                    sorted(["null", "number"])
-                ]
-            ):
+            if not (type_ in [sorted(["null", "integer"]), sorted(["null", "number"])]):
                 return False
 
-        elif not(self.type_ in ["number", "integer"]):
+        elif not (self.type_ in ["number", "integer"]):
             return False
 
         return True
