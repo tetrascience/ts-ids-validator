@@ -8,39 +8,15 @@ HOLDER_TYPE = f"{LOCATION}.properties.holder.properties.type"
 HOLDER_BARCODE = f"{LOCATION}.properties.holder.properties.barcode"
 
 path_to_checks = {
-    LOCATION:{
+    LOCATION: {
         "type": "object",
-        "min_properties": [
-            "position",
-            "row",
-            "column",
-            "holder"
-        ]
+        "min_properties": ["position", "row", "column", "holder"],
     },
-    POSITION: {
-        "type": ["string", "null"]
-    },
-    ROW: {
-        "type": ["number", "null"]
-    },
-    COLUMN: {
-        "type": ["number", "null"]
-    },
-    HOLDER: {
-        "type": "object",
-        "min_properties": [
-            "name",
-            "type",
-            "barcode"
-        ]
-    },
-    HOLDER_NAME: {
-        "type": ["string", "null"]
-    },
-    HOLDER_TYPE: {
-        "type": ["string", "null"]
-    },
-    HOLDER_BARCODE: {
-        "type": ["string", "null"]
-    },
+    POSITION: {"type": ["string", "null"]},
+    ROW: {"type": ["number", "null"]},
+    COLUMN: {"type": ["number", "null"]},
+    HOLDER: {"type": "object", "min_properties": ["name", "type", "barcode"]},
+    HOLDER_NAME: {"type": ["string", "null"]},
+    HOLDER_TYPE: {"type": ["string", "null"]},
+    HOLDER_BARCODE: {"type": ["string", "null"]},
 }

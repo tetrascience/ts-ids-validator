@@ -17,7 +17,7 @@ from ids_validator.checks.v1 import (
     V1SampleNodeChecker,
     V1SystemNodeChecker,
     V1UserNodeChecker,
-    V1RelatedFilesChecker
+    V1RelatedFilesChecker,
 )
 
 generic_checks = [
@@ -27,7 +27,7 @@ generic_checks = [
     RootNodeChecker(),
     TypeChecker(),
     ElasticsearchChecker(),
-    AthenaChecker()
+    AthenaChecker(),
 ]
 
 v1_checks = generic_checks + [
@@ -44,5 +44,5 @@ v1_checks = generic_checks + [
 
 checks_dict = {
     Conventions.GENERIC: generic_checks,
-    Conventions.V1_0_0 : v1_checks,
+    Conventions.V1_0_0: v1_checks,
 }

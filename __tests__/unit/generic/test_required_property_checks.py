@@ -11,10 +11,9 @@ from ids_validator.utils import read_schema, Log
 UNIT_TEST_FILES = Path("__tests__/unit/generic/files/required_property")
 
 fname_to_expected = {
-    "required_property_not_defined.json": [(
-        "Required Properties are missing: {'@idsType'}",
-        Log.CRITICAL.value
-    )],
+    "required_property_not_defined.json": [
+        ("Required Properties are missing: {'@idsType'}", Log.CRITICAL.value)
+    ],
 }
 
 

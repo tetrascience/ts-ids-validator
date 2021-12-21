@@ -14,20 +14,23 @@ class AdditionalPropertyChecker(AbstractChecker):
     def run(self, node: Node, context: dict = None):
         logs = []
 
-        if (
-            node.get("type") != 'object'
-            and "additionalProperties" in node
-        ):
+        if node.get("type") != "object" and "additionalProperties" in node:
             logs.append(
-                ("'additionalProperties' can only be defined for 'type = object'", Log.CRITICAL.value)
+                (
+                    "'additionalProperties' can only be defined for 'type = object'",
+                    Log.CRITICAL.value,
+                )
             )
 
         if (
-            node.get("type") == 'object'
+            node.get("type") == "object"
             and node.get("additionalProperties") is not False
         ):
             logs.append(
-                ("'additionalProperties' must be present and set to 'false' for 'object' types", Log.CRITICAL.value)
+                (
+                    "'additionalProperties' must be present and set to 'false' for 'object' types",
+                    Log.CRITICAL.value,
+                )
             )
 
         return logs

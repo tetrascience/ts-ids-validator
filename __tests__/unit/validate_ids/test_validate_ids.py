@@ -8,10 +8,11 @@ example_input = Path("__tests__/unit/validate_ids/files")
 
 
 @pytest.mark.parametrize(
-    "test_dir, expected",[
+    "test_dir, expected",
+    [
         ("invalid_ids", False),
         ("valid_ids", True),
-    ]
+    ],
 )
 def test_generic_validators(test_dir, expected):
     ids_dir = example_input / test_dir

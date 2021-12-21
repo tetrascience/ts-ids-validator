@@ -29,16 +29,13 @@ def get_validator_type(version: str, ids: dict) -> Conventions:
         result = Conventions.get_by_value(version)
         if result not in checks_dict:
             print(
-                f"* Invalid Version passed. Supported Version: {Conventions.values()}")
+                f"* Invalid Version passed. Supported Version: {Conventions.values()}"
+            )
             sys.exit(1)
         return result
     else:
         print(f"* Reading @idsConventionVersion from schema.json")
-        convention = get(
-            ids,
-            "properties.@idsConventionVersion.const",
-            None
-        )
+        convention = get(ids, "properties.@idsConventionVersion.const", None)
         if convention is None:
             print("* @idsConvention not specified in schema.json.")
             print("* Using Generic Validator")

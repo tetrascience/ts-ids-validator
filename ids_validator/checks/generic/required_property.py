@@ -17,7 +17,10 @@ class RequiredPropertiesChecker(AbstractChecker):
             missing_properties = node.missing_properties
             if missing_properties:
                 logs.append(
-                    (f"Required Properties are missing: {missing_properties}", Log.CRITICAL.value)
+                    (
+                        f"Required Properties are missing: {missing_properties}",
+                        Log.CRITICAL.value,
+                    )
                 )
 
         return logs

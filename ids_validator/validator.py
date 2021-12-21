@@ -21,7 +21,7 @@ class Validator:
             "athena.json": self.athena,
             "schema.json": self.ids,
             "convention_version": convention_version,
-            "ids_folder_path": ids_folder_path
+            "ids_folder_path": ids_folder_path,
         }
         self.console = Console()
         self.property_failures = {}
@@ -46,13 +46,11 @@ class Validator:
         self._traverse(schema=self.ids)
 
     def log(self, messages, property_name, prop_color="red"):
-        self.console.print(
-            f"[b u  {prop_color}]{property_name}[/b u {prop_color}]:")
+        self.console.print(f"[b u  {prop_color}]{property_name}[/b u {prop_color}]:")
 
         for msg, log_level in sorted(messages, key=lambda x: str(x[0])):
             if log_level == Log.CRITICAL.value:
                 self.has_critical_failures = True
 
             msg_color = "yellow" if log_level == Log.CRITICAL.value else "white"
-            self.console.print(
-                f"[italic {msg_color}]   * {msg}[italic {msg_color}]")
+            self.console.print(f"[italic {msg_color}]   * {msg}[italic {msg_color}]")

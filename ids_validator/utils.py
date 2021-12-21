@@ -6,7 +6,7 @@ from enum import IntEnum
 
 def read_schema(fname):
     try:
-        with open(fname, 'r') as f:
+        with open(fname, "r") as f:
             schema = deepcopy(jsonref.load(f))
             return schema
     except Exception as e:
@@ -16,12 +16,7 @@ def read_schema(fname):
 
 def save_json(data: dict, fname):
     with open(fname, "w") as fout:
-        json.dump(
-            data,
-            fout,
-            indent=2,
-            ensure_ascii=False
-        )
+        json.dump(data, fout, indent=2, ensure_ascii=False)
 
 
 class Log(IntEnum):
