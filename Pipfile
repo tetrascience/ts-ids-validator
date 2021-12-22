@@ -10,7 +10,7 @@ pytest-mock = "*"
 snapshottest = "*"
 autopep8 = "*"
 build = "*"
-black = "==21.12b0"
+black = ">=21.12b0"
 
 [packages]
 jsonref = "*"
