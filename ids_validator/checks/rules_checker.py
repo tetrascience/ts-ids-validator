@@ -23,24 +23,13 @@ class RuleBasedChecker(AbstractChecker):
         if "type" in checks:
             logs += cls.enforce_type(node, checks.get("type"))
         if "required" in checks:
-            logs += cls.enforce_required(
-                node,
-                checks.get("required")
-            )
+            logs += cls.enforce_required(node, checks.get("required"))
         if "properties" in checks:
-            logs += cls.enforce_properties(
-                node,
-                checks.get("properties")
-            )
+            logs += cls.enforce_properties(node, checks.get("properties"))
         if "min_properties" in checks:
-            logs += cls.enforce_min_properties(
-                node,
-                checks.get("min_properties")
-            )
+            logs += cls.enforce_min_properties(node, checks.get("min_properties"))
         if "min_required" in checks:
-            logs += cls.enforce_min_required(
-                node, checks.get("min_required")
-            )
+            logs += cls.enforce_min_required(node, checks.get("min_required"))
         return logs
 
     @classmethod
@@ -61,15 +50,9 @@ class RuleBasedChecker(AbstractChecker):
         if type(node.type_) != type(type_):
             logs += [(f"'type' must be {type_}", Log.CRITICAL.value)]
             return logs
-        elif (
-            (type(type_) == list)
-            and (sorted(node.type_) != sorted(type_))
-        ):
+        elif (type(type_) == list) and (sorted(node.type_) != sorted(type_)):
             logs += [(f"'type' must be {type_}", Log.CRITICAL.value)]
-        elif (
-            (type(type_) != list)
-            and (node.type_ != type_)
-        ):
+        elif (type(type_) != list) and (node.type_ != type_):
             logs += [(f"'type' must be {type_}", Log.CRITICAL.value)]
 
         return logs
@@ -90,68 +73,60 @@ class RuleBasedChecker(AbstractChecker):
         min_required = set(required)
         node_required = node.get("required", [])
         if type(node_required) != list:
-            logs += [(
-                f"'required' must contain {min_required}",
-                Log.CRITICAL.value
-            )]
+            logs += [(f"'required' must contain {min_required}", Log.CRITICAL.value)]
             return logs
 
         node_required = set(node_required)
         missing = min_required - node_required
         if missing:
-            logs += [(
-                f"'required' must contain {missing}",
-                Log.CRITICAL.value
-            )]
+            logs += [(f"'required' must contain {missing}", Log.CRITICAL.value)]
 
         return logs
 
     @classmethod
     def enforce_properties(cls, node: Node, properties: list):
         logs = []
-        node_properties = (
-            get(node, "properties")
-            or get(node, "items.properties")
-            or {}
-        )
+        node_properties = get(node, "properties") or get(node, "items.properties") or {}
         node_properties = node_properties.keys()
         properties = set(properties)
 
         extra_properties = node_properties - properties
         missing_properties = properties - node_properties
         if extra_properties:
-            logs += [(
+            logs += [
                 (
-                    f"'properties' must only contain {sorted(properties)}. Extra properties found: {extra_properties}"
-                ),
-                Log.CRITICAL.value
-            )]
+                    (
+                        f"'properties' must only contain {sorted(properties)}. Extra properties found: {extra_properties}"
+                    ),
+                    Log.CRITICAL.value,
+                )
+            ]
 
         if missing_properties:
-            logs += [(
+            logs += [
                 (
-                    f"'properties' must only contain {sorted(properties)}. Missing properties: {missing_properties}"
-                ),
-                Log.CRITICAL.value
-            )]
+                    (
+                        f"'properties' must only contain {sorted(properties)}. Missing properties: {missing_properties}"
+                    ),
+                    Log.CRITICAL.value,
+                )
+            ]
 
         return logs
 
     @classmethod
     def enforce_min_properties(cls, node: Node, properties: list):
         logs = []
-        node_properties = (
-            get(node, "properties")
-            or get(node, "items.properties")
-            or {}
-        )
+        node_properties = get(node, "properties") or get(node, "items.properties") or {}
         node_properties = set(node_properties.keys())
         min_props = set(properties)
 
         missing = min_props - node_properties
         if missing:
-            logs += [(
-                f"'properties' must contain {sorted(list(missing))}",
-                Log.CRITICAL.value
-            )]
+            logs += [
+                (
+                    f"'properties' must contain {sorted(list(missing))}",
+                    Log.CRITICAL.value,
+                )
+            ]
         return logs

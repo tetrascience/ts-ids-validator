@@ -24,7 +24,12 @@ class AthenaChecker(AbstractChecker):
         logs = []
         if node.name == "root":
             if not context.get("athena.json"):
-                logs += [("Make sure athena.js exist in IDS folder and has correct structure.", Log.CRITICAL.value)]
+                logs += [
+                    (
+                        "Make sure athena.js exist in IDS folder and has correct structure.",
+                        Log.CRITICAL.value,
+                    )
+                ]
 
             athena = context.get("athena.json")
             ids = context.get("schema.json")
@@ -36,27 +41,21 @@ class AthenaChecker(AbstractChecker):
 
             partition_paths = self.get_athena_partitions_path(athena)
             logs += self.check_all_paths_exist(partition_paths, ids_node)
-            logs += self.check_paths_nested_inside_array(
-                partition_paths, ids_node)
+            logs += self.check_paths_nested_inside_array(partition_paths, ids_node)
             logs += self.check_path_and_name_conflicts(athena)
-            logs += self.check_athena_path_and_root_properties_conflict(
-                ids, athena)
+            logs += self.check_athena_path_and_root_properties_conflict(ids, athena)
 
         return logs
 
     @classmethod
     def check_all_paths_exist(cls, partition_paths: list, ids: Node):
         logs = []
-        missing = [
-            path
-            for path in partition_paths
-            if not cls.path_exists(path, ids)
-        ]
+        missing = [path for path in partition_paths if not cls.path_exists(path, ids)]
         if missing:
             logs.append(
                 (
                     f"Athena.js: Cannot find following properties in IDS: {sorted(missing)}",
-                    Log.CRITICAL.value
+                    Log.CRITICAL.value,
                 )
             )
         return logs
@@ -65,20 +64,20 @@ class AthenaChecker(AbstractChecker):
     def check_paths_nested_inside_array(cls, partition_paths: list, ids: Node):
         logs = []
         existing_partition_paths = [
-            path
-            for path in partition_paths
-            if cls.path_exists(path, ids)
+            path for path in partition_paths if cls.path_exists(path, ids)
         ]
-        paths_nested_inside_array = sorted([
-            path
-            for path in existing_partition_paths
-            if cls.path_nested_in_array(path, ids)
-        ])
+        paths_nested_inside_array = sorted(
+            [
+                path
+                for path in existing_partition_paths
+                if cls.path_nested_in_array(path, ids)
+            ]
+        )
         if paths_nested_inside_array:
             logs.append(
                 (
                     f"Athena.js: Following paths are either array type or nested in array types: {paths_nested_inside_array}",
-                    Log.CRITICAL.value
+                    Log.CRITICAL.value,
                 )
             )
         return logs
@@ -98,14 +97,19 @@ class AthenaChecker(AbstractChecker):
         """
         logs = []
         partitions_name = set(cls.get_athena_partitions_name(athena_dict))
-        normalized_paths = set([
-            cls.normalize_path_name(path)
-            for path in cls.get_athena_partitions_path(athena_dict)
-        ])
+        normalized_paths = set(
+            [
+                cls.normalize_path_name(path)
+                for path in cls.get_athena_partitions_path(athena_dict)
+            ]
+        )
         intersection = partitions_name.intersection(normalized_paths)
         if intersection:
             logs.append(
-                (f"Athena.js: Following names are conflicting with path: {', '.join(intersection)}", Log.CRITICAL.value)
+                (
+                    f"Athena.js: Following names are conflicting with path: {', '.join(intersection)}",
+                    Log.CRITICAL.value,
+                )
             )
         return logs
 
@@ -116,18 +120,21 @@ class AthenaChecker(AbstractChecker):
         logs = []
 
         ids_top_level_props = set(ids_dict.get("properties", {}).keys())
-        athena_normalized_paths = set([
-            cls.normalize_path_name(path)
-            for path in cls.get_athena_partitions_path(athena_dict)
-        ])
-
-        intersection = ids_top_level_props.intersection(
-            athena_normalized_paths
+        athena_normalized_paths = set(
+            [
+                cls.normalize_path_name(path)
+                for path in cls.get_athena_partitions_path(athena_dict)
+            ]
         )
+
+        intersection = ids_top_level_props.intersection(athena_normalized_paths)
         intersection = sorted(list(intersection))
         if intersection:
             logs.append(
-                (f"Athena.js: Following athena paths are in conflict with top level properties in IDS schema: {intersection}", Log.CRITICAL.value)
+                (
+                    f"Athena.js: Following athena paths are in conflict with top level properties in IDS schema: {intersection}",
+                    Log.CRITICAL.value,
+                )
             )
 
         return logs
@@ -143,9 +150,8 @@ class AthenaChecker(AbstractChecker):
         for idx, node in enumerate(nodes):
             children = parent.properties_dict
             child = children.get(node)
-            if (
-                (parent["type"] == 'array' and idx > 1)
-                or (child["type"] == "array" and idx > 0)
+            if (parent["type"] == "array" and idx > 1) or (
+                child["type"] == "array" and idx > 0
             ):
                 return True
 
@@ -178,19 +184,13 @@ class AthenaChecker(AbstractChecker):
     @classmethod
     def get_athena_partitions_path(cls, athena_schema) -> list:
         partitions = athena_schema.get("partitions", {})
-        paths = [
-            partition.get("path")
-            for partition in partitions
-        ]
+        paths = [partition.get("path") for partition in partitions]
         return paths
 
     @classmethod
     def get_athena_partitions_name(cls, athena_schema) -> list:
         partitions = athena_schema.get("partitions", {})
-        names = [
-            partition.get("name")
-            for partition in partitions
-        ]
+        names = [partition.get("name") for partition in partitions]
         return names
 
     @classmethod
@@ -209,17 +209,15 @@ class AthenaChecker(AbstractChecker):
     def _validate_schema(self, athena_schema):
         logs = []
         if not ATHENA_TEMPLATE.exists():
-            logs += [(
-                f"Could not find athena template : {ATHENA_TEMPLATE}", Log.CRITICAL
-            )]
+            logs += [
+                (f"Could not find athena template : {ATHENA_TEMPLATE}", Log.CRITICAL)
+            ]
             return logs
 
         template_schema = read_schema(ATHENA_TEMPLATE)
         try:
-            validate(athena_schema,template_schema)
+            validate(athena_schema, template_schema)
         except Exception as e:
             msg = str(e).split("\n")[0]
-            logs += [(
-                f"JSON schema validation failed : {msg}", Log.CRITICAL
-            )]
+            logs += [(f"JSON schema validation failed : {msg}", Log.CRITICAL)]
         return logs

@@ -25,51 +25,25 @@ path_to_checks = {
             "numerical_value",
             "numerical_value_unit",
             "boolean_value",
-            "time"
+            "time",
         ],
     },
     SOURCE: {
         "type": "object",
-        "required": [
-            "name",
-            "type"
-        ],
-        "min_properties": ["name", "type"]
+        "required": ["name", "type"],
+        "min_properties": ["name", "type"],
     },
-    SOURCE_NAME: {
-        "type": ["string", "null"]
-    },
-    SOURCE_TYPE: {
-        "type":  ["string", "null"]
-    },
-    NAME: {
-        "type": "string"
-    },
-    VALUE: {
-        "type": "string"
-    },
-    VALUE_DATA_TYPE: {
-        "type": "string"
-    },
-    STRING_VALUE: {
-        "type": ["string", "null"]
-    },
-    NUMERICAL_VALUE: {
-        "type": ["number", "null"]
-    },
+    SOURCE_NAME: {"type": ["string", "null"]},
+    SOURCE_TYPE: {"type": ["string", "null"]},
+    NAME: {"type": "string"},
+    VALUE: {"type": "string"},
+    VALUE_DATA_TYPE: {"type": "string"},
+    STRING_VALUE: {"type": ["string", "null"]},
+    NUMERICAL_VALUE: {"type": ["number", "null"]},
     NUMERICAL_VALUE_UNIT: {
         "type": ["string", "null"],
     },
-    BOOLEAN_VALUE: {
-        "type": ["boolean", "null"]
-    },
-    TIME: {
-        "type": "object",
-        "required": ["lookup"],
-        "min_properties": ["lookup"]
-    },
-    TIME_LOOKUP: {
-        "type": ["string", "null"]
-    }
+    BOOLEAN_VALUE: {"type": ["boolean", "null"]},
+    TIME: {"type": "object", "required": ["lookup"], "min_properties": ["lookup"]},
+    TIME_LOOKUP: {"type": ["string", "null"]},
 }
-

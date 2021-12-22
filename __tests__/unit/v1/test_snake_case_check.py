@@ -12,24 +12,19 @@ UNIT_TEST_FILES = Path("__tests__/unit/v1/files/child_name_check")
 
 node_name_to_expected = {
     "1": [],
-    "CamelCase": [(
-        "'CamelCase' should be named as snake_case.",
-        Log.CRITICAL.value
-    )],
+    "CamelCase": [("'CamelCase' should be named as snake_case.", Log.CRITICAL.value)],
     "_underscore_prefix": [],
     "underscore_suffix_": [],
-    "invalid.special.char": [(
-        "'invalid.special.char' should be named as snake_case.",
-        Log.CRITICAL.value
-    )],
+    "invalid.special.char": [
+        ("'invalid.special.char' should be named as snake_case.", Log.CRITICAL.value)
+    ],
     "@idsConventionVersion": [],
     "snake_case_1": [],
     "1_snake_case": [],
-    "not_snake@case": [(
-        "'not_snake@case' should be named as snake_case.",
-        Log.CRITICAL.value
-    )],
-    "snake1_case": []
+    "not_snake@case": [
+        ("'not_snake@case' should be named as snake_case.", Log.CRITICAL.value)
+    ],
+    "snake1_case": [],
 }
 
 

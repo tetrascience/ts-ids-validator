@@ -10,6 +10,7 @@ pytest-mock = "*"
 snapshottest = "*"
 autopep8 = "*"
 build = "*"
+black = "==21.12b0"
 
 [packages]
 jsonref = "*"
@@ -17,6 +18,3 @@ pydash = "*"
 rich = "*"
 jsonschema = "*"
 ts-ids-es-json-generator = "*"
-
-[requires]
-python_version = "3.7"
