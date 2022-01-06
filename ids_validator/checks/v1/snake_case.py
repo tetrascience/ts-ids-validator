@@ -6,8 +6,10 @@ from ids_validator.utils import Log
 
 ignored_paths = [
     "root.properties.related_files.items.properties.pointer.properties.fileId",
-    "root.properties.related_files.items.properties.pointer.properties.fileKey"
+    "root.properties.related_files.items.properties.pointer.properties.fileKey",
 ]
+
+
 class V1SnakeCaseChecker(AbstractChecker):
     def run(self, node: Node, context: dict = None):
         logs = []
@@ -19,13 +21,7 @@ class V1SnakeCaseChecker(AbstractChecker):
         checks = [
             name.islower() or name.isdigit(),
             len(name.split()) == 1,
-            all(
-                [
-                    x.isalnum()
-                    for x in _filter_empty_string(name.split('_'))
-                ]
-            )
-
+            all([x.isalnum() for x in _filter_empty_string(name.split("_"))]),
         ]
         if not name.startswith("@") and not all(checks):
             logs.append(
@@ -36,8 +32,4 @@ class V1SnakeCaseChecker(AbstractChecker):
 
 
 def _filter_empty_string(str_list):
-    return [
-        str_val
-        for str_val in str_list
-        if str_val != ''
-    ]
+    return [str_val for str_val in str_list if str_val != ""]

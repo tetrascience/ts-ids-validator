@@ -20,7 +20,7 @@ class ElasticsearchChecker(AbstractChecker):
     """
 
     def run(self, node: Node, context: dict = None):
-        if node.path != 'root':
+        if node.path != "root":
             return []
 
         logs = []
@@ -29,27 +29,24 @@ class ElasticsearchChecker(AbstractChecker):
         convention_version = context.get("convention_version", "generic")
 
         criticality = (
-            Log.WARNING.value
-            if convention_version == "generic"
-            else Log.CRITICAL.value
+            Log.WARNING.value if convention_version == "generic" else Log.CRITICAL.value
         )
 
         # Make sure elasticsearch.json exist
         if not elasticsearch_json.exists():
-            logs += [(
-                f"Make sure elasticsearch.json exist at {elasticsearch_json}",
-                criticality
-            )]
+            logs += [
+                (
+                    f"Make sure elasticsearch.json exist at {elasticsearch_json}",
+                    criticality,
+                )
+            ]
             return logs
 
         # Create a temp folder, copy ids/schema.json in it.
         # Generate a new elasticsearch.json in it
         try:
             with tempfile.TemporaryDirectory() as temp_ids_dir:
-                shutil.copy(
-                    ids_dir / "schema.json",
-                    temp_ids_dir
-                )
+                shutil.copy(ids_dir / "schema.json", temp_ids_dir)
                 self._create_new_elasticsearch_json(Path(temp_ids_dir))
                 tmp_es_json = Path(temp_ids_dir) / "elasticsearch.json"
                 original_es_schema = read_schema(elasticsearch_json)
@@ -61,12 +58,10 @@ class ElasticsearchChecker(AbstractChecker):
 
         # Get ES mappings
         original_mapping = json.dumps(
-            original_es_schema.get("mapping", {}),
-            indent=2
+            original_es_schema.get("mapping", {}), indent=2
         ).split("\n")
         generated_mapping = json.dumps(
-            generated_es_schema.get("mapping", {}),
-            indent=2
+            generated_es_schema.get("mapping", {}), indent=2
         ).split("\n")
 
         # Compare ES mappings
@@ -74,7 +69,7 @@ class ElasticsearchChecker(AbstractChecker):
             original_mapping,
             generated_mapping,
             fromfile=str(elasticsearch_json),
-            tofile=str(tmp_es_json)
+            tofile=str(tmp_es_json),
         )
         diff_lines = list(diff_lines)
         if diff_lines:
@@ -87,16 +82,13 @@ class ElasticsearchChecker(AbstractChecker):
             ["python", "-m", "ids_es_json_generator", str(tmp)],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            check=True
+            check=True,
         )
         tmp_es_json = tmp / "elasticsearch.json"
         if not tmp_es_json.exists():
             raise FileNotFoundError(f"Could not find generated elasticsearch.json")
 
     def _format_diffs(self, diffs):
-        lines = [
-            f"    {line}\n"
-            for line in diffs
-        ]
+        lines = [f"    {line}\n" for line in diffs]
         lines = ["Elasticsearch diff \n"] + lines
-        return ''.join(lines)
+        return "".join(lines)

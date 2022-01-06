@@ -1,5 +1,5 @@
 SAMPLES = "root.properties.samples"
-ITEMS =  f"{SAMPLES}.items"
+ITEMS = f"{SAMPLES}.items"
 ID = f"{SAMPLES}.items.properties.id"
 BARCODE = f"{SAMPLES}.items.properties.barcode"
 NAME = f"{SAMPLES}.items.properties.name"
@@ -19,12 +19,12 @@ LABELS = f"{SAMPLES}.items.properties.labels"
 
 
 path_to_checks = {
-    SAMPLES:{
+    SAMPLES: {
         "type": "array",
     },
-    ITEMS:{
+    ITEMS: {
         "type": "object",
-        "properties":[
+        "properties": [
             "id",
             "barcode",
             "name",
@@ -33,67 +33,26 @@ path_to_checks = {
             "lot",
             "location",
             "properties",
-            "labels"
-        ]
+            "labels",
+        ],
     },
-    ID: {
-        "type": ["string", "null"]
-    },
-    BARCODE: {
-        "type": ["string", "null"]
-    },
-    NAME: {
-        "type": ["string", "null"]
-    },
-    BATCH: {
-        "type": "object",
-        "min_properties":[
-            "id",
-            "name",
-            "barcode"
-        ]
-    },
-    BATCH_ID:{
-        "type": ["string", "null"]
-    },
-    BATCH_NAME: {
-        "type": ["string", "null"]
-    },
-    BATCH_BARCODE: {
-        "type": ["string", "null"]
-    },
-    SET: {
-        "type": "object",
-        "min_properties": [
-            "id",
-            "name"
-        ]
-    },
-    SET_ID:{
-        "type": ["string", "null"]
-    },
-    SET_NAME: {
-        "type": ["string", "null"]
-    },
-    LOT: {
-        "type": "object",
-        "min_properties": [
-            "id",
-            "name"
-        ]
-    },
-    LOT_ID: {
-        "type": ["string", "null"]
-    },
-    LOT_NAME: {
-        "type": ["string", "null"]
-    },
-    LOCATION: {
-        "type" : "object"
-    },
+    ID: {"type": ["string", "null"]},
+    BARCODE: {"type": ["string", "null"]},
+    NAME: {"type": ["string", "null"]},
+    BATCH: {"type": "object", "min_properties": ["id", "name", "barcode"]},
+    BATCH_ID: {"type": ["string", "null"]},
+    BATCH_NAME: {"type": ["string", "null"]},
+    BATCH_BARCODE: {"type": ["string", "null"]},
+    SET: {"type": "object", "min_properties": ["id", "name"]},
+    SET_ID: {"type": ["string", "null"]},
+    SET_NAME: {"type": ["string", "null"]},
+    LOT: {"type": "object", "min_properties": ["id", "name"]},
+    LOT_ID: {"type": ["string", "null"]},
+    LOT_NAME: {"type": ["string", "null"]},
+    LOCATION: {"type": "object"},
     PROPERTIES: {
-        "type" : "array",
-        "min_properties":[
+        "type": "array",
+        "min_properties": [
             "source",
             "name",
             "value",
@@ -102,16 +61,11 @@ path_to_checks = {
             "numerical_value",
             "numerical_value_unit",
             "boolean_value",
-            "time"
+            "time",
         ],
     },
     LABELS: {
-        "type" : "array",
-        "min_properties": [
-            "source",
-            "name",
-            "value",
-            "time"
-        ],
+        "type": "array",
+        "min_properties": ["source", "name", "value", "time"],
     },
 }

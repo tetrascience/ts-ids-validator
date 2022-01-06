@@ -10,30 +10,42 @@ from ids_validator.utils import read_schema, Log
 UNIT_TEST_FILES = Path("__tests__/unit/generic/files") / "additional_property"
 
 fname_to_expected = {
-    "additional_property_true.json": [(
-        "'additionalProperties' must be present and set to 'false' for 'object' types",
-        Log.CRITICAL.value
-    )],
-    "additional_property_type_conflict.json": [(
-        "'additionalProperties' can only be defined for 'type = object'",
-        Log.CRITICAL.value
-    )],
-    "additional_property_is_null.json": [(
-        "'additionalProperties' must be present and set to 'false' for 'object' types",
-        Log.CRITICAL.value)],
-    "additional_property_is_0.json": [(
-        "'additionalProperties' must be present and set to 'false' for 'object' types",
-        Log.CRITICAL.value
-    )
+    "additional_property_true.json": [
+        (
+            "'additionalProperties' must be present and set to 'false' for 'object' types",
+            Log.CRITICAL.value,
+        )
     ],
-    "additional_property_not_defined_for_object_type.json": [(
-        "'additionalProperties' must be present and set to 'false' for 'object' types",
-        Log.CRITICAL.value
-    )],
-    "additional_property_is_defined_but_no_type.json": [(
-        "'additionalProperties' can only be defined for 'type = object'",
-        Log.CRITICAL.value
-    )],
+    "additional_property_type_conflict.json": [
+        (
+            "'additionalProperties' can only be defined for 'type = object'",
+            Log.CRITICAL.value,
+        )
+    ],
+    "additional_property_is_null.json": [
+        (
+            "'additionalProperties' must be present and set to 'false' for 'object' types",
+            Log.CRITICAL.value,
+        )
+    ],
+    "additional_property_is_0.json": [
+        (
+            "'additionalProperties' must be present and set to 'false' for 'object' types",
+            Log.CRITICAL.value,
+        )
+    ],
+    "additional_property_not_defined_for_object_type.json": [
+        (
+            "'additionalProperties' must be present and set to 'false' for 'object' types",
+            Log.CRITICAL.value,
+        )
+    ],
+    "additional_property_is_defined_but_no_type.json": [
+        (
+            "'additionalProperties' can only be defined for 'type = object'",
+            Log.CRITICAL.value,
+        )
+    ],
 }
 
 

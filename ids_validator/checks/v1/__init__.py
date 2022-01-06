@@ -6,5 +6,5 @@ from ids_validator.checks.v1.related_files_checker import V1RelatedFilesChecker
 from ids_validator.checks.v1.nodes_checker import (
     V1SampleNodeChecker,
     V1SystemNodeChecker,
-    V1UserNodeChecker
+    V1UserNodeChecker,
 )

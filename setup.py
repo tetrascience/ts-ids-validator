@@ -12,11 +12,7 @@ with open("README.md", "r") as readme_file:
 with open("./requirements.txt", "r") as req_file:
     requirements = req_file.read()
     requirements = requirements.splitlines()
-    requirements = [
-        req
-        for req in requirements
-        if req and req[0].isalpha()
-    ]
+    requirements = [req for req in requirements if req and req[0].isalpha()]
 
 setup(
     name=NAME,
@@ -34,8 +30,8 @@ setup(
     include_package_data=True,
     long_description=readme,
     long_description_content_type="text/markdown",
-    python_requires='>=3.7',
-    license='Apache License 2.0',
+    python_requires=">=3.7",
+    license="Apache License 2.0",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache Software License",
