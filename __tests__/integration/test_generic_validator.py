@@ -6,20 +6,13 @@ from ids_validator.checks import checks_dict
 from ids_validator.validator import Validator
 from ids_validator.convention_versions import Conventions
 from ids_validator.ids_node import Node
-from ids_validator.utils import (
-    read_schema,
-    save_json
-)
+from ids_validator.utils import read_schema, save_json
 
 example_input = Path("__tests__/integration/example-input")
 example_output = Path("__tests__/integration/example-output")
 
 
-@pytest.mark.parametrize(
-    "test_dir", [
-        "generic_validator"
-    ]
-)
+@pytest.mark.parametrize("test_dir", ["generic_validator"])
 def test_generic_validators(test_dir, snapshot):
 
     ids_dir = example_input / test_dir
@@ -34,20 +27,13 @@ def test_generic_validators(test_dir, snapshot):
         athena=athena_schema,
         convention_version=Conventions.GENERIC.value,
         checks_list=checks_dict[Conventions.GENERIC],
-        ids_folder_path=ids_dir
+        ids_folder_path=ids_dir,
     )
     generic_validator.validate_ids()
-    logs = {
-        k: v
-        for k,v in generic_validator.property_failures.items()
-        if v
-    }
+    logs = {k: v for k, v in generic_validator.property_failures.items() if v}
 
     out_path = example_output / test_dir / "failed_props.json"
-    save_json(
-        logs,
-        out_path
-    )
+    save_json(logs, out_path)
 
     snapshot.assert_match(logs)
     assert generic_validator.has_critical_failures
