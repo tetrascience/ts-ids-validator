@@ -194,6 +194,10 @@ class AdhocChecker(AbstractChecker):
 
 ## Changelog
 
+## v0.9.10
+
+- Lock `typing-extensions` version in requirements.txt
+
 ## v0.9.9
 
 - Lock `jsonschema` version in requirements.txt
