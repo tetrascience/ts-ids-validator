@@ -6,6 +6,5 @@ install:
   - pipenv install --dev
 script:
   - pipenv run python -m pytest --cov=ids_validator --cov-branch --cov-report xml
-  - ls -la 
   - sed -i "s;$(pwd);/usr/src;g" coverage.xml
   - docker run -v "$(pwd):/usr/src" sonarsource/sonar-scanner-cli -Dsonar.projectKey=ts-ids-validator -Dsonar.login="$SONAR_TOKEN" -Dsonar.host.url="$SONAR_HOST"
