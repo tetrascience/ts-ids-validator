@@ -1,21 +1,9 @@
 name: Code Quality
 
-on: [push]
+on: pull_request
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-    - name: Black
-      run: |
-        python -m pip install pipenv
-        pipenv sync --dev
-    - name: Black
-      run: |
-        pipenv run black --check .
+  reusable_workflow:
+    uses: tetrascience/ts-data-insights-ci-cd-common/.github/workflows/python_code_quality.yml@main
+    with:
+      python-version: "3.x"
