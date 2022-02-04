@@ -90,7 +90,7 @@ class RuleBasedChecker(AbstractChecker):
         node_properties = node_properties.keys()
         properties = set(properties)
 
-        extra_properties = node_properties - properties
+        extra_properties = node_properties - properties - set(["@link"])
         missing_properties = properties - node_properties
         if extra_properties:
             logs += [
