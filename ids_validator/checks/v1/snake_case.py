@@ -9,12 +9,17 @@ ignored_paths = [
     "root.properties.related_files.items.properties.pointer.properties.fileKey",
 ]
 
+DEFINITIONS_PATH = "root.definitions"
+
 
 class V1SnakeCaseChecker(AbstractChecker):
     def run(self, node: Node, context: dict = None):
         logs = []
 
-        if node.path in ignored_paths:
+        if (
+            node.path in ignored_paths
+            or node.path.startswith(DEFINITIONS_PATH)
+        ):
             return logs
 
         name: str = node.name
