@@ -16,10 +16,7 @@ class V1SnakeCaseChecker(AbstractChecker):
     def run(self, node: Node, context: dict = None):
         logs = []
 
-        if (
-            node.path in ignored_paths
-            or node.path.startswith(DEFINITIONS_PATH)
-        ):
+        if node.path in ignored_paths or node.path.startswith(DEFINITIONS_PATH):
             return logs
 
         name: str = node.name
