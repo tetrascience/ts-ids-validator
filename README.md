@@ -194,6 +194,10 @@ class AdhocChecker(AbstractChecker):
 
 ## Changelog
 
+## v0.9.10
+
+- Modify `V1SnakeCaseChecker` to ignore checks for keys present in `definitions` object.
+
 ## v0.9.9
 
 - Lock `jsonschema` version in requirements.txt
