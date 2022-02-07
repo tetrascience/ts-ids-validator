@@ -36,6 +36,7 @@ def test_snake_case_check(node_name, expected):
 
     assert logs == expected
 
+
 @pytest.mark.parametrize("node_name, expected", node_name_to_expected.items())
 def test_ignore_snake_case_check_for_definitions(node_name, expected):
     snake_case_checker = V1SnakeCaseChecker()
