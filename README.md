@@ -21,9 +21,11 @@
   - [Running Checks for Specific Nodes](#running-checks-for-specific-nodes)
   - [List of Checks for Validator](#list-of-checks-for-validator)
 - [Changelog](#changelog)
-  - [v0.9.8](#v098)
-  - [v0.9.7](#v097)
-  - [v0.9.6](#v096)
+- [v0.9.10](#v0910)
+- [v0.9.9](#v099)
+- [v0.9.8](#v098)
+- [v0.9.7](#v097)
+- [v0.9.6](#v096)
 
 ## Overview
 
@@ -197,6 +199,7 @@ class AdhocChecker(AbstractChecker):
 ## v0.9.10
 
 - Modify `V1SnakeCaseChecker` to ignore checks for keys present in `definitions` object.
+- Add temporary allowance for `@link` in `*.properties`
 
 ## v0.9.9
 
