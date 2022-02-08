@@ -1,3 +1,4 @@
 .coverage
 dev
 .DS_Store
+coverage.xml
