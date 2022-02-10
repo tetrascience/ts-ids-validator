@@ -31,16 +31,6 @@ dirs_to_expected = {
             Log.CRITICAL.value,
         )
     ],
-    "top_level_property_conflict": [
-        (
-            (
-                "Athena.js: Following athena paths are "
-                "in conflict with top level properties in "
-                "IDS schema: ['project_name']"
-            ),
-            Log.CRITICAL.value,
-        )
-    ],
     "invalid_schema": [
         (
             "JSON schema validation failed : 'root' is a required property",
