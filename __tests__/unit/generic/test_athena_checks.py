@@ -37,7 +37,7 @@ dirs_to_expected = {
             Log.CRITICAL.value,
         )
     ],
-    "valid_schema": []
+    "valid_schema": [],
 }
 
 

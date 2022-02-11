@@ -8,6 +8,10 @@
         {
             "path": "mapping_version",
             "name": "mapping_version_partition"
+        },
+        {
+            "path": "transactional_log.message",
+            "name": "message_partition"
         }
     ]
 }
