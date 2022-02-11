@@ -1,0 +1,13 @@
+{
+    "root": "root",
+    "partitions": [
+        {
+            "path": "cro",
+            "name": "cro_partition"
+        },
+        {
+            "path": "mapping_version",
+            "name": "mapping_version_partition"
+        }
+    ]
+}
