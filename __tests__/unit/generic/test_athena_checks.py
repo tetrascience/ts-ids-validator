@@ -14,7 +14,7 @@ dirs_to_expected = {
         (
             (
                 "Athena.js: Cannot find following "
-                "properties in IDS: ['project.names']"
+                "properties in IDS: ['project.time']"
             ),
             Log.CRITICAL.value,
         )

@@ -2,7 +2,7 @@
   "root": "injections",
   "partitions": [
     {
-      "path": "project.names",
+      "path": "project.time",
       "name": "project"
     }
   ]
