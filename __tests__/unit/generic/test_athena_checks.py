@@ -12,10 +12,7 @@ UNIT_TEST_FILES = Path("__tests__/unit/generic/files/athena")
 dirs_to_expected = {
     "invalid_path": [
         (
-            (
-                "Athena.js: Cannot find following "
-                "properties in IDS: ['project.time']"
-            ),
+            ("Athena.js: Cannot find following " "properties in IDS: ['project.time']"),
             Log.CRITICAL.value,
         )
     ],
