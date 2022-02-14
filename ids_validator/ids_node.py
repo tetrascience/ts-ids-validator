@@ -57,6 +57,10 @@ class Node(UserDict):
         return required - properties
 
     @property
+    def has_type(self):
+        return True if "type" in self.data else False
+
+    @property
     def has_valid_type(self):
         if "const" in self.data:
             return self._check_const_type()

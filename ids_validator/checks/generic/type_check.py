@@ -14,4 +14,12 @@ class TypeChecker(AbstractChecker):
         if not type_is_valid:
             msg = msg if msg else f"Invalid 'type': {node.type_}"
             logs.append((msg, Log.CRITICAL.value))
+
+        properties = node.properties_dict
+        if properties is not None:
+            for key, val in properties.items():
+                if isinstance(val, dict) and "type" not in val:
+                    logs.append(
+                        (f"'{node.path}.{key}' has no 'type' defined", Log.CRITICAL)
+                    )
         return logs

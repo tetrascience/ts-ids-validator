@@ -1,0 +1,22 @@
+{
+    "type":"object",
+    "properties":{
+        "alpha":{
+            "items":{
+
+            }
+        },
+        "beta":{
+            "type":"array",
+            "items":{
+                "type": ["string", "null"]
+            }
+        },
+        "gamma": {
+            "type": "array",
+            "items": {
+
+            }
+          }
+    }
+}

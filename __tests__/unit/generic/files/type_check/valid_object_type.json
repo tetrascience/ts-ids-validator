@@ -1,8 +1,14 @@
 {
   "type": "object",
   "properties": {
-    "id": {},
-    "barcode": {},
-    "name": {}
+    "id": {
+      "type": "string"
+    },
+    "barcode": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    }
   }
 }
