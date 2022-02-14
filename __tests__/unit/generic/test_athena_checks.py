@@ -27,7 +27,7 @@ dirs_to_expected = {
     ],
     "inside_array": [
         (
-            "Athena.js: Following paths are either array type or nested in array types: ['results.time']",
+            "Athena.js: Following paths are either array type or nested in array types: ['array_property.simple_property']",
             Log.CRITICAL.value,
         )
     ],
