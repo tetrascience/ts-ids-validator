@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "root_level_property": {
+      "type": "object",
+      "properties":{
+        "nested_property":{
+          "type": "string"
+        }
+      }
+    }
+  }
+}
