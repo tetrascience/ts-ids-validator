@@ -5,7 +5,7 @@
     "root_level_property": {
       "type": "object",
       "properties":{
-        "nested_property":{
+        "child_property":{
           "type": "string"
         }
       }
