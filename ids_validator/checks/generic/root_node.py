@@ -24,6 +24,17 @@ class RootNodeChecker(AbstractChecker):
                             Log.CRITICAL.value,
                         )
                     )
+
+            if "type" not in node.data:
+                logs += [("'root.type' is not defined.", Log.CRITICAL)]
+            elif node.type_ != "object":
+                logs += [
+                    (
+                        f"'root.type' is {node.type_}. It must be set to 'object'",
+                        Log.CRITICAL,
+                    )
+                ]
+
         return logs
 
     @staticmethod

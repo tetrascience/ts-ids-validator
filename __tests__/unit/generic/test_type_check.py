@@ -48,8 +48,10 @@ fname_to_expected = {
             Log.CRITICAL.value,
         )
     ],
-    "invalid_missing_type.json":[],
-    "invalid_type_doesnt_exist.json": [],
+    "invalid_missing_type.json": [
+        ("'root.alpha' has no 'type' defined", Log.CRITICAL),
+        ("'root.beta' has no 'type' defined", Log.CRITICAL),
+    ],
     "valid_type_with_const.json": [],
     "valid_list_type.json": [],
     "valid_array_type.json": [],

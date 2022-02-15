@@ -16,6 +16,7 @@ class TypeChecker(AbstractChecker):
             logs.append((msg, Log.CRITICAL.value))
 
         properties = node.properties_dict
+
         if properties is not None:
             for key, val in properties.items():
                 if isinstance(val, dict) and "type" not in val:
