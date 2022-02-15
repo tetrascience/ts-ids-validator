@@ -1,0 +1,18 @@
+{
+  "type": "objects",
+  "required": ["@idsNamespace", "@idsType", "@idsVersion"],
+  "properties": {
+    "@idsType": {
+      "type": "string",
+      "const": "plate-reader-tecan-sunrise"
+    },
+    "@idsVersion": {
+      "type": "string",
+      "const": "v1.0.0"
+    },
+    "@idsNamespace": {
+      "type": "string",
+      "const": "common"
+    }
+  }
+}
