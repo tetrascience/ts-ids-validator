@@ -49,12 +49,24 @@ fname_to_expected = {
         )
     ],
     "invalid_missing_type.json": [
-        ("'root.alpha' has no 'type' defined. This could be caused by a missing 'type', or a typo in a 'type' or '$ref' keyword.", Log.CRITICAL),
-        ("'root.beta' has no 'type' defined. This could be caused by a missing 'type', or a typo in a 'type' or '$ref' keyword.", Log.CRITICAL)
+        (
+            "'root.alpha' has no 'type' defined. This could be caused by a missing 'type', or a typo in a 'type' or '$ref' keyword.",
+            Log.CRITICAL,
+        ),
+        (
+            "'root.beta' has no 'type' defined. This could be caused by a missing 'type', or a typo in a 'type' or '$ref' keyword.",
+            Log.CRITICAL,
+        ),
     ],
     "invalid_missing_type_due_to_typo.json": [
-        ("'root.alpha' has no 'type' defined. This could be caused by a missing 'type', or a typo in a 'type' or '$ref' keyword.", Log.CRITICAL),
-        ("'root.beta' has no 'type' defined. This could be caused by a missing 'type', or a typo in a 'type' or '$ref' keyword.", Log.CRITICAL)
+        (
+            "'root.alpha' has no 'type' defined. This could be caused by a missing 'type', or a typo in a 'type' or '$ref' keyword.",
+            Log.CRITICAL,
+        ),
+        (
+            "'root.beta' has no 'type' defined. This could be caused by a missing 'type', or a typo in a 'type' or '$ref' keyword.",
+            Log.CRITICAL,
+        ),
     ],
     "valid_type_with_const.json": [],
     "valid_list_type.json": [],
