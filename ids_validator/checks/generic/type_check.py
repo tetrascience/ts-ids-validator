@@ -20,7 +20,8 @@ class TypeChecker(AbstractChecker):
         if properties is not None:
             for key, val in properties.items():
                 if isinstance(val, dict) and "type" not in val:
-                    logs.append(
-                        (f"'{node.path}.{key}' has no 'type' defined", Log.CRITICAL)
-                    )
+                    logs += [(
+                        f"'{node.path}.{key}' has no 'type' defined. This could be caused by a missing 'type', or a typo in a 'type' or '$ref' keyword.",
+                        Log.CRITICAL
+                    )]
         return logs

@@ -30,7 +30,7 @@ class RootNodeChecker(AbstractChecker):
             elif node.type_ != "object":
                 logs += [
                     (
-                        f"'root.type' is {node.type_}. It must be set to 'object'",
+                        f"'root.type' is '{node.type_}'. It must be set to 'object'",
                         Log.CRITICAL,
                     )
                 ]
