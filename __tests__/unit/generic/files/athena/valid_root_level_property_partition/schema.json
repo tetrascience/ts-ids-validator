@@ -2,10 +2,10 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "project": {
+    "root_level_property": {
       "type": "object",
       "properties":{
-        "name":{
+        "child_property":{
           "type": "string"
         }
       }

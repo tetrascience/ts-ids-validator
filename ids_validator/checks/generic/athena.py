@@ -43,7 +43,6 @@ class AthenaChecker(AbstractChecker):
             logs += self.check_all_paths_exist(partition_paths, ids_node)
             logs += self.check_paths_nested_inside_array(partition_paths, ids_node)
             logs += self.check_path_and_name_conflicts(athena)
-            logs += self.check_athena_path_and_root_properties_conflict(ids, athena)
 
         return logs
 
@@ -111,32 +110,6 @@ class AthenaChecker(AbstractChecker):
                     Log.CRITICAL.value,
                 )
             )
-        return logs
-
-    @classmethod
-    def check_athena_path_and_root_properties_conflict(cls, ids_dict, athena_dict):
-        """Normalized partition path must not be a root level
-        ids property."""
-        logs = []
-
-        ids_top_level_props = set(ids_dict.get("properties", {}).keys())
-        athena_normalized_paths = set(
-            [
-                cls.normalize_path_name(path)
-                for path in cls.get_athena_partitions_path(athena_dict)
-            ]
-        )
-
-        intersection = ids_top_level_props.intersection(athena_normalized_paths)
-        intersection = sorted(list(intersection))
-        if intersection:
-            logs.append(
-                (
-                    f"Athena.js: Following athena paths are in conflict with top level properties in IDS schema: {intersection}",
-                    Log.CRITICAL.value,
-                )
-            )
-
         return logs
 
     @classmethod

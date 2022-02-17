@@ -21,6 +21,7 @@
   - [Running Checks for Specific Nodes](#running-checks-for-specific-nodes)
   - [List of Checks for Validator](#list-of-checks-for-validator)
 - [Changelog](#changelog)
+- [v0.9.11](#v0911)
 - [v0.9.10](#v0910)
 - [v0.9.9](#v099)
 - [v0.9.8](#v098)
@@ -195,6 +196,10 @@ class AdhocChecker(AbstractChecker):
 - The list off checks is actually a list of instantiated checker objects
 
 ## Changelog
+
+## v0.9.11
+
+- Fix bug in `AthenaChecker` to allow root level IDS properties as partition paths.
 
 ## v0.9.10
 

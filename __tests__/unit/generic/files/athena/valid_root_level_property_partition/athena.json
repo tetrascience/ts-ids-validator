@@ -1,0 +1,13 @@
+{
+    "root": "root",
+    "partitions": [
+        {
+            "path": "root_level_property",
+            "name": "root_level_property_partition"
+        },
+        {
+            "path": "root_level_property.child_property",
+            "name": "nested_property"
+        }
+    ]
+}
