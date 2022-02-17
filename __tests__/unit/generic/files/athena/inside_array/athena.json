@@ -2,7 +2,7 @@
   "root": "injection",
   "partitions": [
     {
-      "path": "results.time",
+      "path": "array_property.simple_property",
       "name": "time"
     }
   ]

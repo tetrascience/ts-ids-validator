@@ -12,10 +12,7 @@ UNIT_TEST_FILES = Path("__tests__/unit/generic/files/athena")
 dirs_to_expected = {
     "invalid_path": [
         (
-            (
-                "Athena.js: Cannot find following "
-                "properties in IDS: ['project.names']"
-            ),
+            ("Athena.js: Cannot find following " "properties in IDS: ['project.time']"),
             Log.CRITICAL.value,
         )
     ],
@@ -27,17 +24,7 @@ dirs_to_expected = {
     ],
     "inside_array": [
         (
-            "Athena.js: Following paths are either array type or nested in array types: ['results.time']",
-            Log.CRITICAL.value,
-        )
-    ],
-    "top_level_property_conflict": [
-        (
-            (
-                "Athena.js: Following athena paths are "
-                "in conflict with top level properties in "
-                "IDS schema: ['project_name']"
-            ),
+            "Athena.js: Following paths are either array type or nested in array types: ['array_property.simple_property']",
             Log.CRITICAL.value,
         )
     ],
@@ -47,6 +34,7 @@ dirs_to_expected = {
             Log.CRITICAL.value,
         )
     ],
+    "valid_root_level_property_partition": [],
 }
 
 
