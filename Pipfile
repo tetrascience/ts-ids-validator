@@ -20,6 +20,3 @@ ts-ids-es-json-generator = "*"
 
 [pipenv]
 allow_prereleases = true
-
-[requires]
-python_version = "3.7"
