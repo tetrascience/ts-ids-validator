@@ -15,7 +15,7 @@ black = ">=21.12b0"
 jsonref = "*"
 pydash = "*"
 rich = "*"
-jsonschema = "<4, >=3.2.0"
+jsonschema = ">=4.0.0"
 ts-ids-es-json-generator = "*"
 
 [pipenv]
