@@ -1,5 +1,6 @@
 {
-  "type": "object",
+  "type": "objects",
+  "required": ["@idsNamespace", "@idsType", "@idsVersion"],
   "properties": {
     "@idsType": {
       "type": "string",

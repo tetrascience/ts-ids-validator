@@ -200,6 +200,7 @@ class AdhocChecker(AbstractChecker):
 ## v0.9.11
 
 - Fix bug in `AthenaChecker` to allow root level IDS properties as partition paths.
+- Update `TypeChecker` to catch errors related to undefined/misspelled `type` key.
 
 ## v0.9.10
 

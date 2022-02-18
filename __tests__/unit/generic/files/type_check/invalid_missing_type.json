@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "alpha": {
+      "items": {}
+    },
+    "beta": {}
+  }
+}

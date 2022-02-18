@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "definitions": {
+    "nullable_string": {
+      "type": ["string", "null"]
+    }
+  },
+  "properties": {
+    "alpha": {
+      "typ": "object"
+    },
+    "beta": {
+      "ref": "#/definitions/nullable_string"
+    }
+  }
+}

@@ -41,6 +41,11 @@ fname_to_expected = {
             Log.CRITICAL.value,
         ),
     ],
+    "invalid_root_type_not_object.json": [
+        ("'root.type' is 'objects'. It must be set to 'object'", Log.CRITICAL)
+    ],
+    "invalid_root_type_missing.json": [("'root.type' is not defined.", Log.CRITICAL)],
+    "valid_root_node.json": [],
 }
 
 
