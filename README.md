@@ -201,6 +201,7 @@ class AdhocChecker(AbstractChecker):
 
 - Fix bug in `AthenaChecker` to allow root level IDS properties as partition paths.
 - Update `TypeChecker` to catch errors related to undefined/misspelled `type` key.
+- Update `jsonschema` version to `4.4.0`
 
 ## v0.9.10
 
