@@ -10,6 +10,7 @@ pytest-mock = "*"
 snapshottest = "*"
 build = "*"
 black = ">=21.12b0"
+importlib-metadata = "*"
 
 [packages]
 jsonref = "*"
@@ -20,3 +21,6 @@ ts-ids-es-json-generator = "*"
 
 [pipenv]
 allow_prereleases = true
+
+[requires]
+python_version="3.7"
