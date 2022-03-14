@@ -1,0 +1,37 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+        # exclude artifact.json, because the auto-formatter does not add a newline at the end
+        exclude: snapshots*|example-(input|output)*
+      - id: trailing-whitespace
+  - repo: https://github.com/psf/black
+    rev: 22.1.0
+    hooks:
+      - id: black
+        exclude: snapshots
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: "v2.5.1"
+    hooks:
+      - id: prettier
+        exclude: .pre-commit-config.yml|poetry.lock|Pipfile.lock|example-(input|output)*|snapshots*
+  # Linters for static code analysis
+  - repo: https://github.com/pycqa/flake8
+    rev: "4.0.1"
+    hooks:
+      - id: flake8
+        # always pass for now
+        args: [--exit-zero]
+        # always print output even when it passes
+        verbose: true
+
+  - repo: https://github.com/pycqa/pylint
+    rev: v2.12.2
+    hooks:
+      - id: pylint
+        # Fail only in the direst of circumstances
+        args: [--fail-under=0]
+        # always print output even when it passes
+        verbose: true
