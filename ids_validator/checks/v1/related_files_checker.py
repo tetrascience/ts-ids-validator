@@ -1,15 +1,9 @@
 import os
 from pathlib import Path
 
-from ids_validator.checks.abstract_checker import (
-    RUN_RETURN_TYPE,
-    AbstractChecker
-)
+from ids_validator.checks.abstract_checker import RUN_RETURN_TYPE, AbstractChecker
 from ids_validator.ids_node import Node
-from ids_validator.utils import (
-    Log,
-    read_schema
-)
+from ids_validator.utils import Log, read_schema
 from pydash import get
 
 TEMPLATES_DIR = (Path(__file__) / "../../../templates").resolve()

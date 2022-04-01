@@ -7,6 +7,7 @@ from ids_validator.utils import Log
 
 RUN_RETURN_TYPE = List[Tuple[str, Log]]
 
+
 class AbstractChecker(metaclass=ABCMeta):
     @abstractmethod
     def run(self, node: Node, context: dict = None) -> RUN_RETURN_TYPE:

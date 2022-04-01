@@ -1,3 +1,6 @@
+from ids_validator.checks.rules_checker import BackwardCompatibleType
+
+
 LABELS = "root.properties.samples.items.properties.labels"
 ITEMS = f"{LABELS}.items"
 SOURCE = f"{LABELS}.items.properties.source"
@@ -19,14 +22,10 @@ path_to_checks = {
         "min_properties": ["name", "type"],
     },
     SOURCE_NAME: {
-        "compatible_type": {
-            "preferred": ["string", "null"],
-            "deprecated": [
-                "string"
-            ]
-        }
+        "compatible_type": BackwardCompatibleType(
+            preferred=["string", "null"], deprecated=("string",)
+        )
     },
-
     SOURCE_TYPE: {"type": ["string", "null"]},
     NAME: {"type": "string"},
     VALUE: {"type": "string"},

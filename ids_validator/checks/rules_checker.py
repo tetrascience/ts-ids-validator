@@ -1,15 +1,40 @@
-from typing import (
-    List,
-    Union
-)
+from dataclasses import dataclass
+from typing import Dict, List, Sequence, Union
 
-from ids_validator.checks.abstract_checker import (
-    RUN_RETURN_TYPE,
-    AbstractChecker
-)
+from ids_validator.checks.abstract_checker import RUN_RETURN_TYPE, AbstractChecker
 from ids_validator.ids_node import Node
 from ids_validator.utils import Log
 from pydash import get
+
+
+@dataclass
+class BackwardCompatibleType:
+    """Represents a type with one or more backward-compatible deprecated types.
+
+    If a node's type matches the preferred type, no warnings or errors will be logged.
+    If a node's type matches a deprecated type, a warning will be logged. This means
+    validation will not fail for these types, but the user will be told that the type
+    being used is deprecated.
+    """
+
+    preferred: Union[list, str]
+    deprecated: Sequence[Union[list, str]]
+
+
+def types_match(
+    node_type: Union[str, List[str]], expected_type: Union[str, List[str]]
+) -> bool:
+    """Determine whether two jsonschema types match, accounting for types which are a
+    list of types, or a single type
+    """
+    if type(node_type) != type(expected_type):
+        return False
+    elif (type(expected_type) == list) and (sorted(node_type) != sorted(expected_type)):
+        return False
+    elif (type(expected_type) != list) and (node_type != expected_type):
+        return False
+
+    return True
 
 
 class RuleBasedChecker(AbstractChecker):
@@ -28,6 +53,8 @@ class RuleBasedChecker(AbstractChecker):
         logs = []
         if "type" in checks:
             logs += cls.enforce_type(node, checks.get("type"))
+        if "compatible_type" in checks:
+            logs += cls.enforce_compatible_type(node, checks.get("compatible_type"))
         if "required" in checks:
             logs += cls.enforce_required(node, checks.get("required"))
         if "properties" in checks:
@@ -39,10 +66,9 @@ class RuleBasedChecker(AbstractChecker):
         return logs
 
     @classmethod
-    def enforce_type(cls, node: Node, type_: Union[List, str]):
+    def enforce_type(cls, node: Node, type_: Union[List[str], str]):
         logs = []
 
-        # DE-2922
         # don't allow "null" if "const" is defined
         # schema will be enforced only when const is not
         # defined
@@ -53,13 +79,53 @@ class RuleBasedChecker(AbstractChecker):
                 return logs
             return logs
 
-        if type(node.type_) != type(type_):
-            logs += [(f"'type' must be {type_}", Log.CRITICAL.value)]
+        if not types_match(node.type_, type_):
+            logs += [(f"'type' must be {type_}", Log.CRITICAL)]
+
+        return logs
+
+    @classmethod
+    def enforce_compatible_type(
+        cls, node: Node, compatible_type: BackwardCompatibleType
+    ) -> RUN_RETURN_TYPE:
+        """Enforces that the node type matches a preferred or deprecated type.
+
+        If the type matches the preferred type: no warnings or errors
+        If the type matches a deprecated type: log a warning
+        Otherwise the type isn't allowed: log a critical error
+        """
+        logs = []
+        preferred_type = compatible_type.preferred
+        deprecated_types = compatible_type.deprecated
+
+        if "const" in node.data:
+            is_valid, msg = node._check_const_type()
+            if not is_valid:
+                logs += [(msg, Log.CRITICAL.value)]
+                return logs
             return logs
-        elif (type(type_) == list) and (sorted(node.type_) != sorted(type_)):
-            logs += [(f"'type' must be {type_}", Log.CRITICAL.value)]
-        elif (type(type_) != list) and (node.type_ != type_):
-            logs += [(f"'type' must be {type_}", Log.CRITICAL.value)]
+
+        if types_match(node.type_, preferred_type):
+            return logs
+
+        for deprecated_type in deprecated_types:
+            if types_match(node.type_, deprecated_type):
+                logs += [
+                    (
+                        f"'type' '{node.type_}' is deprecated but allowed for backward "
+                        f"compatibility, please use `{preferred_type}` instead.",
+                        Log.WARNING,
+                    )
+                ]
+                return logs
+
+        logs += [
+            (
+                f"'type' must be {preferred_type}, "
+                f"or one of these deprecated types: {deprecated_types}",
+                Log.CRITICAL,
+            )
+        ]
 
         return logs
 

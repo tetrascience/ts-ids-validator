@@ -175,7 +175,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "name": {
-                      "type": "string"
+                      "$ref": "#/definitions/nullable_string"
                     },
                     "type": {
                       "$ref": "#/definitions/nullable_string"

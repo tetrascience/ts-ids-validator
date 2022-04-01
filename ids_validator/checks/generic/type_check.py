@@ -1,7 +1,4 @@
-from ids_validator.checks.abstract_checker import (
-    RUN_RETURN_TYPE,
-    AbstractChecker
-)
+from ids_validator.checks.abstract_checker import RUN_RETURN_TYPE, AbstractChecker
 from ids_validator.ids_node import Node
 from ids_validator.utils import Log
 

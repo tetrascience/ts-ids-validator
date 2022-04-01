@@ -14,6 +14,14 @@ UNIT_TEST_FILES = Path("__tests__/unit/v1/files/samples_node")
 
 files_to_expected = {
     "valid_samples_node.json": {},
+    "valid_samples_node_with_source_type_warning.json": {
+        labels.SOURCE_NAME: [
+            (
+                "'type' 'string' is deprecated but allowed for backward compatibility, please use `['string', 'null']` instead.",
+                Log.WARNING,
+            )
+        ]
+    },
     "extended_samples_root.json": {
         samples.ITEMS: [
             (
@@ -145,7 +153,12 @@ files_to_expected = {
         labels.LABELS: [("'type' must be array", Log.CRITICAL.value)],
         labels.ITEMS: [("'type' must be object", Log.CRITICAL.value)],
         labels.SOURCE: [("'type' must be object", Log.CRITICAL.value)],
-        labels.SOURCE_NAME: [("'type' must be string", Log.CRITICAL.value)],
+        labels.SOURCE_NAME: [
+            (
+                "'type' must be ['string', 'null'], or one of these deprecated types: ('string',)",
+                Log.CRITICAL,
+            )
+        ],
         labels.SOURCE_TYPE: [("'type' must be ['string', 'null']", Log.CRITICAL.value)],
         labels.NAME: [("'type' must be string", Log.CRITICAL.value)],
         labels.VALUE: [("'type' must be string", Log.CRITICAL.value)],

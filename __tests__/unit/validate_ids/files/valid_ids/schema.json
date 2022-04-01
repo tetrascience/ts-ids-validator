@@ -15,16 +15,10 @@
   ],
   "definitions": {
     "nullable_string": {
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": ["string", "null"]
     },
     "nullable_number": {
-      "type": [
-        "number",
-        "null"
-      ]
+      "type": ["number", "null"]
     },
     "intraschema_link": {
       "type": "string",
@@ -32,10 +26,7 @@
     },
     "value_unit_object": {
       "type": "object",
-      "required": [
-        "value",
-        "unit"
-      ],
+      "required": ["value", "unit"],
       "additionalProperties": false,
       "properties": {
         "value": {
@@ -48,11 +39,7 @@
     },
     "raw_value_unit_object": {
       "type": "object",
-      "required": [
-        "string_value",
-        "value",
-        "unit"
-      ],
+      "required": ["string_value", "value", "unit"],
       "additionalProperties": false,
       "properties": {
         "string_value": {
@@ -68,9 +55,7 @@
     },
     "kinetic_window_object": {
       "type": "object",
-      "required": [
-        "number_of_flashes"
-      ],
+      "required": ["number_of_flashes"],
       "properties": {
         "number_of_intervals": {
           "$ref": "#/definitions/nullable_number"
@@ -248,10 +233,7 @@
               "properties": {
                 "source": {
                   "type": "object",
-                  "required": [
-                    "name",
-                    "type"
-                  ],
+                  "required": ["name", "type"],
                   "properties": {
                     "name": {
                       "$ref": "#/definitions/nullable_string"
@@ -272,42 +254,27 @@
                 },
                 "value_data_type": {
                   "type": "string",
-                  "enum": [
-                    "string",
-                    "number",
-                    "boolean"
-                  ],
+                  "enum": ["string", "number", "boolean"],
                   "description": "This is the type of the original value"
                 },
                 "string_value": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": ["string", "null"],
                   "description": "If string_value has a value, then numerical_value, numerical_value_unit, and boolean_value all have to be null"
                 },
                 "numerical_value": {
-                  "type": [
-                    "number",
-                    "null"
-                  ],
+                  "type": ["number", "null"],
                   "description": "If numerical_value has a value, then string_value and boolean_value both have to be null"
                 },
                 "numerical_value_unit": {
                   "$ref": "#/definitions/nullable_string"
                 },
                 "boolean_value": {
-                  "type": [
-                    "boolean",
-                    "null"
-                  ],
+                  "type": ["boolean", "null"],
                   "description": "If boolean_value has a value, then numerical_value, numerical_value_unit, and string_value all have to be null"
                 },
                 "time": {
                   "type": "object",
-                  "required": [
-                    "lookup"
-                  ],
+                  "required": ["lookup"],
                   "additionalProperties": false,
                   "properties": {
                     "lookup": {
@@ -322,22 +289,14 @@
             "type": "array",
             "items": {
               "type": "object",
-              "required": [
-                "source",
-                "name",
-                "value",
-                "time"
-              ],
+              "required": ["source", "name", "value", "time"],
               "properties": {
                 "source": {
                   "type": "object",
-                  "required": [
-                    "name",
-                    "type"
-                  ],
+                  "required": ["name", "type"],
                   "properties": {
                     "name": {
-                      "type": "string"
+                      "$ref": "#/definitions/nullable_string"
                     },
                     "type": {
                       "$ref": "#/definitions/nullable_string"
@@ -353,9 +312,7 @@
                 },
                 "time": {
                   "type": "object",
-                  "required": [
-                    "lookup"
-                  ],
+                  "required": ["lookup"],
                   "additionalProperties": false,
                   "properties": {
                     "lookup": {
@@ -374,10 +331,7 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": [
-          "model",
-          "config"
-        ],
+        "required": ["model", "config"],
         "additionalProperties": false,
         "properties": {
           "@link": {
@@ -393,11 +347,7 @@
             "type": "array",
             "items": {
               "type": "object",
-              "required": [
-                "index",
-                "focus",
-                "power"
-              ],
+              "required": ["index", "focus", "power"],
               "additionalProperties": false,
               "properties": {
                 "index": {
@@ -416,11 +366,7 @@
             "type": "array",
             "items": {
               "type": "object",
-              "required": [
-                "index",
-                "excitation_emission",
-                "gain"
-              ],
+              "required": ["index", "excitation_emission", "gain"],
               "additionalProperties": false,
               "properties": {
                 "index": {
@@ -475,9 +421,7 @@
           },
           "time": {
             "type": "object",
-            "required": [
-              "start"
-            ],
+            "required": ["start"],
             "additionalProperties": false,
             "properties": {
               "start": {
@@ -529,10 +473,7 @@
           },
           "layout": {
             "type": "object",
-            "required": [
-              "plate_format",
-              "reading_direction"
-            ],
+            "required": ["plate_format", "reading_direction"],
             "additionalProperties": false,
             "properties": {
               "plate_format": {
@@ -547,13 +488,7 @@
             "type": "array",
             "items": {
               "type": "object",
-              "required": [
-                "index",
-                "mode",
-                "movement",
-                "frequency",
-                "time"
-              ],
+              "required": ["index", "mode", "movement", "frequency", "time"],
               "additionalProperties": false,
               "properties": {
                 "index": {
@@ -570,9 +505,7 @@
                 },
                 "time": {
                   "type": "object",
-                  "required": [
-                    "shaking"
-                  ],
+                  "required": ["shaking"],
                   "additionalProperties": false,
                   "properties": {
                     "shaking": {
@@ -618,12 +551,7 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": [
-          "name",
-          "description",
-          "measures",
-          "dimensions"
-        ],
+        "required": ["name", "description", "measures", "dimensions"],
         "additionalProperties": false,
         "properties": {
           "@link": {
@@ -641,11 +569,7 @@
             "maxItems": 1,
             "items": {
               "type": "object",
-              "required": [
-                "name",
-                "unit",
-                "value"
-              ],
+              "required": ["name", "unit", "value"],
               "additionalProperties": false,
               "properties": {
                 "name": {
@@ -675,11 +599,7 @@
             "maxItems": 3,
             "items": {
               "type": "object",
-              "required": [
-                "name",
-                "unit",
-                "scale"
-              ],
+              "required": ["name", "unit", "scale"],
               "additionalProperties": false,
               "properties": {
                 "name": {
