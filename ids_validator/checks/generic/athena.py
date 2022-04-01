@@ -1,12 +1,16 @@
 import re
 from pathlib import Path
 
-from jsonschema import validate
-
+from ids_validator.checks.abstract_checker import (
+    RUN_RETURN_TYPE,
+    AbstractChecker
+)
 from ids_validator.ids_node import Node
-from ids_validator.checks import AbstractChecker
-from ids_validator.utils import Log, read_schema
-
+from ids_validator.utils import (
+    Log,
+    read_schema
+)
+from jsonschema import validate
 
 TEMPLATES_DIR = (Path(__file__) / "../../../templates").resolve()
 ATHENA_TEMPLATE = TEMPLATES_DIR / "athena.json"
@@ -20,7 +24,7 @@ class AthenaChecker(AbstractChecker):
     - Ancestor of any `partition.path` is not an array
     """
 
-    def run(self, node: Node, context: dict = None):
+    def run(self, node: Node, context: dict = None) -> RUN_RETURN_TYPE:
         logs = []
         if node.name == "root":
             if not context.get("athena.json"):

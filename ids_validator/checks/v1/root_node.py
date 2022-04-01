@@ -1,7 +1,10 @@
-from pydash import get
+from ids_validator.checks.abstract_checker import (
+    RUN_RETURN_TYPE,
+    AbstractChecker
+)
 from ids_validator.ids_node import Node
-from ids_validator.checks import AbstractChecker
 from ids_validator.utils import Log
+from pydash import get
 
 CONVENTION_VERSION_PATH = "properties.@idsConventionVersion"
 
@@ -13,7 +16,7 @@ class V1RootNodeChecker(AbstractChecker):
     It must be used in conjunction with generic RootNodeCheck.
     """
 
-    def run(self, node: Node, context: dict):
+    def run(self, node: Node, context: dict) -> RUN_RETURN_TYPE:
         logs = []
         if node.path == "roots":
             convention_version = get(node, CONVENTION_VERSION_PATH)

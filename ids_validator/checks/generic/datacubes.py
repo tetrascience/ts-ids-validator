@@ -1,9 +1,12 @@
 from enum import Enum
-from pydash import get
 
-from ids_validator.checks import AbstractChecker
+from ids_validator.checks.abstract_checker import (
+    RUN_RETURN_TYPE,
+    AbstractChecker
+)
 from ids_validator.ids_node import Node
 from ids_validator.utils import Log
+from pydash import get
 
 VALUE_NODE = "items.properties.measures.items.properties.value"
 DIMENSION_NODE = "items.properties.dimensions"
@@ -54,7 +57,7 @@ class DatacubesChecker(AbstractChecker):
         - Type of nested levels must be an array except for the innermost array.
     """
 
-    def run(self, node: Node, context: dict = None):
+    def run(self, node: Node, context: dict = None) -> RUN_RETURN_TYPE:
         logs = []
         if node.path == "root.properties.datacubes":
             logs += self.check_datacubes_type(node)

@@ -1,13 +1,19 @@
-from typing import List, Union
-from pydash import get
+from typing import (
+    List,
+    Union
+)
 
+from ids_validator.checks.abstract_checker import (
+    RUN_RETURN_TYPE,
+    AbstractChecker
+)
 from ids_validator.ids_node import Node
-from ids_validator.checks import AbstractChecker
 from ids_validator.utils import Log
+from pydash import get
 
 
 class RuleBasedChecker(AbstractChecker):
-    def run(self, node: Node, context: dict = None):
+    def run(self, node: Node, context: dict = None) -> RUN_RETURN_TYPE:
         logs = []
         paths = list(self.rules.keys())
         if node.path in paths:

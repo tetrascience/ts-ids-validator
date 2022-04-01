@@ -1,8 +1,9 @@
-from os import stat
+from ids_validator.checks.abstract_checker import (
+    RUN_RETURN_TYPE,
+    AbstractChecker
+)
 from ids_validator.ids_node import Node
-from ids_validator.checks import AbstractChecker
 from ids_validator.utils import Log
-
 
 ignored_paths = [
     "root.properties.related_files.items.properties.pointer.properties.fileId",
@@ -13,7 +14,7 @@ DEFINITIONS_PATH = "root.definitions"
 
 
 class V1SnakeCaseChecker(AbstractChecker):
-    def run(self, node: Node, context: dict = None):
+    def run(self, node: Node, context: dict = None) -> RUN_RETURN_TYPE:
         logs = []
 
         if node.path in ignored_paths or node.path.startswith(DEFINITIONS_PATH):

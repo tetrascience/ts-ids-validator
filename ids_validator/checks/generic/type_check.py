@@ -1,5 +1,8 @@
+from ids_validator.checks.abstract_checker import (
+    RUN_RETURN_TYPE,
+    AbstractChecker
+)
 from ids_validator.ids_node import Node
-from ids_validator.checks import AbstractChecker
 from ids_validator.utils import Log
 
 
@@ -8,7 +11,7 @@ class TypeChecker(AbstractChecker):
     is a valid JSON type or array of types
     """
 
-    def run(self, node: Node, context: dict = None):
+    def run(self, node: Node, context: dict = None) -> RUN_RETURN_TYPE:
         logs = []
         type_is_valid, msg = node.has_valid_type
         if not type_is_valid:

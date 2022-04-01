@@ -1,15 +1,22 @@
-import os
-import subprocess
-import pathlib
-import shutil
 import difflib
 import json
+import os
+import pathlib
+import shutil
+import subprocess
 import tempfile
-from pathlib import Path
 from distutils.dir_util import copy_tree
+from pathlib import Path
+
+from ids_validator.checks.abstract_checker import (
+    RUN_RETURN_TYPE,
+    AbstractChecker
+)
 from ids_validator.ids_node import Node
-from ids_validator.checks import AbstractChecker
-from ids_validator.utils import Log, read_schema
+from ids_validator.utils import (
+    Log,
+    read_schema
+)
 
 
 class ElasticsearchChecker(AbstractChecker):
@@ -19,7 +26,7 @@ class ElasticsearchChecker(AbstractChecker):
     - compare tmp/elasticsearch.json and ids/elasticsearch.json
     """
 
-    def run(self, node: Node, context: dict = None):
+    def run(self, node: Node, context: dict = None) -> RUN_RETURN_TYPE:
         if node.path != "root":
             return []
 

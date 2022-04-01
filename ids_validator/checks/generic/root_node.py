@@ -1,14 +1,16 @@
-from pydash import get
-
+from ids_validator.checks.abstract_checker import (
+    RUN_RETURN_TYPE,
+    AbstractChecker
+)
 from ids_validator.ids_node import Node
-from ids_validator.checks import AbstractChecker
 from ids_validator.utils import Log
+from pydash import get
 
 root_minimum_required = ["@idsType", "@idsVersion", "@idsNamespace"]
 
 
 class RootNodeChecker(AbstractChecker):
-    def run(self, node: Node, context=None):
+    def run(self, node: Node, context=None) -> RUN_RETURN_TYPE:
         logs = []
         if node.path == "root":
             logs += RootNodeChecker._check_min_required_props(node)

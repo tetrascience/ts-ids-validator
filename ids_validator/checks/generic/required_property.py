@@ -1,5 +1,8 @@
+from ids_validator.checks.abstract_checker import (
+    RUN_RETURN_TYPE,
+    AbstractChecker
+)
 from ids_validator.ids_node import Node
-from ids_validator.checks import AbstractChecker
 from ids_validator.utils import Log
 
 
@@ -11,7 +14,7 @@ class RequiredPropertiesChecker(AbstractChecker):
     logs a failure if the check fails.
     """
 
-    def run(self, node: Node, context: dict = None):
+    def run(self, node: Node, context: dict = None) -> RUN_RETURN_TYPE:
         logs = []
         if node.has_required_list:
             missing_properties = node.missing_properties
