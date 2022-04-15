@@ -7,3 +7,4 @@ jobs:
     uses: tetrascience/ts-data-insights-ci-cd-common/.github/workflows/python_code_quality.yml@main
     with:
       python-version: "3.7"
+      CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
