@@ -1,6 +1,11 @@
 name: Code Quality
 
-on: pull_request
+on:
+   push:
+     branches:
+       - development
+       - main
+   pull_request:
 
 jobs:
   reusable_workflow:
