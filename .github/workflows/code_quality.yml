@@ -1,9 +1,16 @@
 name: Code Quality
 
-on: pull_request
+on:
+   push:
+     branches:
+       - development
+       - main
+   pull_request:
 
 jobs:
   reusable_workflow:
     uses: tetrascience/ts-data-insights-ci-cd-common/.github/workflows/python_code_quality.yml@main
     with:
       python-version: "3.7"
+    secrets:
+       CODACY_PROJECT_TOKEN: '${{ secrets.CODACY_PROJECT_TOKEN }}'
