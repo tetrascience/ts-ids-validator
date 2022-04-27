@@ -1,9 +1,11 @@
 from enum import Enum
+from typing import Optional, Tuple
 
-from ids_validator.checks.abstract_checker import RUN_RETURN_TYPE, AbstractChecker
+from pydash import get
+
+from ids_validator.checks.abstract_checker import CheckResults, AbstractChecker
 from ids_validator.ids_node import Node
 from ids_validator.utils import Log
-from pydash import get
 
 VALUE_NODE = "items.properties.measures.items.properties.value"
 DIMENSION_NODE = "items.properties.dimensions"
@@ -11,6 +13,8 @@ SCALES_NODE = "items.properties.dimensions.items.properties.scale"
 
 
 class Message(Enum):
+    """Datacube checker log messages"""
+
     TYPE_CHECK = "'type' must be an array"
     REQUIRED_CHECK = (
         "'required' must exist and contain at least ['name','measures','dimensions']"
@@ -30,8 +34,14 @@ class Message(Enum):
     DIMENSIONS_MIN_MAX_CHECK = (
         "dimensions.minItems must be equal to dimensions.maxItems"
     )
-    MEASURES_VALUES_DIMENSIONALITY_ERROR = "'measures.value': Dimensionality of data stored in `measures.value` must be equal to `dimensions.minItems` or `dimensions.maxItems`"
-    MEASURES_VALUES_TYPE_ERROR = "'measures.value': Type Error. Type must be either be `number` or `string`. It can be nullable"
+    MEASURES_VALUES_DIMENSIONALITY_ERROR = (
+        "'measures.value': Dimensionality of data stored in `measures.value` must be "
+        "equal to `dimensions.minItems` or `dimensions.maxItems`"
+    )
+    MEASURES_VALUES_TYPE_ERROR = (
+        "'measures.value': Type Error. Type must be either be `number` or `string`. "
+        "It can be nullable"
+    )
     MEASURES_VALUES_NESTED_ARRAY_TYPE_ERROR = (
         "'measures.value': Type Error. Nested objects/dicts must be `array` types"
     )
@@ -54,7 +64,7 @@ class DatacubesChecker(AbstractChecker):
         - Type of nested levels must be an array except for the innermost array.
     """
 
-    def run(self, node: Node, context: dict = None) -> RUN_RETURN_TYPE:
+    def run(self, node: Node, context: dict = None) -> CheckResults:
         logs = []
         if node.path == "root.properties.datacubes":
             logs += self.check_datacubes_type(node)
@@ -69,6 +79,7 @@ class DatacubesChecker(AbstractChecker):
 
     @classmethod
     def check_datacubes_type(cls, datacubes):
+        """Check that `datacubes` has type `array`"""
         logs = []
         if get(datacubes, "type") != "array":
             logs += [(Message.TYPE_CHECK.value, Log.CRITICAL.value)]
@@ -93,7 +104,7 @@ class DatacubesChecker(AbstractChecker):
         logs = []
         items = datacubes.get("items")
 
-        if not items or (type(items) != dict):
+        if not items or not isinstance(items, dict):
             logs += [
                 (Message.REQUIRED_CHECK.value, Log.CRITICAL.value),
                 (Message.PROPERTY_CHECK.value, Log.CRITICAL.value),
@@ -135,11 +146,11 @@ class DatacubesChecker(AbstractChecker):
         if measures.get("type") != "array":
             logs += [(Message.MEASURES_UNDEFINED.value, Log.CRITICAL.value)]
 
-        minItems = get(measures, "minItems")
-        maxItems = get(measures, "maxItems")
+        min_items = get(measures, "minItems")
+        max_items = get(measures, "maxItems")
 
-        if all([minItems, maxItems]):
-            if minItems != maxItems:
+        if all([min_items, max_items]):
+            if min_items != max_items:
                 logs += [(Message.MEASURE_MIN_MAX_CHECK.value, Log.CRITICAL.value)]
         else:
             logs += [(Message.MEASURE_MIN_MAX_MISSING.value, Log.CRITICAL.value)]
@@ -169,11 +180,11 @@ class DatacubesChecker(AbstractChecker):
         if dimensions.get("type") != "array":
             logs += [(Message.DIMENSIONS_UNDEFINED.value, Log.CRITICAL.value)]
 
-        minItems = get(dimensions, "minItems")
-        maxItems = get(dimensions, "maxItems")
+        min_items = get(dimensions, "minItems")
+        max_items = get(dimensions, "maxItems")
 
-        if all([minItems, maxItems]):
-            if minItems != maxItems:
+        if all([min_items, max_items]):
+            if min_items != max_items:
                 logs += [(Message.DIMENSIONS_MIN_MAX_CHECK.value, Log.CRITICAL.value)]
         else:
             logs += [(Message.DIMENSIONS_MIN_MAX_MISSING.value, Log.CRITICAL.value)]
@@ -196,8 +207,8 @@ class DatacubesChecker(AbstractChecker):
 
         num_dimensions = get(dimensions, "minItems") or get(dimensions, "maxItems")
         if not (
-            (values and type(values) == dict)
-            and (dimensions and type(dimensions) == dict)
+            (values and isinstance(values, dict))
+            and (dimensions and isinstance(dimensions, dict))
             and num_dimensions
         ):
             logs += [
@@ -278,7 +289,9 @@ class DatacubesChecker(AbstractChecker):
         return 0
 
     @classmethod
-    def _check_measures_value_for_type_error(cls, node: dict) -> bool:
+    def _check_measures_value_for_type_error(
+        cls, node: dict
+    ) -> Tuple[bool, Optional[Message]]:
         """This is a helper function for valdating type of `measures.value`.
         It must be nested inside `array` types with innermost
         being either be a `number` or `string`, nullable or not.
@@ -291,18 +304,19 @@ class DatacubesChecker(AbstractChecker):
         """
         node_items = get(node, "items")
         node_type = get(node, "type")
+
         if node_items:
             if node_type != "array":
                 return True, Message.MEASURES_VALUES_NESTED_ARRAY_TYPE_ERROR
             return cls._check_measures_value_for_type_error(node_items)
-        else:
-            if type(node_type) == list:
-                if not (
-                    sorted(node_type)
-                    in [sorted(["null", "string"]), sorted(["null", "number"])]
-                ):
-                    return True, Message.MEASURES_VALUES_TYPE_ERROR
-            elif node_type not in ["string", "number"]:
+
+        if isinstance(node_type, list):
+            if sorted(node_type) not in [
+                sorted(["null", "string"]),
+                sorted(["null", "number"]),
+            ]:
                 return True, Message.MEASURES_VALUES_TYPE_ERROR
+        elif node_type not in ["string", "number"]:
+            return True, Message.MEASURES_VALUES_TYPE_ERROR
 
         return False, None

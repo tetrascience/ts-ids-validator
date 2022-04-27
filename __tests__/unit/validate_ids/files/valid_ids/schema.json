@@ -14,6 +14,9 @@
     "datacubes"
   ],
   "definitions": {
+    "nullable_boolean": {
+      "type": ["boolean", "null"]
+    },
     "nullable_string": {
       "type": ["string", "null"]
     },
@@ -258,18 +261,18 @@
                   "description": "This is the type of the original value"
                 },
                 "string_value": {
-                  "type": ["string", "null"],
+                  "$ref": "#/definitions/nullable_string",
                   "description": "If string_value has a value, then numerical_value, numerical_value_unit, and boolean_value all have to be null"
                 },
                 "numerical_value": {
-                  "type": ["number", "null"],
+                  "$ref": "#/definitions/nullable_number",
                   "description": "If numerical_value has a value, then string_value and boolean_value both have to be null"
                 },
                 "numerical_value_unit": {
                   "$ref": "#/definitions/nullable_string"
                 },
                 "boolean_value": {
-                  "type": ["boolean", "null"],
+                  "$ref": "#/definitions/nullable_boolean",
                   "description": "If boolean_value has a value, then numerical_value, numerical_value_unit, and string_value all have to be null"
                 },
                 "time": {

@@ -1,14 +1,11 @@
 import difflib
 import json
-import os
-import pathlib
 import shutil
 import subprocess
 import tempfile
-from distutils.dir_util import copy_tree
 from pathlib import Path
 
-from ids_validator.checks.abstract_checker import RUN_RETURN_TYPE, AbstractChecker
+from ids_validator.checks.abstract_checker import AbstractChecker, CheckResults
 from ids_validator.ids_node import Node
 from ids_validator.utils import Log, read_schema
 
@@ -20,7 +17,7 @@ class ElasticsearchChecker(AbstractChecker):
     - compare tmp/elasticsearch.json and ids/elasticsearch.json
     """
 
-    def run(self, node: Node, context: dict = None) -> RUN_RETURN_TYPE:
+    def run(self, node: Node, context: dict = None) -> CheckResults:
         if node.path != "root":
             return []
 
@@ -79,7 +76,7 @@ class ElasticsearchChecker(AbstractChecker):
         return logs
 
     def _create_new_elasticsearch_json(self, tmp: Path):
-        es_gen_process = subprocess.run(
+        subprocess.run(
             ["python", "-m", "ids_es_json_generator", str(tmp)],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -87,7 +84,7 @@ class ElasticsearchChecker(AbstractChecker):
         )
         tmp_es_json = tmp / "elasticsearch.json"
         if not tmp_es_json.exists():
-            raise FileNotFoundError(f"Could not find generated elasticsearch.json")
+            raise FileNotFoundError("Could not find generated elasticsearch.json")
 
     def _format_diffs(self, diffs):
         lines = [f"    {line}\n" for line in diffs]

@@ -110,10 +110,10 @@ If `@idsConventionVersion` is missing in `schema.json` or if it is not supported
     - `"compatible_type"`, `ids_validator.checks.rules_checker.BackwardCompatibleType`:
       defines the allowable `type` values for a `Node`, matching either a `preferred`
       type, or one of a list of `deprecated` types which will lead to a warning.
-    - `"min_properties"`, `list`: defines minimum set of property names that must exist for the Node. More properties can exist in addition to `min_properties`
-    - `"properties"`, `list`: defines a set of property names that must must exactly match the property list of the `Node`
-    - `"min_required"`, `list`: The required list of the `Node` must at least contain the values mentioned in `min_required`
-    - `"required"`, `list`: The required list of the `Node` must only contain values listed in `required`
+    - `"min_properties"`, `List[str]`: defines minimum set of property names that must exist for the Node. More properties can exist in addition to `min_properties`
+    - `"properties"`, `List[str]`: defines a set of property names that must must exactly match the property list of the `Node`
+    - `"min_required"`, `List[str]`: The required list of the `Node` must at least contain the values mentioned in `min_required`
+    - `"required"`, `List[str]`: The required list of the `Node` must only contain values listed in `required`
 - Rules based checkers defined for v1 conventions can be found [here](src/checks/v1/nodes_checker.py)
 
 #### Generic

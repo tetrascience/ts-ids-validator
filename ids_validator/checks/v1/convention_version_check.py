@@ -1,10 +1,10 @@
-from ids_validator.checks.abstract_checker import RUN_RETURN_TYPE, AbstractChecker
+from ids_validator.checks.abstract_checker import CheckResults, AbstractChecker
 from ids_validator.ids_node import Node
 from ids_validator.utils import Log
 
 
 class V1ConventionVersionChecker(AbstractChecker):
-    def run(self, node: Node, context: dict) -> RUN_RETURN_TYPE:
+    def run(self, node: Node, context: dict = None) -> CheckResults:
         logs = []
         if node.path == "root.properties.@idsConventionVersion":
             convention_version = context.get("convention_version")

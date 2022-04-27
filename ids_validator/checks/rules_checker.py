@@ -1,10 +1,11 @@
 from dataclasses import dataclass
-from typing import Dict, List, Sequence, Union
+from typing import List, Sequence, Union
 
-from ids_validator.checks.abstract_checker import RUN_RETURN_TYPE, AbstractChecker
+from pydash import get
+
+from ids_validator.checks.abstract_checker import CheckResults, AbstractChecker
 from ids_validator.ids_node import Node
 from ids_validator.utils import Log
-from pydash import get
 
 
 @dataclass
@@ -29,16 +30,16 @@ def types_match(
     """
     if type(node_type) != type(expected_type):
         return False
-    elif (type(expected_type) == list) and (sorted(node_type) != sorted(expected_type)):
-        return False
-    elif (type(expected_type) != list) and (node_type != expected_type):
-        return False
 
-    return True
+    if isinstance(expected_type, list):
+        node_type = sorted(node_type)
+        expected_type = sorted(expected_type)
+
+    return node_type == expected_type
 
 
 class RuleBasedChecker(AbstractChecker):
-    def run(self, node: Node, context: dict = None) -> RUN_RETURN_TYPE:
+    def run(self, node: Node, context: dict = None) -> CheckResults:
         logs = []
         paths = list(self.rules.keys())
         if node.path in paths:
@@ -67,6 +68,7 @@ class RuleBasedChecker(AbstractChecker):
 
     @classmethod
     def enforce_type(cls, node: Node, type_: Union[List[str], str]):
+        """Enforce that a node has a specific type"""
         logs = []
 
         # don't allow "null" if "const" is defined
@@ -87,7 +89,7 @@ class RuleBasedChecker(AbstractChecker):
     @classmethod
     def enforce_compatible_type(
         cls, node: Node, compatible_type: BackwardCompatibleType
-    ) -> RUN_RETURN_TYPE:
+    ) -> CheckResults:
         """Enforces that the node type matches a preferred or deprecated type.
 
         If the type matches the preferred type: no warnings or errors
@@ -131,6 +133,7 @@ class RuleBasedChecker(AbstractChecker):
 
     @classmethod
     def enforce_required(cls, node: Node, required: list):
+        """Enforce that a node has specific required properties"""
         logs = []
         node_required = node.get("required")
 
@@ -144,7 +147,7 @@ class RuleBasedChecker(AbstractChecker):
         logs = []
         min_required = set(required)
         node_required = node.get("required", [])
-        if type(node_required) != list:
+        if not isinstance(node_required, list):
             logs += [(f"'required' must contain {min_required}", Log.CRITICAL.value)]
             return logs
 
@@ -168,7 +171,8 @@ class RuleBasedChecker(AbstractChecker):
             logs += [
                 (
                     (
-                        f"'properties' must only contain {sorted(properties)}. Extra properties found: {extra_properties}"
+                        f"'properties' must only contain {sorted(properties)}. "
+                        f"Extra properties found: {extra_properties}"
                     ),
                     Log.CRITICAL.value,
                 )
@@ -178,7 +182,8 @@ class RuleBasedChecker(AbstractChecker):
             logs += [
                 (
                     (
-                        f"'properties' must only contain {sorted(properties)}. Missing properties: {missing_properties}"
+                        f"'properties' must only contain {sorted(properties)}. "
+                        f"Missing properties: {missing_properties}"
                     ),
                     Log.CRITICAL.value,
                 )
