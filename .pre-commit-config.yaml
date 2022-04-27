@@ -8,12 +8,12 @@ repos:
         exclude: snapshots*|example-(input|output)*
       - id: trailing-whitespace
   - repo: https://github.com/psf/black
-    rev: 22.3.0
+    rev: 22.1.0
     hooks:
       - id: black
         exclude: snapshots
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: "v2.6.1"
+    rev: "v2.5.1"
     hooks:
       - id: prettier
         exclude: .pre-commit-config.yml|poetry.lock|Pipfile.lock|example-(input|output)*|snapshots*
@@ -28,7 +28,7 @@ repos:
         verbose: true
 
   - repo: https://github.com/pycqa/pylint
-    rev: v2.13.4
+    rev: v2.12.2
     hooks:
       - id: pylint
         # Fail only in the direst of circumstances
