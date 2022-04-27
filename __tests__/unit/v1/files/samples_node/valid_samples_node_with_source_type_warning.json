@@ -24,7 +24,7 @@
           "id": {
             "$ref": "#/definitions/nullable_string"
           },
-          "extra_property": {
+          "barcode": {
             "$ref": "#/definitions/nullable_string"
           },
           "name": {
@@ -188,7 +188,8 @@
                   "additionalProperties": false,
                   "properties": {
                     "name": {
-                      "$ref": "#/definitions/nullable_string"
+                      "description": "A type of string is allowed here for backward compatibility but a warning will recommend using nullable string",
+                      "type": "string"
                     },
                     "type": {
                       "$ref": "#/definitions/nullable_string"

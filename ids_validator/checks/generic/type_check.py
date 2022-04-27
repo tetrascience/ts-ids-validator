@@ -1,5 +1,5 @@
+from ids_validator.checks.abstract_checker import CheckResults, AbstractChecker
 from ids_validator.ids_node import Node
-from ids_validator.checks import AbstractChecker
 from ids_validator.utils import Log
 
 
@@ -8,7 +8,7 @@ class TypeChecker(AbstractChecker):
     is a valid JSON type or array of types
     """
 
-    def run(self, node: Node, context: dict = None):
+    def run(self, node: Node, context: dict = None) -> CheckResults:
         logs = []
         type_is_valid, msg = node.has_valid_type
         if not type_is_valid:
@@ -17,13 +17,17 @@ class TypeChecker(AbstractChecker):
 
         properties = node.properties_dict
 
-        if properties is not None:
-            for key, val in properties.items():
-                if isinstance(val, dict) and "type" not in val:
-                    logs += [
-                        (
-                            f"'{node.path}.{key}' has no 'type' defined. This could be caused by a missing 'type', or a typo in a 'type' or '$ref' keyword.",
-                            Log.CRITICAL,
-                        )
-                    ]
+        if properties is None:
+            return logs
+
+        for key, val in properties.items():
+            if isinstance(val, dict) and "type" not in val:
+                logs += [
+                    (
+                        f"'{node.path}.{key}' has no 'type' defined. This could be "
+                        f"caused by a missing 'type', or a typo in a 'type' or '$ref' "
+                        f"keyword.",
+                        Log.CRITICAL,
+                    )
+                ]
         return logs

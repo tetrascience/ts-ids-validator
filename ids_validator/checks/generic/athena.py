@@ -3,10 +3,9 @@ from pathlib import Path
 
 from jsonschema import validate
 
+from ids_validator.checks.abstract_checker import CheckResults, AbstractChecker
 from ids_validator.ids_node import Node
-from ids_validator.checks import AbstractChecker
 from ids_validator.utils import Log, read_schema
-
 
 TEMPLATES_DIR = (Path(__file__) / "../../../templates").resolve()
 ATHENA_TEMPLATE = TEMPLATES_DIR / "athena.json"
@@ -20,13 +19,14 @@ class AthenaChecker(AbstractChecker):
     - Ancestor of any `partition.path` is not an array
     """
 
-    def run(self, node: Node, context: dict = None):
+    def run(self, node: Node, context: dict = None) -> CheckResults:
         logs = []
         if node.name == "root":
             if not context.get("athena.json"):
                 logs += [
                     (
-                        "Make sure athena.js exist in IDS folder and has correct structure.",
+                        "Make sure athena.js exist in IDS folder and has correct "
+                        "structure.",
                         Log.CRITICAL.value,
                     )
                 ]
@@ -53,7 +53,8 @@ class AthenaChecker(AbstractChecker):
         if missing:
             logs.append(
                 (
-                    f"Athena.js: Cannot find following properties in IDS: {sorted(missing)}",
+                    f"Athena.js: Cannot find following properties in IDS: "
+                    f"{sorted(missing)}",
                     Log.CRITICAL.value,
                 )
             )
@@ -75,7 +76,10 @@ class AthenaChecker(AbstractChecker):
         if paths_nested_inside_array:
             logs.append(
                 (
-                    f"Athena.js: Following paths are either array type or nested in array types: {paths_nested_inside_array}",
+                    (
+                        f"Athena.js: Following paths are either array type or nested "
+                        f"in array types: {paths_nested_inside_array}"
+                    ),
                     Log.CRITICAL.value,
                 )
             )
@@ -106,7 +110,8 @@ class AthenaChecker(AbstractChecker):
         if intersection:
             logs.append(
                 (
-                    f"Athena.js: Following names are conflicting with path: {', '.join(intersection)}",
+                    f"Athena.js: Following names are conflicting with path: "
+                    f"{', '.join(intersection)}",
                     Log.CRITICAL.value,
                 )
             )

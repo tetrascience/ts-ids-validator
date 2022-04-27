@@ -1,26 +1,33 @@
-import pytest
 from pathlib import Path
-from ids_validator.ids_node import Node
-from ids_validator.utils import read_schema, Log
-from ids_validator.checks.v1 import V1SampleNodeChecker
-from ids_validator.validator import Validator
 
-from ids_validator.checks.v1.rules.samples import samples_root as samples
+import pytest
+from ids_validator.checks.v1 import V1SampleNodeChecker
 from ids_validator.checks.v1.rules.samples import sample_properties as properties
 from ids_validator.checks.v1.rules.samples import samples_labels as labels
 from ids_validator.checks.v1.rules.samples import samples_location as location
+from ids_validator.checks.v1.rules.samples import samples_root as samples
+from ids_validator.utils import Log, read_schema
+from ids_validator.validator import Validator
 
 UNIT_TEST_FILES = Path("__tests__/unit/v1/files/samples_node")
 
 files_to_expected = {
     "valid_samples_node.json": {},
+    "valid_samples_node_with_source_type_warning.json": {
+        labels.SOURCE_NAME: [
+            (
+                "'type' 'string' is deprecated but allowed for backward compatibility, "
+                "please use `['string', 'null']` instead.",
+                Log.WARNING,
+            )
+        ]
+    },
     "extended_samples_root.json": {
         samples.ITEMS: [
             (
-                (
-                    "'properties' must only contain ['barcode', 'batch', 'id', 'labels', 'location', 'lot', 'name', 'properties', 'set']. "
-                    "Extra properties found: {'extra_node'}"
-                ),
+                "'properties' must only contain ['barcode', 'batch', 'id', "
+                "'labels', 'location', 'lot', 'name', 'properties', 'set']. "
+                "Extra properties found: {'extra_node'}",
                 Log.CRITICAL.value,
             )
         ]
@@ -29,7 +36,8 @@ files_to_expected = {
         samples.ITEMS: [
             (
                 (
-                    "'properties' must only contain ['barcode', 'batch', 'id', 'labels', 'location', 'lot', 'name', 'properties', 'set']. "
+                    "'properties' must only contain ['barcode', 'batch', 'id', "
+                    "'labels', 'location', 'lot', 'name', 'properties', 'set']. "
                     "Missing properties: {'set'}"
                 ),
                 Log.CRITICAL.value,
@@ -145,7 +153,13 @@ files_to_expected = {
         labels.LABELS: [("'type' must be array", Log.CRITICAL.value)],
         labels.ITEMS: [("'type' must be object", Log.CRITICAL.value)],
         labels.SOURCE: [("'type' must be object", Log.CRITICAL.value)],
-        labels.SOURCE_NAME: [("'type' must be string", Log.CRITICAL.value)],
+        labels.SOURCE_NAME: [
+            (
+                "'type' must be ['string', 'null'], or one of these deprecated "
+                "types: ('string',)",
+                Log.CRITICAL,
+            )
+        ],
         labels.SOURCE_TYPE: [("'type' must be ['string', 'null']", Log.CRITICAL.value)],
         labels.NAME: [("'type' must be string", Log.CRITICAL.value)],
         labels.VALUE: [("'type' must be string", Log.CRITICAL.value)],
@@ -157,6 +171,9 @@ files_to_expected = {
 
 @pytest.mark.parametrize("fname,expected", files_to_expected.items())
 def test_samples_node(fname, expected):
+    """Test that the samples node checker creates the expected logs from valid and
+    invalid samples schemas
+    """
     ids_file = UNIT_TEST_FILES / fname
     schema = read_schema(ids_file)
     validator = Validator(

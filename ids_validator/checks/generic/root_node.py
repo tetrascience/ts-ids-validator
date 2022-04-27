@@ -1,14 +1,13 @@
-from pydash import get
-
+from ids_validator.checks.abstract_checker import CheckResults, AbstractChecker
 from ids_validator.ids_node import Node
-from ids_validator.checks import AbstractChecker
 from ids_validator.utils import Log
+from pydash import get
 
 root_minimum_required = ["@idsType", "@idsVersion", "@idsNamespace"]
 
 
 class RootNodeChecker(AbstractChecker):
-    def run(self, node: Node, context=None):
+    def run(self, node: Node, context=None) -> CheckResults:
         logs = []
         if node.path == "root":
             logs += RootNodeChecker._check_min_required_props(node)
@@ -20,7 +19,8 @@ class RootNodeChecker(AbstractChecker):
                 if not prop or not all(meta_checks):
                     logs.append(
                         (
-                            f"'{path}' must be present with type 'string' with non-empty 'const'",
+                            f"'{path}' must be present with type 'string' with "
+                            f"non-empty 'const'",
                             Log.CRITICAL.value,
                         )
                     )
@@ -46,7 +46,8 @@ class RootNodeChecker(AbstractChecker):
         if not node.required_contains_values(root_minimum_required):
             logs.append(
                 (
-                    f"'required' must contain: {', '.join(sorted(root_minimum_required))}",
+                    f"'required' must contain: "
+                    f"{', '.join(sorted(root_minimum_required))}",
                     Log.CRITICAL.value,
                 )
             )

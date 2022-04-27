@@ -21,6 +21,7 @@
   - [Running Checks for Specific Nodes](#running-checks-for-specific-nodes)
   - [List of Checks for Validator](#list-of-checks-for-validator)
 - [Changelog](#changelog)
+- [v0.9.12](#v0912)
 - [v0.9.11](#v0911)
 - [v0.9.10](#v0910)
 - [v0.9.9](#v099)
@@ -30,17 +31,16 @@
 
 ## Overview
 
-TetraScience IDS Validator
+The TetraScience IDS Validator checks that IDS artifacts follow a set of rules which
+make them compatible with the Tetra Data Platform, and optionally that they are
+compatible with with additional IDS design conventions.
+The validator either passes or fails with a list of the checks which led to the failure.
 
-- Each validation check should lead to a pass or fail
-- Find as many failures as possible before terminating the validator, to make it easier to fix what’s wrong.
-- Take definitions into account by using the "jsonref" library
-
-The validator will validate these files in an IDS folder:
+The validator checks these files in an IDS folder:
 
 - schema.json
 - elasticsearch.json
-- athena.json (upcoming)
+- athena.json
 
 You can find the validation rules in:
 
@@ -105,12 +105,15 @@ If `@idsConventionVersion` is missing in `schema.json` or if it is not supported
   - It comes in handy for implementing checks for property Nodes that has predefined template
   - The child class inheriting `RulesBasedChecker` must define `rules`
   - `rules` is a `dict` that maps `Node.path` to `set of rules:dict`
-  - The `set of rules` for a `Node.path` may contain following keys:
-    - `type: str`: defines what should be the `type` value for the `Node`
-    - `min_properties: list`: defines minimum set of property names, that must exist for the Node. More properties can exist in addition to `min_properties`
-    - `properties: list`: defines a set of property names that must must exactly match the property list of the `Node`
-    - `min_required: list`: The required list of the `Node` must at least contain the values mentioned in `min_required`
-    - `required: list`: The required list of the `Node` must only contain values listed in `required`
+  - The `set of rules` for a `Node.path` may contain following items:
+    - `"type"`, `Union[List[str], str]`: defines what should be the `type` value for the `Node`
+    - `"compatible_type"`, `ids_validator.checks.rules_checker.BackwardCompatibleType`:
+      defines the allowable `type` values for a `Node`, matching either a `preferred`
+      type, or one of a list of `deprecated` types which will lead to a warning.
+    - `"min_properties"`, `List[str]`: defines minimum set of property names that must exist for the Node. More properties can exist in addition to `min_properties`
+    - `"properties"`, `List[str]`: defines a set of property names that must must exactly match the property list of the `Node`
+    - `"min_required"`, `List[str]`: The required list of the `Node` must at least contain the values mentioned in `min_required`
+    - `"required"`, `List[str]`: The required list of the `Node` must only contain values listed in `required`
 - Rules based checkers defined for v1 conventions can be found [here](src/checks/v1/nodes_checker.py)
 
 #### Generic
@@ -196,6 +199,14 @@ class AdhocChecker(AbstractChecker):
 - The list off checks is actually a list of instantiated checker objects
 
 ## Changelog
+
+## v0.9.12
+
+- Update check for `samples[*].labels[*].source.name` type: previously the type was
+  required to be `"string"`, now it is required to be either `["string", "null"]` or
+  `"string"`, with `"string"` leading to a deprecation warning. This change makes this
+  `source` definition the same as `samples[*].properties[*].source` in a
+  backward-compatible way.
 
 ## v0.9.11
 
