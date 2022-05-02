@@ -1,7 +1,7 @@
 .coverage
+coverage.xml
 dev
 **/.DS_Store
-coverage.xml
 .python-version
 .venv
 **/.pytest_cache/

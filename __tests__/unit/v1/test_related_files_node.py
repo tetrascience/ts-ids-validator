@@ -12,7 +12,8 @@ files_to_expected = {
     "related_files_template_mismatch.json": {
         "root.properties.related_files": [
             (
-                "'related_files' isn't an exact match of the template. Please refer to confluence docs.",
+                "'related_files' isn't an exact match of the template. Please refer to "
+                "the related files schema template documentation",
                 Log.CRITICAL.value,
             )
         ]

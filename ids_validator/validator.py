@@ -1,5 +1,7 @@
 from pathlib import Path
+from typing import List
 from rich.console import Console
+from ids_validator.checks.abstract_checker import AbstractChecker
 
 from ids_validator.ids_node import Node
 from ids_validator.utils import Log
@@ -10,7 +12,7 @@ class Validator:
         self,
         ids: dict,
         athena: dict,
-        checks_list: list,
+        checks_list: List[AbstractChecker],
         convention_version: str,
         ids_folder_path: Path,
     ):

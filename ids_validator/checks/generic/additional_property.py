@@ -1,5 +1,5 @@
+from ids_validator.checks.abstract_checker import CheckResults, AbstractChecker
 from ids_validator.ids_node import Node
-from ids_validator.checks import AbstractChecker
 from ids_validator.utils import Log
 
 
@@ -11,7 +11,7 @@ class AdditionalPropertyChecker(AbstractChecker):
     must not exist.
     """
 
-    def run(self, node: Node, context: dict = None):
+    def run(self, node: Node, context: dict = None) -> CheckResults:
         logs = []
 
         if node.get("type") != "object" and "additionalProperties" in node:
@@ -28,7 +28,8 @@ class AdditionalPropertyChecker(AbstractChecker):
         ):
             logs.append(
                 (
-                    "'additionalProperties' must be present and set to 'false' for 'object' types",
+                    "'additionalProperties' must be present and set to 'false' for "
+                    "'object' types",
                     Log.CRITICAL.value,
                 )
             )
