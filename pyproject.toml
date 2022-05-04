@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ts-ids-validator"
-version = "0.9.11"
+version = "0.9.12"
 description = "Python utility for validating IDS"
 authors = ["TetraScience <developers@tetrascience.com>"]
 packages = [
