@@ -1,7 +1,5 @@
 # TetraScience IDS Validator <!-- omit in toc -->
 
-[![Build Status](https://app.travis-ci.com/tetrascience/ts-ids-validator.svg?branch=master)](https://app.travis-ci.com/tetrascience/ts-ids-validator)
-
 ## Table of Contents <!-- omit in toc -->
 
 - [Overview](#overview)
@@ -51,7 +49,7 @@ You can find the validation rules in:
 ## Usage
 
 ```bash
-pipenv run python -m ids_validator --ids_dir=path/to/ids/folder
+poetry run python -m ids_validator --ids_dir=path/to/ids/folder
 ```
 
 This will run the required checks for the `@idsConventionVersion` mentioned in `schema.json`.

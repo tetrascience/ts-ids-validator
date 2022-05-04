@@ -1,6 +1,10 @@
 .coverage
-dev
-.DS_Store
 coverage.xml
+dev
+**/.DS_Store
+.python-version
+.venv
+**/.pytest_cache/
+**/__pycache__/
+.idea
 .vscode
-__pycache__
