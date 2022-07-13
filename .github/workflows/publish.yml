@@ -1,0 +1,60 @@
+name: Publish
+
+on:
+  pull_request:
+  push:
+    tags: 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - uses: actions/setup-python@v3
+      with:
+        python-version: 3.7
+
+    - name: Update package version
+      run: | 
+        if [[ $GITHUB_REF == *"refs/tags"* ]]; then
+          VERSION=$(echo ${GITHUB_REF#refs/tags/v})
+        else
+          VERSION=1.0.dev${{github.run_number}}
+          fi
+
+        echo "New version: $VERSION"
+        sed -i "s/^version =.*/version = \"$VERSION\"/g" pyproject.toml  
+
+    - name: Build package
+      run: |
+        python3 -m pip install --upgrade pip setuptools wheel
+        python3 -m pip install poetry
+        python3 -m poetry build
+
+    - name: Publish package to Artifactory (Development)
+      #if: github.event_name == 'workflow_dispatch'
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: ${{ secrets.JFROG_ARTIFACTORY_DATA_INSIGHTS_USER }}
+        password: ${{ secrets.JFROG_ARTIFACTORY_DATA_INSIGHTS_PASSWORD }}
+        repository_url: ${{ secrets.JFROG_ARTIFACTORY_DATA_INSIGHTS_DEV_URL }}
+
+    - name: Publish package to Artifactory (Production)
+      if: startsWith(github.ref, 'refs/tags')
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: ${{ secrets.JFROG_ARTIFACTORY_DATA_INSIGHTS_USER }}
+        password: ${{ secrets.JFROG_ARTIFACTORY_DATA_INSIGHTS_PASSWORD }}
+        repository_url: ${{ secrets.JFROG_ARTIFACTORY_DATA_INSIGHTS_PROD_URL }} 
+
+    # To be removed once internal and external packages consume from Artifactory
+    - name: Publish package to PyPi (Production)
+      if: startsWith(github.ref, 'refs/tags')
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_TOKEN }}
